@@ -1,0 +1,80 @@
+{
+    "HomePage": {
+        "title": "ArduinoLab",
+        "description": "Votre bibliothèque centralisée pour la robotique scolaire. Documentez vos projets, partagez des guides étape par étape et téléchargez du code et des modèles 3D pour construire des robots incroyables ensemble.",
+        "explore": "Explorer les projets",
+        "learnMore": "En savoir plus"
+    },
+    "SearchFilters": {
+        "placeholder": "Rechercher des projets...",
+        "allCategories": "Toutes les catégories",
+        "robotics": "Robotique",
+        "iot": "IoT",
+        "sensors": "Capteurs",
+        "automation": "Automatisation"
+    },
+    "AboutPage": {
+        "title": "À propos d'ArduinoLab",
+        "subtitle": "Permettre aux étudiants de construire, partager et apprendre ensemble.",
+        "missionTitle": "Notre Mission",
+        "missionText": "ArduinoLab a été créé avec un objectif simple : rendre les projets de robotique scolaire accessibles, partageables et reproductibles. Nous croyons que la meilleure façon d'apprendre est de faire — et de partager ce que vous avez construit avec les autres.",
+        "storyTitle": "Pour les étudiants, par les étudiants",
+        "storyText": "Ce qui a commencé comme un petit projet de club est devenu une plateforme pour documenter l'innovation. Nous voulons remplacer les dossiers désordonnés et les fichiers perdus par une belle bibliothèque de connaissances organisée.",
+        "teamTitle": "Rejoignez le mouvement",
+        "teamText": "Que vous soyez un responsable de club, un étudiant curieux ou un enseignant, ArduinoLab est votre espace pour montrer votre créativité."
+    },
+    "LoginPage": {
+        "title": "Connexion",
+        "welcomeBack": "Bon retour",
+        "emailLabel": "Email",
+        "passwordLabel": "Mot de passe",
+        "submitButton": "Se connecter",
+        "submitting": "Connexion...",
+        "inviteOnlyText": "Vous n'avez pas de compte ? Demandez une invitation à votre administrateur scolaire."
+    },
+    "AdminDashboard": {
+        "title": "Tableau de bord",
+        "welcome": "Bon retour, {email}",
+        "projects": "Projets",
+        "createProject": "Créer un projet",
+        "noProjects": "Aucun projet pour le moment. Commencez par en créer un.",
+        "table": {
+            "title": "Titre",
+            "category": "Catégorie",
+            "actions": "Actions",
+            "edit": "Éditer",
+            "delete": "Supprimer",
+            "confirmDelete": {
+                "title": "Êtes-vous absolument sûr ?",
+                "description": "Cette action est irréversible. Cela supprimera définitivement le projet et toutes ses données.",
+                "cancel": "Annuler",
+                "confirm": "Supprimer le projet"
+            }
+        }
+    },
+    "ProjectForm": {
+        "title": "Créer un nouveau projet",
+        "sections": {
+            "general": "Infos Générales",
+            "description": "Description",
+            "steps": "Étapes"
+        },
+        "labels": {
+            "title": "Titre",
+            "slug": "Slug (URL friendly)",
+            "category": "Catégorie",
+            "heroImage": "URL Image Hero",
+            "language": "Langue"
+        },
+        "steps": {
+            "add": "Ajouter une étape",
+            "remove": "Supprimer l'étape",
+            "title": "Titre de l'étape",
+            "content": "Contenu de l'étape",
+            "image": "URL Image de l'étape"
+        },
+        "submit": "Créer le projet",
+        "cancel": "Annuler",
+        "saving": "Enregistrement..."
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "HomePage": {
+        "title": "ArduinoLab",
+        "description": "Your centralized library for school robotics. Document your projects, share step-by-step guides, and download code & 3D models to build amazing robots together.",
+        "explore": "Explore Projects",
+        "learnMore": "Learn More"
+    },
+    "SearchFilters": {
+        "placeholder": "Search projects...",
+        "allCategories": "All Categories",
+        "robotics": "Robotics",
+        "iot": "IoT",
+        "sensors": "Sensors",
+        "automation": "Automation"
+    },
+    "AboutPage": {
+        "title": "About ArduinoLab",
+        "subtitle": "Empowering students to build, share, and learn together.",
+        "missionTitle": "Our Mission",
+        "missionText": "ArduinoLab was created with a simple goal: to make school robotics projects accessible, shareable, and reproducible. We believe that the best way to learn is by doing—and by sharing what you've built with others.",
+        "storyTitle": "For Students, By Students",
+        "storyText": "What started as a small club project has grown into a platform for documenting innovation. We want to replace messy folders and lost files with a beautiful, organized library of knowledge.",
+        "teamTitle": "Join the Movement",
+        "teamText": "Whether you are a club leader, a curious student, or a teacher, ArduinoLab is your space to showcase creativity."
+    },
+    "LoginPage": {
+        "title": "Login",
+        "welcomeBack": "Welcome Back",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "submitButton": "Sign In",
+        "submitting": "Signing In...",
+        "inviteOnlyText": "Don't have an account? Ask your school administrator for an invite."
+    },
+    "AdminDashboard": {
+        "title": "Dashboard",
+        "welcome": "Welcome back, {email}",
+        "projects": "Projects",
+        "createProject": "Create Project",
+        "noProjects": "No projects yet. Start by creating one.",
+        "table": {
+            "title": "Title",
+            "category": "Category",
+            "actions": "Actions",
+            "edit": "Edit",
+            "delete": "Delete",
+            "confirmDelete": {
+                "title": "Are you absolutely sure?",
+                "description": "This action cannot be undone. This will permanently delete the project and all its data.",
+                "cancel": "Cancel",
+                "confirm": "Delete Project"
+            }
+        }
+    },
+    "ProjectForm": {
+        "title": "Create New Project",
+        "sections": {
+            "general": "General Info",
+            "description": "Description",
+            "steps": "Steps"
+        },
+        "labels": {
+            "title": "Title",
+            "slug": "Slug (URL friendly)",
+            "category": "Category",
+            "heroImage": "Hero Image URL",
+            "language": "Language"
+        },
+        "steps": {
+            "add": "Add Step",
+            "remove": "Remove Step",
+            "title": "Step Title",
+            "content": "Step Content",
+            "image": "Step Image URL"
+        },
+        "submit": "Create Project",
+        "cancel": "Cancel",
+        "saving": "Saving..."
+    }
+}
