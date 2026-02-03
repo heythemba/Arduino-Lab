@@ -29,7 +29,7 @@ export default function ProjectCard({ title, description, imageUrl, slug, catego
                         <span className="text-4xl font-bold opacity-20">LOGO</span>
                     </div>
                 )}
-                <div className="absolute top-3 left-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium backdrop-blur-sm">
+                <div className="absolute top-3 start-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium backdrop-blur-sm">
                     {category}
                 </div>
             </div>
@@ -44,7 +44,7 @@ export default function ProjectCard({ title, description, imageUrl, slug, catego
                 <Link href={`/projects/${slug}`}>
                     <Button variant="ghost" className="w-full justify-between hover:bg-blue-50 hover:text-blue-600 group-hover:translate-x-1 transition-transform">
                         View Project
-                        <ArrowRight className="h-4 w-4 ml-2" />
+                        <ArrowRight className="h-4 w-4 ms-2" />
                     </Button>
                 </Link>
             </div>

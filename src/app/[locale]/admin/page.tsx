@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Plus, Edit } from 'lucide-react';
+import { Plus, Edit, Settings } from 'lucide-react';
 import DeleteProjectButton from '@/components/admin/DeleteProjectButton';
 
 export default async function AdminDashboard({
@@ -40,11 +40,18 @@ export default async function AdminDashboard({
                             {t('welcome', { email: user.email || 'User' })}
                         </p>
                     </div>
-                    <Link href={`/${locale}/admin/projects/new`}>
-                        <Button className="gap-2">
-                            <Plus className="h-4 w-4" /> {t('createProject')}
-                        </Button>
-                    </Link>
+                    <div className="flex gap-2">
+                        <Link href={`/${locale}/admin/settings`}>
+                            <Button variant="outline" className="gap-2">
+                                <Settings className="h-4 w-4" /> {t('settings') || 'Settings'}
+                            </Button>
+                        </Link>
+                        <Link href={`/${locale}/admin/projects/new`}>
+                            <Button className="gap-2">
+                                <Plus className="h-4 w-4" /> {t('createProject')}
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Projects Table */}

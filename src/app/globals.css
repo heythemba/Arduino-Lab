@@ -68,6 +68,10 @@
   --radius: 1rem; /* rounded-2xl */
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .dark {
   --background: 222 47% 11%;
   --foreground: 210 40% 98%;

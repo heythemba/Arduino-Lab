@@ -1,5 +1,17 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: 'AboutPage' });
+
+    return {
+        title: t('title'),
+        description: t('subtitle')
+    };
+}
 
 export default function AboutPage() {
     const t = useTranslations('AboutPage');

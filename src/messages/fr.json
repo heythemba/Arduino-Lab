@@ -3,7 +3,27 @@
         "title": "ArduinoLab",
         "description": "Votre bibliothèque centralisée pour la robotique scolaire. Documentez vos projets, partagez des guides étape par étape et téléchargez du code et des modèles 3D pour construire des robots incroyables ensemble.",
         "explore": "Explorer les projets",
-        "learnMore": "En savoir plus"
+        "learnMore": "En savoir plus",
+        "browseTitle": "Explorer les projets",
+        "browseSubtitle": "Découvrez les créations de la communauté.",
+        "noProjects": "Aucun projet trouvé",
+        "noProjectsSub": "Essayez d'ajuster vos filtres."
+    },
+    "Navbar": {
+        "projects": "Projets",
+        "about": "À propos",
+        "login": "Connexion",
+        "logout": "Déconnexion",
+        "dashboard": "Tableau de bord"
+    },
+    "ProjectDetails": {
+        "stepByStep": "Guide étape par étape",
+        "resources": "Ressources du projet",
+        "downloadCode": "Télécharger le code",
+        "downloadCodeSub": "Fichier .ino (bientôt)",
+        "downloadModels": "Télécharger modèles 3D",
+        "downloadModelsSub": "Fichiers .stl (bientôt)",
+        "share": "Partager le projet"
     },
     "SearchFilters": {
         "placeholder": "Rechercher des projets...",
@@ -35,6 +55,7 @@
     "AdminDashboard": {
         "title": "Tableau de bord",
         "welcome": "Bon retour, {email}",
+        "settings": "Paramètres",
         "projects": "Projets",
         "createProject": "Créer un projet",
         "noProjects": "Aucun projet pour le moment. Commencez par en créer un.",
@@ -76,5 +97,18 @@
         "submit": "Créer le projet",
         "cancel": "Annuler",
         "saving": "Enregistrement..."
+    },
+    "Footer": {
+        "tagline": "Permettre à la prochaine génération de créateurs et d'ingénieurs grâce à l'enseignement de la robotique open source.",
+        "platform": "Plateforme",
+        "organization": "Organisation",
+        "support": "Support",
+        "explore": "Explorer les projets",
+        "about": "À propos",
+        "admin": "Accès Admin",
+        "website": "Site Officiel",
+        "sponsors": "Nos Sponsors",
+        "rights": "© {year} ArduinoLab. Tous droits réservés.",
+        "developedBy": "Développé avec ❤️ par "
     }
 }

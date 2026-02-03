@@ -5,6 +5,7 @@ import ProjectHeader from '@/components/ProjectHeader';
 import StepList from '@/components/StepList';
 import { Button } from '@/components/ui/button';
 import { Download, Share2 } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
 type Props = {
     params: Promise<{ locale: string; slug: string }>;
@@ -26,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectPage({ params }: Props) {
     const { slug, locale } = await params;
+    const t = await getTranslations('ProjectDetails');
     const project = await getProjectBySlug(slug);
 
     if (!project) {
@@ -53,7 +55,7 @@ export default async function ProjectPage({ params }: Props) {
                     <div className="lg:col-span-8">
                         <div className="flex items-center gap-4 mb-10 pb-4 border-b">
                             <div className="w-2 h-8 bg-primary rounded-full" />
-                            <h2 className="text-2xl font-bold text-slate-900">Step-by-Step Guide</h2>
+                            <h2 className="text-2xl font-bold text-slate-900">{t('stepByStep')}</h2>
                         </div>
 
                         <StepList steps={project.steps} locale={locale} />
@@ -62,27 +64,27 @@ export default async function ProjectPage({ params }: Props) {
                     {/* Sidebar: Downloads & Info */}
                     <div className="lg:col-span-4 space-y-8">
                         <div className="bg-slate-50 p-6 rounded-2xl border sticky top-24">
-                            <h3 className="font-bold text-lg mb-4 text-slate-900">Project Resources</h3>
+                            <h3 className="font-bold text-lg mb-4 text-slate-900">{t('resources')}</h3>
                             <div className="space-y-4">
                                 <Button className="w-full justify-start h-auto py-4" size="lg">
                                     <Download className="mr-3 h-5 w-5" />
                                     <div className="flex flex-col items-start text-left">
-                                        <span className="font-bold">Download Code</span>
-                                        <span className="text-xs opacity-80 font-normal">.ino file (coming soon)</span>
+                                        <span className="font-bold">{t('downloadCode')}</span>
+                                        <span className="text-xs opacity-80 font-normal">{t('downloadCodeSub')}</span>
                                     </div>
                                 </Button>
                                 <Button variant="outline" className="w-full justify-start h-auto py-4" size="lg">
                                     <div className="mr-3 h-5 w-5 flex items-center justify-center font-bold border-2 border-current rounded text-[10px]">3D</div>
                                     <div className="flex flex-col items-start text-left">
-                                        <span className="font-bold">Download 3D Models</span>
-                                        <span className="text-xs opacity-80 text-muted-foreground font-normal">.stl files (coming soon)</span>
+                                        <span className="font-bold">{t('downloadModels')}</span>
+                                        <span className="text-xs opacity-80 text-muted-foreground font-normal">{t('downloadModelsSub')}</span>
                                     </div>
                                 </Button>
                             </div>
 
                             <div className="mt-8 pt-8 border-t">
                                 <Button variant="ghost" className="w-full justify-center">
-                                    <Share2 className="mr-2 h-4 w-4" /> Share Project
+                                    <Share2 className="mr-2 h-4 w-4" /> {t('share')}
                                 </Button>
                             </div>
                         </div>

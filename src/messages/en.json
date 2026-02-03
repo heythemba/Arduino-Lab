@@ -3,7 +3,27 @@
         "title": "ArduinoLab",
         "description": "Your centralized library for school robotics. Document your projects, share step-by-step guides, and download code & 3D models to build amazing robots together.",
         "explore": "Explore Projects",
-        "learnMore": "Learn More"
+        "learnMore": "Learn More",
+        "browseTitle": "Explore Projects",
+        "browseSubtitle": "Discover community builds or find your next idea.",
+        "noProjects": "No projects found",
+        "noProjectsSub": "Try adjusting your filters or search terms."
+    },
+    "Navbar": {
+        "projects": "Projects",
+        "about": "About",
+        "login": "Login",
+        "logout": "Logout",
+        "dashboard": "Dashboard"
+    },
+    "ProjectDetails": {
+        "stepByStep": "Step-by-Step Guide",
+        "resources": "Project Resources",
+        "downloadCode": "Download Code",
+        "downloadCodeSub": ".ino file (coming soon)",
+        "downloadModels": "Download 3D Models",
+        "downloadModelsSub": ".stl files (coming soon)",
+        "share": "Share Project"
     },
     "SearchFilters": {
         "placeholder": "Search projects...",
@@ -35,6 +55,7 @@
     "AdminDashboard": {
         "title": "Dashboard",
         "welcome": "Welcome back, {email}",
+        "settings": "Settings",
         "projects": "Projects",
         "createProject": "Create Project",
         "noProjects": "No projects yet. Start by creating one.",
@@ -76,5 +97,18 @@
         "submit": "Create Project",
         "cancel": "Cancel",
         "saving": "Saving..."
+    },
+    "Footer": {
+        "tagline": "Empowering the next generation of makers and engineers through open-source robotics education.",
+        "platform": "Platform",
+        "organization": "Organization",
+        "support": "Support",
+        "explore": "Explore Projects",
+        "about": "About Us",
+        "admin": "Admin Access",
+        "website": "Official Website",
+        "sponsors": "Our Sponsors",
+        "rights": "© {year} ArduinoLab. All rights reserved.",
+        "developedBy": "Developed with ❤️ by "
     }
 }
