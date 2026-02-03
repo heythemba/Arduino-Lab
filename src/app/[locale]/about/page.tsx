@@ -44,16 +44,18 @@ export default function AboutPage() {
                             <div className="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-600 mb-4">
                                 🎯 {t('missionTitle')}
                             </div>
-                            <h2 className="text-3xl font-bold text-slate-900 mb-6">Building the Future, One Bot at a Time.</h2>
+                            <h2 className="text-3xl font-bold text-slate-900 mb-6">{t('missionSubtitle')}</h2>
                             <div className="prose prose-lg text-slate-600 leading-relaxed">
                                 <p>{t('missionText')}</p>
                             </div>
                         </div>
-                        <div className="flex-1 relative aspect-video w-full rounded-2xl overflow-hidden shadow-lg transform rotate-2 hover:rotate-0 transition-transform duration-500">
-                            {/* Placeholder for mission image - utilizing a nice gradient or abstraction if no image */}
-                            <div className="absolute inset-0 bg-gradient-to-tr from-slate-200 to-slate-300 flex items-center justify-center">
-                                <span className="text-4xl">🚀</span>
-                            </div>
+                        <div className="flex-1 relative aspect-video w-full rounded-2xl overflow-hidden shadow-lg transform rotate-2 hover:rotate-0 transition-transform duration-500 group">
+                            <Image
+                                src="/Robotic-Arm-Using-Arduino.png"
+                                alt="Robotic Arm Project"
+                                fill
+                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
                         </div>
                     </div>
 
@@ -63,22 +65,52 @@ export default function AboutPage() {
                             <div className="inline-flex items-center rounded-full border border-purple-100 bg-purple-50 px-3 py-1 text-sm font-medium text-purple-600 mb-4">
                                 📖 {t('storyTitle')}
                             </div>
-                            <h2 className="text-3xl font-bold text-slate-900 mb-6">From a Classroom Idea to a Platform.</h2>
+                            <h2 className="text-3xl font-bold text-slate-900 mb-6">{t('storySubtitle')}</h2>
                             <div className="prose prose-lg text-slate-600 leading-relaxed">
                                 <p>{t('storyText')}</p>
                             </div>
                         </div>
-                        <div className="flex-1 relative aspect-square w-full max-w-[300px] mx-auto rounded-full overflow-hidden shadow-xl border-4 border-white bg-slate-100 flex items-center justify-center">
-                            <span className="text-6xl">🎓</span>
+                        <div className="flex-1 relative aspect-square w-full max-w-[350px] mx-auto rounded-full overflow-hidden shadow-xl border-4 border-white bg-slate-100 group">
+                            <Image
+                                src="/class_to_world.png"
+                                alt="Classroom to World"
+                                fill
+                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
                         </div>
                     </div>
 
-                    {/* Join */}
-                    <div className="bg-slate-50 rounded-3xl p-10 text-center border border-slate-100">
-                        <h2 className="text-2xl font-bold text-slate-900 mb-4">{t('teamTitle')}</h2>
-                        <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-8">
-                            {t('teamText')}
-                        </p>
+                    {/* Join - Split Section */}
+                    <div className="bg-slate-50 rounded-3xl p-10 border border-slate-100">
+                        <div className="text-center mb-10">
+                            <h2 className="text-3xl font-bold text-blue-600 mb-2">{t('teamTitle')}</h2>
+                            <p className="text-lg text-slate-500 font-medium">{t('joinSubtitle')}</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            {/* Individuals */}
+                            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                                <div className="text-blue-600 mb-4 bg-blue-50 w-12 h-12 rounded-xl flex items-center justify-center text-2xl">
+                                    👤
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 mb-4">{t('joinIndividualsTitle')}</h3>
+                                <p className="text-slate-600 leading-relaxed">
+                                    {t('joinIndividualsText')}
+                                </p>
+                            </div>
+
+                            {/* Partners */}
+                            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-purple-100 to-transparent -mr-10 -mt-10 rounded-full opacity-50 pointer-events-none" />
+                                <div className="text-purple-600 mb-4 bg-purple-50 w-12 h-12 rounded-xl flex items-center justify-center text-2xl relative z-10">
+                                    🤝
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 mb-4 relative z-10">{t('joinPartnersTitle')}</h3>
+                                <p className="text-slate-600 leading-relaxed relative z-10">
+                                    {t('joinPartnersText')}
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

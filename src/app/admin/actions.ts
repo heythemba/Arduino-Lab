@@ -31,6 +31,8 @@ export async function createProject(prevState: any, formData: FormData) {
     const category = formData.get('category');
     const slug = formData.get('slug');
     const hero_image_url = formData.get('hero_image_url');
+    const instructor_name = String(formData.get('instructor_name') || '').substring(0, 20);
+    const school_name = String(formData.get('school_name') || '').substring(0, 20);
 
     // 1. Insert Project
     const { data: project, error: projectError } = await supabase
@@ -41,6 +43,8 @@ export async function createProject(prevState: any, formData: FormData) {
             category,
             slug,
             hero_image_url,
+            instructor_name,
+            school_name,
             is_published: true, // Publish by default
             author_id: user.id
         })
@@ -85,6 +89,39 @@ export async function createProject(prevState: any, formData: FormData) {
             console.error('Unexpected Error:', e);
             await supabase.from('projects').delete().eq('id', project.id);
             return { message: `Unexpected error: ${e.message}` };
+        }
+    }
+
+    // 3. Insert Attachments
+    const attachmentsJson = formData.get('attachments_json');
+    if (attachmentsJson) {
+        try {
+            const attachments = JSON.parse(attachmentsJson as string);
+            if (attachments.length > 0) {
+                const formattedAttachments = attachments.map((att: any) => ({
+                    project_id: project.id,
+                    file_type: att.file_type,
+                    file_name: att.file_name,
+                    file_url: att.file_url,
+                    file_size: att.file_size
+                }));
+
+                const { error: attError } = await supabase
+                    .from('project_attachments')
+                    .insert(formattedAttachments);
+
+                if (attError) {
+                    console.error('Attachments Insert Error:', attError);
+                    // Optional: Rollback or just partial success warning? 
+                    // Let's rollback to be safe
+                    await supabase.from('projects').delete().eq('id', project.id);
+                    return { message: `Attachments creation failed: ${attError.message}` };
+                }
+            }
+        } catch (e: any) {
+            console.error('Attachments Error:', e);
+            await supabase.from('projects').delete().eq('id', project.id);
+            return { message: `Attachments error: ${e.message}` };
         }
     }
 
@@ -145,6 +182,8 @@ export async function updateProject(prevState: any, formData: FormData) {
     const category = formData.get('category');
     const slug = formData.get('slug');
     const hero_image_url = formData.get('hero_image_url');
+    const instructor_name = String(formData.get('instructor_name') || '').substring(0, 20);
+    const school_name = String(formData.get('school_name') || '').substring(0, 20);
 
     // 1. Update Project Metadata
     const { error: projectError } = await supabase
@@ -155,6 +194,8 @@ export async function updateProject(prevState: any, formData: FormData) {
             category,
             slug,
             hero_image_url,
+            instructor_name,
+            school_name,
             updated_at: new Date().toISOString()
         })
         .eq('id', projectId)
@@ -203,6 +244,50 @@ export async function updateProject(prevState: any, formData: FormData) {
         } catch (e: any) {
             console.error('Unexpected Error:', e);
             return { message: `Unexpected error: ${e.message}` };
+        }
+    }
+
+
+
+    // 3. Handle Attachments (Delete All + Re-insert Strategy)
+    const attachmentsJson = formData.get('attachments_json');
+    if (attachmentsJson) {
+        try {
+            const attachments = JSON.parse(attachmentsJson as string);
+
+            // DELETE existing attachments
+            const { error: deleteAttError } = await supabase
+                .from('project_attachments')
+                .delete()
+                .eq('project_id', projectId);
+
+            if (deleteAttError) {
+                console.error('Failed to delete old attachments:', deleteAttError);
+                return { message: 'Failed to update attachments.' };
+            }
+
+            // INSERT new attachments
+            if (attachments.length > 0) {
+                const formattedAttachments = attachments.map((att: any) => ({
+                    project_id: projectId,
+                    file_type: att.file_type,
+                    file_name: att.file_name,
+                    file_url: att.file_url,
+                    file_size: att.file_size
+                }));
+
+                const { error: attError } = await supabase
+                    .from('project_attachments')
+                    .insert(formattedAttachments);
+
+                if (attError) {
+                    console.error('Attachments Insert Error:', attError);
+                    return { message: `Attachments update failed: ${attError.message}` };
+                }
+            }
+        } catch (e: any) {
+            console.error('Attachments Error:', e);
+            return { message: `Attachments error: ${e.message}` };
         }
     }
 

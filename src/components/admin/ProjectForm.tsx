@@ -4,8 +4,9 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { useFormStatus } from 'react-dom';
 import { useActionState, useEffect, useState } from 'react';
-import { Loader2, Plus, Trash2, Save, X } from 'lucide-react';
+import { Loader2, Plus, Trash2, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import FileUploader from './FileUploader';
 
 type MultiLangString = {
     en: string;
@@ -20,14 +21,24 @@ type Step = {
     image_url: string;
 };
 
+type Attachment = {
+    file_type: 'stl' | 'ino' | 'image' | 'other';
+    file_name: string;
+    file_url: string;
+    file_size: number;
+};
+
 export type ProjectFormData = {
     id?: string;
     slug?: string;
     category?: string;
     hero_image_url?: string;
+    instructor_name?: string;
+    school_name?: string;
     title?: MultiLangString;
     description?: MultiLangString;
     steps?: Step[];
+    attachments?: Attachment[];
 };
 
 type ProjectFormProps = {
@@ -43,6 +54,9 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
     const [state, formAction] = useActionState(action, { message: '', success: false });
     const [isDirty, setIsDirty] = useState(false);
 
+    // Attachments State
+    const [attachments, setAttachments] = useState<Attachment[]>(initialData?.attachments || []);
+
     // Initial steps handling
     const initializeSteps = () => {
         if (initialData?.steps && initialData.steps.length > 0) {
@@ -56,7 +70,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
 
     const [steps, setSteps] = useState<Step[]>(initializeSteps);
 
-    // Load from localStorage ONLY if NOT in edit mode (to avoid overwriting DB data with old random draft)
+    // Load from localStorage ONLY if NOT in edit mode
     useEffect(() => {
         if (!isEditMode) {
             const savedSteps = localStorage.getItem('project_draft_steps');
@@ -71,14 +85,14 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
         }
     }, [isEditMode]);
 
-    // Save to localStorage when steps change (only in Create mode)
+    // Save to localStorage when steps change
     useEffect(() => {
         if (!isEditMode && steps.length > 0) {
             localStorage.setItem('project_draft_steps', JSON.stringify(steps));
             setIsDirty(true);
         }
         if (isEditMode) {
-            setIsDirty(true); // Always mark dirty on edit if touched, simplistic for now
+            setIsDirty(true);
         }
     }, [steps, isEditMode]);
 
@@ -148,6 +162,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
             <input type="hidden" name="locale" value={locale} />
             {initialData?.id && <input type="hidden" name="id" value={initialData.id} />}
             <input type="hidden" name="steps_json" value={JSON.stringify(steps)} />
+            <input type="hidden" name="attachments_json" value={JSON.stringify(attachments)} />
 
             {/* General Info Section */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
@@ -184,6 +199,29 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                             defaultValue={initialData?.hero_image_url}
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             placeholder="https://..."
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label className="block text-sm font-medium mb-1">{t('labels.instructor')}</label>
+                        <input
+                            name="instructor_name"
+                            defaultValue={initialData?.instructor_name || ''}
+                            maxLength={20}
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            placeholder="Max 20 chars"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">{t('labels.school')}</label>
+                        <input
+                            name="school_name"
+                            defaultValue={initialData?.school_name || ''}
+                            maxLength={20}
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            placeholder="Max 20 chars"
                         />
                     </div>
                 </div>
@@ -279,6 +317,16 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                         </div>
                     )}
                 </div>
+            </div>
+
+            {/* Files & Attachments Section */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h2 className="text-xl font-semibold mb-6 pb-2 border-b">{t('sections.files')}</h2>
+                <FileUploader
+                    t={t}
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                />
             </div>
 
             {state.message && (

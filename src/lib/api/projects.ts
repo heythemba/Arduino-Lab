@@ -7,6 +7,8 @@ export type Project = {
     category: string;
     slug: string;
     hero_image_url: string | null;
+    instructor_name?: string | null;
+    school_name?: string | null;
     author: {
         full_name: string;
         school_name: string;
@@ -21,8 +23,18 @@ export type Step = {
     image_url: string | null;
 };
 
+export type Attachment = {
+    id: string;
+    project_id: string;
+    file_type: 'stl' | 'ino' | 'image' | 'other';
+    file_name: string;
+    file_url: string;
+    file_size: number | null;
+};
+
 export type FullProject = Project & {
     steps: Step[];
+    attachments: Attachment[];
 };
 
 export async function getProjectBySlug(slug: string): Promise<FullProject | null> {
@@ -36,6 +48,8 @@ export async function getProjectBySlug(slug: string): Promise<FullProject | null
       category,
       slug,
       hero_image_url,
+      instructor_name,
+      school_name,
       author:author_id(full_name, school_name),
       steps:project_steps(
         id,
@@ -43,7 +57,8 @@ export async function getProjectBySlug(slug: string): Promise<FullProject | null
         content,
         code_snippet,
         image_url
-      )
+      ),
+      attachments:project_attachments(*)
     `)
         .eq('slug', slug)
         .single();
@@ -81,6 +96,8 @@ export async function getProjects({
       category,
       slug,
       hero_image_url,
+      instructor_name,
+      school_name,
       author:author_id(full_name, school_name)
     `)
         .eq('is_published', true);

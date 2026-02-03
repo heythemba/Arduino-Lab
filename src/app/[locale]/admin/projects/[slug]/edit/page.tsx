@@ -28,7 +28,8 @@ export default async function EditProjectPage({
         .from('projects')
         .select(`
             *,
-            steps:project_steps(*)
+            steps:project_steps(*),
+            attachments:project_attachments(*)
         `)
         .eq('slug', slug)
         .eq('author_id', user.id) // Ensure ownership
@@ -50,6 +51,8 @@ export default async function EditProjectPage({
         slug: project.slug,
         category: project.category,
         hero_image_url: project.hero_image_url,
+        instructor_name: project.instructor_name,
+        school_name: project.school_name,
         title: project.title as any,
         description: project.description as any,
         steps: sortedSteps.map((s: any) => ({
@@ -57,7 +60,8 @@ export default async function EditProjectPage({
             title: s.title,
             content: s.content,
             image_url: s.image_url
-        }))
+        })),
+        attachments: project.attachments || []
     };
 
     return (

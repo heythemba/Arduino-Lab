@@ -9,6 +9,7 @@ interface ProjectHeaderProps {
     category: string;
     authorName: string;
     schoolName: string;
+    instructorName?: string | null;
     heroImageUrl?: string | null;
 }
 
@@ -18,6 +19,7 @@ export default function ProjectHeader({
     category,
     authorName,
     schoolName,
+    instructorName,
     heroImageUrl,
 }: ProjectHeaderProps) {
     return (
@@ -59,7 +61,7 @@ export default function ProjectHeader({
                 <div className="flex flex-wrap gap-6 text-sm sm:text-base font-medium text-slate-300">
                     <div className="flex items-center gap-2">
                         <User className="h-5 w-5" />
-                        {authorName}
+                        {instructorName || authorName}
                     </div>
                     <div className="flex items-center gap-2">
                         <School className="h-5 w-5" />

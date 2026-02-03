@@ -19,6 +19,8 @@
     "ProjectDetails": {
         "stepByStep": "Guide étape par étape",
         "resources": "Ressources du projet",
+        "share": "Copier le lien du projet",
+        "copied": "Copié !",
         "downloadCode": "Télécharger le code",
         "downloadCodeSub": "Fichier .ino (bientôt)",
         "downloadModels": "Télécharger modèles 3D",
@@ -37,11 +39,17 @@
         "title": "À propos d'ArduinoLab",
         "subtitle": "Permettre aux étudiants de construire, partager et apprendre ensemble.",
         "missionTitle": "Notre Mission",
-        "missionText": "ArduinoLab a été créé avec un objectif simple : rendre les projets de robotique scolaire accessibles, partageables et reproductibles. Nous croyons que la meilleure façon d'apprendre est de faire — et de partager ce que vous avez construit avec les autres.",
-        "storyTitle": "Pour les étudiants, par les étudiants",
-        "storyText": "Ce qui a commencé comme un petit projet de club est devenu une plateforme pour documenter l'innovation. Nous voulons remplacer les dossiers désordonnés et les fichiers perdus par une belle bibliothèque de connaissances organisée.",
+        "missionSubtitle": "Construire l'avenir, un robot à la fois.",
+        "missionText": "ArduinoLab est né de l'engagement bénévole au sein du PNL Mahdia avec un objectif unique : s'assurer que les projets de robotique incroyables développés par les clubs scolaires ne soient jamais oubliés. Nous croyons que documenter un projet est aussi vital que de le construire. En créant cette bibliothèque numérique, nous transformons les expériences en classe en un héritage permanent et open-source.",
+        "storyTitle": "Pour les élèves, par les élèves",
+        "storySubtitle": "D'une idée de classe à une référence mondiale.",
+        "storyText": "Depuis 2024, nous collaborons avec les clubs de robotique sous le parrainage du projet SWAFY (Science With And For Youth). Alors que nous avançons en 2026, ArduinoLab reste notre cadeau durable à la communauté—conçu par des élèves, pour des élèves, afin de servir de modèle à la prochaine génération d'ingénieurs.",
         "teamTitle": "Rejoignez le mouvement",
-        "teamText": "Que vous soyez un responsable de club, un étudiant curieux ou un enseignant, ArduinoLab est votre espace pour montrer votre créativité."
+        "joinSubtitle": "Faites partie de l'héritage ArduinoLab.",
+        "joinIndividualsTitle": "Pour les Particuliers",
+        "joinIndividualsText": "Que vous soyez responsable de club, élève curieux ou enseignant, ArduinoLab est votre espace. Rejoignez-nous pour documenter l'avenir et montrer la créativité de la jeunesse tunisienne au monde entier.",
+        "joinPartnersTitle": "Pour les Partenaires et Entreprises",
+        "joinPartnersText": "Notre parcours avec SWAFY a posé les bases, mais l'avenir de l'éducation STEM nécessite un soutien durable. Nous invitons les entreprises visionnaires à parrainer ArduinoLab, nous aidant à maintenir cette plateforme pour toujours et à étendre son impact à chaque école du pays."
     },
     "LoginPage": {
         "title": "Connexion",
@@ -78,14 +86,31 @@
         "sections": {
             "general": "Infos Générales",
             "description": "Description",
-            "steps": "Étapes"
+            "steps": "Étapes",
+            "files": "Fichiers & Pièces jointes"
         },
         "labels": {
-            "title": "Titre",
-            "slug": "Slug (URL friendly)",
+            "slug": "URL (Slug)",
+            "title": "Titre du projet",
             "category": "Catégorie",
-            "heroImage": "URL Image Hero",
+            "heroImage": "Image de fond / Héros URL",
+            "instructor": "Nom de l'instructeur",
+            "school": "Nom de l'école/club",
             "language": "Langue"
+        },
+        "files": {
+            "add": "Ajouter un fichier",
+            "type": "Type de fichier",
+            "name": "Nom du fichier",
+            "url": "URL du fichier/image",
+            "upload": "Téléverser un fichier",
+            "or": "OU",
+            "enterUrl": "Entrer une URL",
+            "hints": {
+                "ino": "Code Arduino (.ino, < 1Mo)",
+                "stl": "Modèle 3D (.stl, < 50Mo)",
+                "image": "Image (jpg/png, < 10Mo)"
+            }
         },
         "steps": {
             "add": "Ajouter une étape",

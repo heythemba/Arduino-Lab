@@ -19,6 +19,8 @@
     "ProjectDetails": {
         "stepByStep": "Step-by-Step Guide",
         "resources": "Project Resources",
+        "share": "Copy link project",
+        "copied": "Copied!",
         "downloadCode": "Download Code",
         "downloadCodeSub": ".ino file (coming soon)",
         "downloadModels": "Download 3D Models",
@@ -37,11 +39,17 @@
         "title": "About ArduinoLab",
         "subtitle": "Empowering students to build, share, and learn together.",
         "missionTitle": "Our Mission",
-        "missionText": "ArduinoLab was created with a simple goal: to make school robotics projects accessible, shareable, and reproducible. We believe that the best way to learn is by doing—and by sharing what you've built with others.",
+        "missionSubtitle": "Building the Future, One Bot at a Time.",
+        "missionText": "ArduinoLab was born from the volunteer efforts at PNL Mahdia with a singular goal: to ensure that the incredible robotics projects developed by school clubs are never lost. We believe documenting a project is as vital as building it. By creating this digital library, we are turning classroom experiments into a permanent, open-source legacy.",
         "storyTitle": "For Students, By Students",
-        "storyText": "What started as a small club project has grown into a platform for documenting innovation. We want to replace messy folders and lost files with a beautiful, organized library of knowledge.",
+        "storySubtitle": "From a Classroom Idea to a Global Reference.",
+        "storyText": "Since 2024, we have collaborated with robotics clubs under the sponsorship of the SWAFY (Science With And For Youth) project. As we move through 2026, ArduinoLab stands as our enduring gift to the community—built by school kids, for school kids, to serve as a blueprint for the next generation of engineers.",
         "teamTitle": "Join the Movement",
-        "teamText": "Whether you are a club leader, a curious student, or a teacher, ArduinoLab is your space to showcase creativity."
+        "joinSubtitle": "Be Part of the ArduinoLab Legacy.",
+        "joinIndividualsTitle": "For Individuals",
+        "joinIndividualsText": "Whether you are a club leader, a curious student, or a teacher, ArduinoLab is your stage. Join us in documenting the future and showcasing Tunisian youth creativity to the world.",
+        "joinPartnersTitle": "For Partners & Enterprises",
+        "joinPartnersText": "Our journey with SWAFY has laid the foundation, but the future of STEM education requires sustained support. We invite visionary enterprises to sponsor ArduinoLab, helping us maintain this platform forever and expand its reach to every school in the nation."
     },
     "LoginPage": {
         "title": "Login",
@@ -78,14 +86,31 @@
         "sections": {
             "general": "General Info",
             "description": "Description",
-            "steps": "Steps"
+            "steps": "Steps",
+            "files": "Files & Attachments"
         },
         "labels": {
-            "title": "Title",
-            "slug": "Slug (URL friendly)",
+            "slug": "URL Helper (Slug)",
+            "title": "Project Title",
             "category": "Category",
-            "heroImage": "Hero Image URL",
+            "heroImage": "Background/Hero Image URL",
+            "instructor": "Instructor Name",
+            "school": "School/Club Name",
             "language": "Language"
+        },
+        "files": {
+            "add": "Add File",
+            "type": "File Type",
+            "name": "File Name",
+            "url": "File/Image URL",
+            "upload": "Upload File",
+            "or": "OR",
+            "enterUrl": "Enter URL",
+            "hints": {
+                "ino": "Arduino Code (.ino, < 1MB)",
+                "stl": "3D Model (.stl, < 50MB)",
+                "image": "Image (jpg/png, < 10MB)"
+            }
         },
         "steps": {
             "add": "Add Step",
