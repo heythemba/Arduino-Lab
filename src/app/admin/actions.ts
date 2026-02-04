@@ -3,20 +3,26 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-
 import { getLocale } from 'next-intl/server'
-
-
-
 import { createClient as createAdminClient } from '@supabase/supabase-js'
 
-
+/**
+ * Creates a new user (Leader) manually.
+ * 
+ * This action is restricted to Admins. It uses the Supabase Admin API (Service Role)
+ * to bypass the default public registration restrictions (if any) and auto-confirms
+ * the user's email.
+ * 
+ * @param prevState - The previous state of the form action (for error handling).
+ * @param formData - The form data containing email, password, etc.
+ */
 export async function createUser(prevState: any, formData: FormData) {
     const email = (formData.get('email') as string).trim();
     const password = formData.get('password') as string;
     const passwordConfirm = formData.get('password_confirm') as string;
     const fullName = formData.get('full_name') as string;
 
+    // 1. Basic Validation
     if (!email || !password || !fullName) {
         return { message: 'All fields are required.' };
     }
@@ -29,7 +35,9 @@ export async function createUser(prevState: any, formData: FormData) {
         return { message: 'Password must be at least 6 characters.' };
     }
 
-    // Create Admin Client (bypass RLS)
+    // 2. Create Admin Client
+    // We need the Service Role Key to create users directly without email verification flow.
+    // WARNING: This client bypasses Row Level Security (RLS). Use with caution.
     const supabaseAdmin = createAdminClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -41,11 +49,11 @@ export async function createUser(prevState: any, formData: FormData) {
         }
     );
 
-    // Create User with confirmed email
+    // 3. Create User in Supabase Auth
     const { data, error } = await supabaseAdmin.auth.admin.createUser({
         email,
         password,
-        email_confirm: true, // Auto-confirm
+        email_confirm: true, // Automatically confirm email so they can login immediately
         user_metadata: {
             full_name: fullName
         }
@@ -56,26 +64,38 @@ export async function createUser(prevState: any, formData: FormData) {
         return { message: error.message };
     }
 
+    // 4. Revalidate execution to refresh the user list
     revalidatePath('/[locale]/admin', 'page');
     return { success: true, message: `User ${email} created successfully!` };
 }
 
+/**
+ * Creates a new project with steps and attachments.
+ * 
+ * This supports multilingual titles/content and handles transaction-like behavior
+ * (manual rollback) if step/attachment insertion fails.
+ * 
+ * @param prevState - Previous form state.
+ * @param formData - Form data including JSON strings for steps and attachments.
+ */
 export async function createProject(prevState: any, formData: FormData) {
     const supabase = await createClient()
 
+    // 1. Authentication Check
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
         return { message: 'Unauthorized' }
     }
 
-    // Check Role
+    // 2. Role Check & Client Selection
+    // If the user is an Admin, we upgrade to the Service Role client to ensure
+    // they can create content without hitting any restrictive RLS (though typically creation is allowed).
     const { data: profile } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', user.id)
         .single();
 
-    // Use Admin Client if user is admin, otherwise use standard client
     const isAdmin = profile?.role === 'admin';
     const clientToUse = isAdmin ? createAdminClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -83,10 +103,10 @@ export async function createProject(prevState: any, formData: FormData) {
         { auth: { autoRefreshToken: false, persistSession: false } }
     ) : supabase;
 
-    // Extract form data
+    // 3. Extract & Format Data
     const rawFormData = Object.fromEntries(formData.entries());
 
-    // Construct Title/Description JSONB
+    // Construct JSONB objects for multilingual fields
     const title = {
         en: formData.get('title_en'),
         fr: formData.get('title_fr'),
@@ -105,7 +125,7 @@ export async function createProject(prevState: any, formData: FormData) {
     const instructor_name = String(formData.get('instructor_name') || '').substring(0, 20);
     const school_name = String(formData.get('school_name') || '').substring(0, 20);
 
-    // 1. Insert Project
+    // 4. Insert Main Project Record
     const { data: project, error: projectError } = await clientToUse
         .from('projects')
         .insert({
@@ -116,7 +136,7 @@ export async function createProject(prevState: any, formData: FormData) {
             hero_image_url,
             instructor_name,
             school_name,
-            is_published: true, // Publish by default
+            is_published: true, // Projects are live by default
             author_id: user.id
         })
         .select()
@@ -127,7 +147,7 @@ export async function createProject(prevState: any, formData: FormData) {
         return { message: `Failed to create project: ${projectError.message}` };
     }
 
-    // 2. Insert Steps (with Rollback on Failure)
+    // 5. Insert Steps (Transaction-like Rollback)
     const stepsJson = formData.get('steps_json');
     if (stepsJson) {
         try {
@@ -137,8 +157,8 @@ export async function createProject(prevState: any, formData: FormData) {
                 const formattedSteps = steps.map((step: any, index: number) => ({
                     project_id: project.id,
                     step_number: index + 1,
-                    title: step.title, // {en, fr, ar} - Requires DB Migration!
-                    content: step.content, // {en, fr, ar}
+                    title: step.title,
+                    content: step.content,
                     image_url: step.image_url
                 }));
 
@@ -149,21 +169,20 @@ export async function createProject(prevState: any, formData: FormData) {
                 if (stepsError) {
                     console.error('Steps Insert Error:', stepsError);
 
-                    // ROLLBACK: Delete the created project
+                    // CRITICAL: Rollback - Delete the project if steps fail
                     await clientToUse.from('projects').delete().eq('id', project.id);
 
                     return { message: `Project creation failed (rolled back): ${stepsError.message}` };
                 }
             }
         } catch (e: any) {
-            // JSON parse error or other unexpected error
             console.error('Unexpected Error:', e);
             await clientToUse.from('projects').delete().eq('id', project.id);
             return { message: `Unexpected error: ${e.message}` };
         }
     }
 
-    // 3. Insert Attachments
+    // 6. Insert Attachments
     const attachmentsJson = formData.get('attachments_json');
     if (attachmentsJson) {
         try {
@@ -183,8 +202,7 @@ export async function createProject(prevState: any, formData: FormData) {
 
                 if (attError) {
                     console.error('Attachments Insert Error:', attError);
-                    // Optional: Rollback or just partial success warning? 
-                    // Let's rollback to be safe
+                    // Rollback on attachment failure to keep data clean
                     await clientToUse.from('projects').delete().eq('id', project.id);
                     return { message: `Attachments creation failed: ${attError.message}` };
                 }
@@ -196,12 +214,19 @@ export async function createProject(prevState: any, formData: FormData) {
         }
     }
 
+    // 7. Refresh Data
     revalidatePath('/[locale]/admin', 'page');
     revalidatePath('/[locale]/projects', 'page');
 
     return { success: true, message: 'Project created successfully!' };
 }
 
+/**
+ * Deletes a project by ID.
+ * 
+ * Admins can delete ANY project.
+ * Leaders can only delete THEIR OWN projects.
+ */
 export async function deleteProject(projectId: string) {
     const supabase = await createClient()
 
@@ -217,7 +242,7 @@ export async function deleteProject(projectId: string) {
         .eq('id', user.id)
         .single();
 
-    // Use Admin Client if user is admin check
+    // Elevate privileges for Admin
     const isAdmin = profile?.role === 'admin';
     const clientToUse = isAdmin ? createAdminClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -230,7 +255,7 @@ export async function deleteProject(projectId: string) {
         .delete()
         .eq('id', projectId);
 
-    // If NOT admin, enforce ownership check
+    // If NOT admin, strict ownership check is applied
     if (!isAdmin) {
         query = query.eq('author_id', user.id);
     }
@@ -248,6 +273,12 @@ export async function deleteProject(projectId: string) {
     return { success: true };
 }
 
+/**
+ * Updates an existing project.
+ * 
+ * Handles metadata updates and performs a "DELETE & REPLACE" strategy
+ * for steps and attachments to ensure synchronization.
+ */
 export async function updateProject(prevState: any, formData: FormData) {
     const supabase = await createClient();
 
@@ -266,7 +297,7 @@ export async function updateProject(prevState: any, formData: FormData) {
         .eq('id', user.id)
         .single();
 
-    // Use Admin Client if user is admin
+    // Elevate privileges for Admin to allow editing others' projects
     const isAdmin = profile?.role === 'admin';
     const clientToUse = isAdmin ? createAdminClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -308,7 +339,7 @@ export async function updateProject(prevState: any, formData: FormData) {
         })
         .eq('id', projectId);
 
-    // If NOT admin, enforce ownership check
+    // Ownership check for non-admins
     if (!isAdmin) {
         updateQuery = updateQuery.eq('author_id', user.id);
     }
@@ -319,7 +350,8 @@ export async function updateProject(prevState: any, formData: FormData) {
         return { message: `Failed to update project: ${projectError.message}` };
     }
 
-    // 2. Handle Steps (Delete All + Re-insert Strategy)
+    // 2. Handle Steps (Strategy: Delete All + Re-insert)
+    // This is simpler than differencing and ensures clean slate.
     const stepsJson = formData.get('steps_json');
     if (stepsJson) {
         try {
@@ -361,7 +393,7 @@ export async function updateProject(prevState: any, formData: FormData) {
         }
     }
 
-    // 3. Handle Attachments (Delete All + Re-insert Strategy)
+    // 3. Handle Attachments (Strategy: Delete All + Re-insert)
     const attachmentsJson = formData.get('attachments_json');
     if (attachmentsJson) {
         try {
@@ -405,7 +437,7 @@ export async function updateProject(prevState: any, formData: FormData) {
 
     revalidatePath('/[locale]/admin', 'page');
     revalidatePath('/[locale]/projects', 'page');
-    revalidatePath(`/[locale]/projects/${slug}`, 'page'); // Revalidate detail page
+    revalidatePath(`/[locale]/projects/${slug}`, 'page');
 
     return { success: true, message: 'Project updated successfully!' };
 }

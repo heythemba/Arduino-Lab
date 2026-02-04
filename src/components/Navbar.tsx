@@ -9,6 +9,18 @@ import { logout } from '@/app/auth/actions';
 import { User } from '@supabase/supabase-js';
 import Image from 'next/image';
 
+/**
+ * Global Navigation Bar.
+ * 
+ * Features:
+ * - Responsive Mobile Menu (Hamburger toggle)
+ * - Language Switcher (En/Fr/Ar)
+ * - Authentication Status Display (Login vs User Profile)
+ * - Navigation Links
+ * 
+ * @param user - The current authenticated user (if any).
+ * @param profile - The extended user profile (if any).
+ */
 export default function Navbar({ user, profile }: { user?: User | null, profile?: any }) {
     const t = useTranslations('HomePage');
     const navT = useTranslations('Navbar');
@@ -18,6 +30,7 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
     const [isOpen, setIsOpen] = useState(false);
 
     // Language switcher handler
+    // Replaces the current URL with the new locale prefix
     const switchLocale = (newLocale: string) => {
         router.replace(pathname, { locale: newLocale });
     };
@@ -47,6 +60,7 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                         {navT('about')}
                     </Link>
 
+                    {/* Locale Selector */}
                     <div className="flex items-center gap-2">
                         <select
                             className="bg-transparent text-sm font-medium focus:outline-none cursor-pointer"
@@ -59,6 +73,7 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                         </select>
                     </div>
 
+                    {/* Auth Actions */}
                     {user ? (
                         <div className="flex items-center gap-4">
                             <span className="text-sm font-medium text-muted-foreground hidden lg:inline-block">
@@ -87,7 +102,7 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                 </button>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu Content */}
             {isOpen && (
                 <div className="md:hidden border-t bg-background p-4 flex flex-col gap-4 shadow-lg">
                     <Link href="/#projects" onClick={() => setIsOpen(false)} className="text-sm font-medium py-2">

@@ -3,6 +3,18 @@ import { NextResponse, type NextRequest } from 'next/server'
 import createMiddleware from 'next-intl/middleware';
 import { routing } from '../../i18n/routing';
 
+/**
+ * Updates the Supabase session and handles i18n routing.
+ * 
+ * This function is the core of our Middleware. It:
+ * 1. Initializes next-intl middleware to handle locale redirects (e.g. / -> /en).
+ * 2. Creates a Supabase Server Client to manage authentication.
+ * 3. Refreshes the Auth Token if it's expired (crucial for keeping users logged in).
+ * 4. Ensures cookies are correctly set on both the Request and Response.
+ * 
+ * @param request - The incoming Next.js request.
+ * @returns The modified response with updated cookies and locale headers.
+ */
 export async function updateSession(request: NextRequest) {
     // 1. Create the response using next-intl middleware first to handle redirects/locale
     // This ensures i18n is handled correctly on the response we modify
@@ -14,6 +26,7 @@ export async function updateSession(request: NextRequest) {
         return response;
     }
 
+    // 2. Setup Supabase Client
     const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -26,7 +39,7 @@ export async function updateSession(request: NextRequest) {
                     cookiesToSet.forEach(({ name, value, options }) =>
                         request.cookies.set(name, value)
                     )
-
+                    // Update response cookies to persist the session
                     cookiesToSet.forEach(({ name, value, options }) =>
                         response.cookies.set(name, value, options)
                     )
@@ -35,17 +48,15 @@ export async function updateSession(request: NextRequest) {
         }
     )
 
-    // Refreshing the auth token
+    // 3. Refreshing the auth token
+    // This call is required to signal Supabase that the session is active.
     const {
         data: { user },
     } = await supabase.auth.getUser()
 
-    // Protected Routes Logic
-    // For now, we only care about refreshing the session.
-    // We will handle protection in the Layout or Page level/middleware checks for specific paths if needed.
-    // But strictly speaking, we generally want to protect /admin or dashboard routes here.
-
-    // Example protection (can expand later):
+    // 4. Protected Routes Logic
+    // Example: Redirect unauthenticated users from /admin
+    // (Currently handled in Page components/Server Actions for finer control)
     // if (request.nextUrl.pathname.startsWith('/admin') && !user) {
     //   return NextResponse.redirect(new URL('/login', request.url))
     // }

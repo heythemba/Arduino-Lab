@@ -8,6 +8,7 @@ import { Loader2, Plus, Trash2, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import FileUploader from './FileUploader';
 
+// --- Types Definition ---
 type MultiLangString = {
     en: string;
     fr: string;
@@ -15,7 +16,7 @@ type MultiLangString = {
 };
 
 type Step = {
-    id: string;
+    id: string; // Unique ID for React keys (internal only, not DB ID necessarily)
     title: MultiLangString;
     content: MultiLangString;
     image_url: string;
@@ -43,16 +44,30 @@ export type ProjectFormData = {
 
 type ProjectFormProps = {
     locale: string;
-    action: (prevState: any, formData: FormData) => Promise<any>;
+    action: (prevState: any, formData: FormData) => Promise<any>; // Server Action
     initialData?: ProjectFormData;
     isEditMode?: boolean;
     userProfile?: any;
 };
 
+/**
+ * Complex form component for Creating/Editing Projects.
+ * 
+ * Features:
+ * - Multilingual Support (Tabs or stacked inputs for En/Fr/Ar)
+ * - Dynamic Step Management (Add/Remove/Reorder steps)
+ * - Auto-Save Draft to LocalStorage (for new projects only)
+ * - File Upload Integration
+ * - Server Action Integration with proper pending states
+ */
 export default function ProjectForm({ locale, action, initialData, isEditMode = false, userProfile }: ProjectFormProps) {
     const t = useTranslations('ProjectForm');
     const router = useRouter();
+
+    // Server Action State Hook
     const [state, formAction] = useActionState(action, { message: '', success: false });
+
+    // Dirty State Tracking (for unsaved changes warning)
     const [isDirty, setIsDirty] = useState(false);
 
     // Populate initialData.instructor_name with userProfile.full_name if it's new
@@ -69,7 +84,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
         if (initialData?.steps && initialData.steps.length > 0) {
             return initialData.steps.map(s => ({
                 ...s,
-                id: s.id || Math.random().toString(36).substr(2, 9) // Ensure ID
+                id: s.id || Math.random().toString(36).substr(2, 9) // Ensure ID exists for React keys
             }));
         }
         return [];
@@ -77,7 +92,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
 
     const [steps, setSteps] = useState<Step[]>(initializeSteps);
 
-    // Load from localStorage ONLY if NOT in edit mode
+    // Load from localStorage ONLY if NOT in edit mode (Draft feature)
     useEffect(() => {
         if (!isEditMode) {
             const savedSteps = localStorage.getItem('project_draft_steps');
@@ -103,7 +118,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
         }
     }, [steps, isEditMode]);
 
-    // Warn before unload
+    // Warn before unload (Browser navigation confirmation)
     useEffect(() => {
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             if (isDirty) {
@@ -116,7 +131,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }, [isDirty]);
 
-    // Clear draft on successful submission
+    // Clear draft on successful submission & Redirect
     useEffect(() => {
         if (state?.success) {
             if (!isEditMode) {
@@ -124,11 +139,13 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
             }
             setIsDirty(false);
             const timer = setTimeout(() => {
-                router.push(`/${locale}/admin`);
+                router.push(`/${locale}/admin`); // Redirect to dashboard
             }, 1000);
             return () => clearTimeout(timer);
         }
     }, [state?.success, locale, router, isEditMode]);
+
+    // --- Step Management Handlers ---
 
     const addStep = () => {
         setSteps([...steps, {
