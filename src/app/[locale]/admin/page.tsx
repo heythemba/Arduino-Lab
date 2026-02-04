@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Plus, Edit, Settings } from 'lucide-react';
+import { Plus, Edit, Settings, Mail } from 'lucide-react';
 import DeleteProjectButton from '@/components/admin/DeleteProjectButton';
 
 export default async function AdminDashboard({
@@ -22,11 +22,24 @@ export default async function AdminDashboard({
         redirect(`/${locale}/login`);
     }
 
+    // Fetch Projects and User Role
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
     // Fetch projects
-    const { data: projects } = await supabase
+    let query = supabase
         .from('projects')
         .select('*')
         .order('created_at', { ascending: false });
+
+    if (profile?.role !== 'admin') {
+        query = query.eq('author_id', user.id);
+    }
+
+    const { data: projects } = await query;
 
     return (
         <main className="flex-1 bg-slate-50 min-h-screen">
@@ -41,11 +54,23 @@ export default async function AdminDashboard({
                         </p>
                     </div>
                     <div className="flex gap-2">
-                        <Link href={`/${locale}/admin/settings`}>
-                            <Button variant="outline" className="gap-2">
-                                <Settings className="h-4 w-4" /> {t('settings') || 'Settings'}
-                            </Button>
-                        </Link>
+                        {profile?.role === 'admin' && (
+                            <>
+                                <Link href={`/${locale}/admin/settings`}>
+                                    <Button variant="outline" className="gap-2">
+                                        <Settings className="h-4 w-4" /> {t('settings') || 'Settings'}
+                                    </Button>
+                                </Link>
+                                <Link href={`/${locale}/admin/users/new`}>
+                                    <Button variant="outline" className="gap-2">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-xl leading-none font-bold">+</span>
+                                            <span>Add Leader</span>
+                                        </div>
+                                    </Button>
+                                </Link>
+                            </>
+                        )}
                         <Link href={`/${locale}/admin/projects/new`}>
                             <Button className="gap-2">
                                 <Plus className="h-4 w-4" /> {t('createProject')}

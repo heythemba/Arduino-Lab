@@ -36,6 +36,9 @@ export default function StepList({ steps, locale }: StepListProps) {
                         {/* Card */}
                         <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                             <div className="prose prose-slate max-w-none dark:prose-invert">
+                                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                                    {step.title?.[locale] || step.title?.['en'] || `Step ${step.step_number}`}
+                                </h3>
                                 <p className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-wrap">
                                     {step.content[locale] || step.content['en'] || 'Step instructions missing.'}
                                 </p>

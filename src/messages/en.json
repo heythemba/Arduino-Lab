@@ -24,8 +24,7 @@
         "downloadCode": "Download Code",
         "downloadCodeSub": ".ino file (coming soon)",
         "downloadModels": "Download 3D Models",
-        "downloadModelsSub": ".stl files (coming soon)",
-        "share": "Share Project"
+        "downloadModelsSub": ".stl files (coming soon)"
     },
     "SearchFilters": {
         "placeholder": "Search projects...",
@@ -130,7 +129,7 @@
         "support": "Support",
         "explore": "Explore Projects",
         "about": "About Us",
-        "admin": "Admin Access",
+        "admin": "Login",
         "website": "Official Website",
         "sponsors": "Our Sponsors",
         "rights": "© {year} ArduinoLab. All rights reserved.",

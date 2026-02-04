@@ -46,13 +46,20 @@ type ProjectFormProps = {
     action: (prevState: any, formData: FormData) => Promise<any>;
     initialData?: ProjectFormData;
     isEditMode?: boolean;
+    userProfile?: any;
 };
 
-export default function ProjectForm({ locale, action, initialData, isEditMode = false }: ProjectFormProps) {
+export default function ProjectForm({ locale, action, initialData, isEditMode = false, userProfile }: ProjectFormProps) {
     const t = useTranslations('ProjectForm');
     const router = useRouter();
     const [state, formAction] = useActionState(action, { message: '', success: false });
     const [isDirty, setIsDirty] = useState(false);
+
+    // Populate initialData.instructor_name with userProfile.full_name if it's new
+    if (!isEditMode && userProfile && (!initialData?.instructor_name)) {
+        if (!initialData) initialData = {};
+        initialData.instructor_name = userProfile.full_name;
+    }
 
     // Attachments State
     const [attachments, setAttachments] = useState<Attachment[]>(initialData?.attachments || []);
@@ -208,7 +215,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                         <label className="block text-sm font-medium mb-1">{t('labels.instructor')}</label>
                         <input
                             name="instructor_name"
-                            defaultValue={initialData?.instructor_name || ''}
+                            defaultValue={initialData?.instructor_name || (userProfile?.full_name || '')}
                             maxLength={20}
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             placeholder="Max 20 chars"

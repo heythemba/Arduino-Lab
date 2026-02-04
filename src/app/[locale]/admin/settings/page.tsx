@@ -3,12 +3,27 @@ import SettingsForm from '@/components/admin/SettingsForm';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
-export default async function SettingsPage() {
+export default async function SettingsPage({
+    params
+}: {
+    params: Promise<{ locale: string }>;
+}) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
         redirect('/login');
+    }
+
+    // Check User Role
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    if (profile?.role !== 'admin') {
+        redirect(`/${(await params).locale}/admin`);
     }
 
     // Optional: Add check for specific email if you want to restrict this page only to you

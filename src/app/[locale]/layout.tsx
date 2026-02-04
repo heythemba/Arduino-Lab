@@ -63,9 +63,19 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const isRtl = locale === 'ar';
 
-  // Fetch user
+  // Fetch user & profile
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  let profile = null;
+
+  if (user) {
+    const { data } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+    profile = data;
+  }
 
   return (
     <html lang={locale} dir={isRtl ? 'rtl' : 'ltr'}>
@@ -73,7 +83,7 @@ export default async function LocaleLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <NextIntlClientProvider messages={messages}>
-          <Navbar user={user} />
+          <Navbar user={user} profile={profile} />
 
           <div className="flex-1">
             {children}

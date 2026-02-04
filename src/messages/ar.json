@@ -24,8 +24,7 @@
         "downloadCode": "تحميل الكود",
         "downloadCodeSub": "ملف .ino (قريباً)",
         "downloadModels": "تحميل نماذج 3D",
-        "downloadModelsSub": "ملفات .stl (قريباً)",
-        "share": "مشاركة المشروع"
+        "downloadModelsSub": "ملفات .stl (قريباً)"
     },
     "SearchFilters": {
         "placeholder": "بحث عن مشاريع...",
@@ -130,7 +129,7 @@
         "support": "الدعم",
         "explore": "استكشف المشاريع",
         "about": "عن الموقع",
-        "admin": "دخول المشرف",
+        "admin": "تسجيل الدخول",
         "website": "الموقع الرسمي",
         "sponsors": "رعاتنا",
         "rights": "© {year} ArduinoLab. جميع الحقوق محفوظة.",

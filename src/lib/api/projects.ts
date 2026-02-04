@@ -18,6 +18,7 @@ export type Project = {
 export type Step = {
     id: string;
     step_number: number;
+    title: Record<string, string>;
     content: Record<string, string>;
     code_snippet: string | null;
     image_url: string | null;
@@ -54,6 +55,7 @@ export async function getProjectBySlug(slug: string): Promise<FullProject | null
       steps:project_steps(
         id,
         step_number,
+        title,
         content,
         code_snippet,
         image_url

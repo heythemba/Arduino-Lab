@@ -9,7 +9,7 @@ import { logout } from '@/app/auth/actions';
 import { User } from '@supabase/supabase-js';
 import Image from 'next/image';
 
-export default function Navbar({ user }: { user?: User | null }) {
+export default function Navbar({ user, profile }: { user?: User | null, profile?: any }) {
     const t = useTranslations('HomePage');
     const navT = useTranslations('Navbar');
     const locale = useLocale();
@@ -62,7 +62,7 @@ export default function Navbar({ user }: { user?: User | null }) {
                     {user ? (
                         <div className="flex items-center gap-4">
                             <span className="text-sm font-medium text-muted-foreground hidden lg:inline-block">
-                                {user.email}
+                                {profile?.full_name || user.email}
                             </span>
                             <Link href="/admin">
                                 <Button variant="default">{navT('dashboard')}</Button>

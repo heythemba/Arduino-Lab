@@ -23,17 +23,29 @@ export default async function EditProjectPage({
         redirect(`/${locale}/login`);
     }
 
+    // Check User Role
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
     // 2. Fetch Project Data
-    const { data: project, error } = await supabase
+    let query = supabase
         .from('projects')
         .select(`
             *,
             steps:project_steps(*),
             attachments:project_attachments(*)
         `)
-        .eq('slug', slug)
-        .eq('author_id', user.id) // Ensure ownership
-        .single();
+        .eq('slug', slug);
+
+    // Only enforce ownership if NOT admin
+    if (profile?.role !== 'admin') {
+        query = query.eq('author_id', user.id);
+    }
+
+    const { data: project, error } = await query.single();
 
     if (error || !project) {
         console.error('Error fetching project for edit:', error);

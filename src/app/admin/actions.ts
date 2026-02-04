@@ -4,6 +4,62 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
+import { getLocale } from 'next-intl/server'
+
+
+
+import { createClient as createAdminClient } from '@supabase/supabase-js'
+
+
+export async function createUser(prevState: any, formData: FormData) {
+    const email = (formData.get('email') as string).trim();
+    const password = formData.get('password') as string;
+    const passwordConfirm = formData.get('password_confirm') as string;
+    const fullName = formData.get('full_name') as string;
+
+    if (!email || !password || !fullName) {
+        return { message: 'All fields are required.' };
+    }
+
+    if (password !== passwordConfirm) {
+        return { message: 'Passwords do not match.' };
+    }
+
+    if (password.length < 6) {
+        return { message: 'Password must be at least 6 characters.' };
+    }
+
+    // Create Admin Client (bypass RLS)
+    const supabaseAdmin = createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        {
+            auth: {
+                autoRefreshToken: false,
+                persistSession: false
+            }
+        }
+    );
+
+    // Create User with confirmed email
+    const { data, error } = await supabaseAdmin.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true, // Auto-confirm
+        user_metadata: {
+            full_name: fullName
+        }
+    });
+
+    if (error) {
+        console.error('Create User Error:', error);
+        return { message: error.message };
+    }
+
+    revalidatePath('/[locale]/admin', 'page');
+    return { success: true, message: `User ${email} created successfully!` };
+}
+
 export async function createProject(prevState: any, formData: FormData) {
     const supabase = await createClient()
 
@@ -11,6 +67,21 @@ export async function createProject(prevState: any, formData: FormData) {
     if (!user) {
         return { message: 'Unauthorized' }
     }
+
+    // Check Role
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    // Use Admin Client if user is admin, otherwise use standard client
+    const isAdmin = profile?.role === 'admin';
+    const clientToUse = isAdmin ? createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        { auth: { autoRefreshToken: false, persistSession: false } }
+    ) : supabase;
 
     // Extract form data
     const rawFormData = Object.fromEntries(formData.entries());
@@ -35,7 +106,7 @@ export async function createProject(prevState: any, formData: FormData) {
     const school_name = String(formData.get('school_name') || '').substring(0, 20);
 
     // 1. Insert Project
-    const { data: project, error: projectError } = await supabase
+    const { data: project, error: projectError } = await clientToUse
         .from('projects')
         .insert({
             title,
@@ -71,7 +142,7 @@ export async function createProject(prevState: any, formData: FormData) {
                     image_url: step.image_url
                 }));
 
-                const { error: stepsError } = await supabase
+                const { error: stepsError } = await clientToUse
                     .from('project_steps')
                     .insert(formattedSteps);
 
@@ -79,7 +150,7 @@ export async function createProject(prevState: any, formData: FormData) {
                     console.error('Steps Insert Error:', stepsError);
 
                     // ROLLBACK: Delete the created project
-                    await supabase.from('projects').delete().eq('id', project.id);
+                    await clientToUse.from('projects').delete().eq('id', project.id);
 
                     return { message: `Project creation failed (rolled back): ${stepsError.message}` };
                 }
@@ -87,7 +158,7 @@ export async function createProject(prevState: any, formData: FormData) {
         } catch (e: any) {
             // JSON parse error or other unexpected error
             console.error('Unexpected Error:', e);
-            await supabase.from('projects').delete().eq('id', project.id);
+            await clientToUse.from('projects').delete().eq('id', project.id);
             return { message: `Unexpected error: ${e.message}` };
         }
     }
@@ -106,7 +177,7 @@ export async function createProject(prevState: any, formData: FormData) {
                     file_size: att.file_size
                 }));
 
-                const { error: attError } = await supabase
+                const { error: attError } = await clientToUse
                     .from('project_attachments')
                     .insert(formattedAttachments);
 
@@ -114,13 +185,13 @@ export async function createProject(prevState: any, formData: FormData) {
                     console.error('Attachments Insert Error:', attError);
                     // Optional: Rollback or just partial success warning? 
                     // Let's rollback to be safe
-                    await supabase.from('projects').delete().eq('id', project.id);
+                    await clientToUse.from('projects').delete().eq('id', project.id);
                     return { message: `Attachments creation failed: ${attError.message}` };
                 }
             }
         } catch (e: any) {
             console.error('Attachments Error:', e);
-            await supabase.from('projects').delete().eq('id', project.id);
+            await clientToUse.from('projects').delete().eq('id', project.id);
             return { message: `Attachments error: ${e.message}` };
         }
     }
@@ -139,11 +210,32 @@ export async function deleteProject(projectId: string) {
         return { message: 'Unauthorized' }
     }
 
-    const { error } = await supabase
+    // Check User Role
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    // Use Admin Client if user is admin check
+    const isAdmin = profile?.role === 'admin';
+    const clientToUse = isAdmin ? createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        { auth: { autoRefreshToken: false, persistSession: false } }
+    ) : supabase;
+
+    let query = clientToUse
         .from('projects')
         .delete()
-        .eq('id', projectId)
-        .eq('author_id', user.id); // Ensure user owns the project
+        .eq('id', projectId);
+
+    // If NOT admin, enforce ownership check
+    if (!isAdmin) {
+        query = query.eq('author_id', user.id);
+    }
+
+    const { error } = await query;
 
     if (error) {
         return { message: error.message };
@@ -155,6 +247,7 @@ export async function deleteProject(projectId: string) {
 
     return { success: true };
 }
+
 export async function updateProject(prevState: any, formData: FormData) {
     const supabase = await createClient();
 
@@ -165,6 +258,21 @@ export async function updateProject(prevState: any, formData: FormData) {
 
     const projectId = formData.get('id') as string;
     if (!projectId) return { message: 'Project ID missing' };
+
+    // Check Role
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    // Use Admin Client if user is admin
+    const isAdmin = profile?.role === 'admin';
+    const clientToUse = isAdmin ? createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        { auth: { autoRefreshToken: false, persistSession: false } }
+    ) : supabase;
 
     // Extract form data
     const title = {
@@ -186,7 +294,7 @@ export async function updateProject(prevState: any, formData: FormData) {
     const school_name = String(formData.get('school_name') || '').substring(0, 20);
 
     // 1. Update Project Metadata
-    const { error: projectError } = await supabase
+    let updateQuery = clientToUse
         .from('projects')
         .update({
             title,
@@ -198,8 +306,14 @@ export async function updateProject(prevState: any, formData: FormData) {
             school_name,
             updated_at: new Date().toISOString()
         })
-        .eq('id', projectId)
-        .eq('author_id', user.id); // Ensure ownership
+        .eq('id', projectId);
+
+    // If NOT admin, enforce ownership check
+    if (!isAdmin) {
+        updateQuery = updateQuery.eq('author_id', user.id);
+    }
+
+    const { error: projectError } = await updateQuery;
 
     if (projectError) {
         return { message: `Failed to update project: ${projectError.message}` };
@@ -212,7 +326,7 @@ export async function updateProject(prevState: any, formData: FormData) {
             const steps = JSON.parse(stepsJson as string);
 
             // DELETE existing steps
-            const { error: deleteError } = await supabase
+            const { error: deleteError } = await clientToUse
                 .from('project_steps')
                 .delete()
                 .eq('project_id', projectId);
@@ -232,7 +346,7 @@ export async function updateProject(prevState: any, formData: FormData) {
                     image_url: step.image_url
                 }));
 
-                const { error: stepsError } = await supabase
+                const { error: stepsError } = await clientToUse
                     .from('project_steps')
                     .insert(formattedSteps);
 
@@ -247,8 +361,6 @@ export async function updateProject(prevState: any, formData: FormData) {
         }
     }
 
-
-
     // 3. Handle Attachments (Delete All + Re-insert Strategy)
     const attachmentsJson = formData.get('attachments_json');
     if (attachmentsJson) {
@@ -256,7 +368,7 @@ export async function updateProject(prevState: any, formData: FormData) {
             const attachments = JSON.parse(attachmentsJson as string);
 
             // DELETE existing attachments
-            const { error: deleteAttError } = await supabase
+            const { error: deleteAttError } = await clientToUse
                 .from('project_attachments')
                 .delete()
                 .eq('project_id', projectId);
@@ -276,7 +388,7 @@ export async function updateProject(prevState: any, formData: FormData) {
                     file_size: att.file_size
                 }));
 
-                const { error: attError } = await supabase
+                const { error: attError } = await clientToUse
                     .from('project_attachments')
                     .insert(formattedAttachments);
 

@@ -1,4 +1,5 @@
-'use client';
+// 'use client' removed to fix circular dependency/module factory error in Next.js 15+
+
 
 import Link from 'next/link';
 
