@@ -3,7 +3,7 @@
 
 **ArduinoLab** is a centralized open-source platform designed to preserve and showcase the incredible robotics projects created by school clubs and students. Born from the need to document transient classroom experiments, it serves as a permanent digital library for the next generation of engineers.
 
-![ArduinoLab Hero](/public/hero-screenshot.png)
+![ArduinoLab Hero](/public/ArduinoLab-logo.png)
 
 ## 🚀 Mission
 
