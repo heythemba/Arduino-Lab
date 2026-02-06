@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Plus, Edit, Settings, Mail } from 'lucide-react';
 import DeleteProjectButton from '@/components/admin/DeleteProjectButton';
+import RecentCommentsList from '@/components/admin/RecentCommentsList';
 
 export default async function AdminDashboard({
     params
@@ -25,7 +26,7 @@ export default async function AdminDashboard({
     // Fetch Projects and User Role
     const { data: profile } = await supabase
         .from('profiles')
-        .select('role')
+        .select('role, full_name')
         .eq('id', user.id)
         .single();
 
@@ -50,7 +51,7 @@ export default async function AdminDashboard({
                     <div>
                         <h1 className="text-3xl font-bold text-slate-900">{t('title')}</h1>
                         <p className="text-muted-foreground mt-1">
-                            {t('welcome', { email: user.email || 'User' })}
+                            {t('welcome', { email: profile?.full_name || user.email || 'User' })}
                         </p>
                     </div>
                     <div className="flex gap-2">
@@ -124,6 +125,17 @@ export default async function AdminDashboard({
                 </div>
 
             </div>
-        </main>
+
+            {/* Recent Comments Feed (Admins Only) */}
+            {profile?.role === 'admin' && (
+                <div className="mt-12">
+                    <h2 className="text-xl font-bold text-slate-900 mb-4">Recent Activity</h2>
+                    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                        <RecentCommentsList locale={locale} />
+                    </div>
+                </div>
+            )}
+
+        </main >
     );
 }

@@ -134,5 +134,24 @@
         "sponsors": "Nos Sponsors",
         "rights": "© {year} ArduinoLab. Tous droits réservés.",
         "developedBy": "Développé avec ❤️ par "
+    },
+    "Comments": {
+        "title": "Commentaires",
+        "leaveComment": "Laisser un commentaire",
+        "loginToComment": "Veuillez vous connecter pour commenter.",
+        "login": "Connexion",
+        "placeholder": "Partagez vos avis...",
+        "send": "Publier",
+        "sending": "Envoi...",
+        "confirmDelete": "Supprimer ce commentaire ?",
+        "anonymous": "Anonyme",
+        "postingAs": "Publié en tant que",
+        "successAdded": "Commentaire ajouté avec succès.",
+        "errorLoginRequired": "Vous devez être connecté.",
+        "errorEmptyContent": "Le commentaire ne peut pas être vide.",
+        "errorGeneric": "Une erreur est survenue.",
+        "commentSingular": "Commentaire",
+        "commentPlural": "Commentaires",
+        "noComments": "Aucun commentaire pour l'instant. Soyez le premier à partager votre avis !"
     }
 }

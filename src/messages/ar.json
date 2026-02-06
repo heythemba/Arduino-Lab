@@ -134,5 +134,24 @@
         "sponsors": "رعاتنا",
         "rights": "© {year} ArduinoLab. جميع الحقوق محفوظة.",
         "developedBy": "طُور بـ ❤️ بواسطة "
+    },
+    "Comments": {
+        "title": "التعليقات",
+        "leaveComment": "أترك تعليقاً",
+        "loginToComment": "يرجى تسجيل الدخول لترك تعليق.",
+        "login": "تسجيل الدخول",
+        "placeholder": "شاركنا رأيك...",
+        "send": "نشر التعليق",
+        "sending": "جاري النشر...",
+        "confirmDelete": "حذف هذا التعليق؟",
+        "anonymous": "مجهول",
+        "postingAs": "نشر باسم",
+        "successAdded": "تم إضافة التعليق بنجاح.",
+        "errorLoginRequired": "يجب عليك تسجيل الدخول.",
+        "errorEmptyContent": "لا يمكن أن يكون التعليق فارغاً.",
+        "errorGeneric": "حدث خطأ ما.",
+        "commentSingular": "تعليق",
+        "commentPlural": "تعليقات",
+        "noComments": "لا توجد تعليقات بعد. كن أول من يشارك رأيه!"
     }
 }

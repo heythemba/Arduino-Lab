@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import ShareButton from '@/components/ShareButton';
 import { Download, Share2, Code, Box, ExternalLink } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
+import CommentSection from '@/components/comments/CommentSection';
 
 type Props = {
     params: Promise<{ locale: string; slug: string }>;
@@ -170,6 +171,13 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
             </div>
 
-        </main>
+            {/* Comments Section */}
+            <div className="bg-slate-50 border-t border-slate-200">
+                <div className="mx-auto w-[90%] md:w-[80%] py-16">
+                    <CommentSection projectId={project.id} locale={locale} />
+                </div>
+            </div>
+
+        </main >
     );
 }
