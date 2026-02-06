@@ -12,6 +12,15 @@ type Props = {
     params: Promise<{ locale: string; slug: string }>;
 };
 
+/**
+ * Generates metadata for the project detail page for SEO and social sharing.
+ * 
+ * Fetches the project by slug and constructs appropriate page title and description
+ * using the correct locale. Falls back to English if the requested locale is unavailable.
+ * 
+ * @param params - Route parameters containing locale and slug
+ * @returns Metadata object with title and description
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug, locale } = await params;
     const project = await getProjectBySlug(slug);
@@ -26,6 +35,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
 }
 
+/**
+ * Project detail page displaying complete project information.
+ * 
+ * Shows:
+ * - Project header with hero image and metadata
+ * - Step-by-step tutorial instructions
+ * - Downloadable resources (code files, 3D models, other attachments)
+ * - Share functionality
+ * 
+ * Organized by file type with appropriate icons and download buttons.
+ * Returns 404 if the project slug is not found.
+ * 
+ * @param params - Route parameters
+ */
 export default async function ProjectPage({ params }: Props) {
     const { slug, locale } = await params;
     const t = await getTranslations('ProjectDetails');
@@ -91,7 +114,7 @@ export default async function ProjectPage({ params }: Props) {
 
                             {/* 3D Models */}
                             {project.attachments?.filter(a => a.file_type === 'stl').length > 0 && (
-                                <div>
+                                <div className={project.attachments?.filter(a => !['ino', 'stl'].includes(a.file_type)).length === 0 ? "col-span-1 md:col-span-2" : ""}>
                                     <h4 className="text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">3D Models</h4>
                                     <div className="space-y-2">
                                         {project.attachments.filter(a => a.file_type === 'stl').map(file => (

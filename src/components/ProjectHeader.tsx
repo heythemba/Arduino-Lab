@@ -3,16 +3,38 @@ import { Button } from './ui/button';
 import { ArrowLeft, User, School } from 'lucide-react';
 import Image from 'next/image';
 
+/**
+ * Props for the ProjectHeader component.
+ */
 interface ProjectHeaderProps {
+    /** Project title in current locale */
     title: string;
+    /** Project description in current locale */
     description: string;
+    /** Project category */
     category: string;
+    /** Name of the project author */
     authorName: string;
+    /** Name of the school/institution */
     schoolName: string;
+    /** Optional instructor name (overrides authorName when provided) */
     instructorName?: string | null;
+    /** URL to the hero/background image */
     heroImageUrl?: string | null;
 }
 
+/**
+ * Hero header section for project detail pages.
+ * 
+ * Features a full-width hero section with:
+ * - Background image overlay (or gradient fallback)
+ * - Category badge
+ * - Project title and description
+ * - Author/instructor and school information
+ * - Back to gallery navigation
+ * 
+ * @param props - Component props
+ */
 export default function ProjectHeader({
     title,
     description,

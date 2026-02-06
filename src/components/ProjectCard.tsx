@@ -3,14 +3,33 @@ import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
+/**
+ * Props for the ProjectCard component.
+ */
 interface ProjectCardProps {
+    /** Project title in current locale */
     title: string;
+    /** Project description in current locale */
     description: string;
+    /** URL to the project's hero/thumbnail image */
     imageUrl?: string;
+    /** URL-friendly project slug for routing */
     slug: string;
+    /** Project category (e.g., Robotics, IoT) */
     category?: string;
 }
 
+/**
+ * Card component for displaying project previews in list/grid views.
+ * 
+ * Features:
+ * - Responsive hero image with hover zoom effect
+ * - Category badge overlay
+ * - Title, description with 3-line clamp
+ * - "View Project" link button
+ * 
+ * @param props - Component props
+ */
 export default function ProjectCard({ title, description, imageUrl, slug, category = "Robotics" }: ProjectCardProps) {
     return (
         <div className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md hover:border-primary/50">

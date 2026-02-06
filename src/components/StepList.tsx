@@ -6,11 +6,30 @@ import Image from 'next/image';
 import { useState } from 'react';
 import ImageModal from './ImageModal';
 
+/**
+ * Props for the StepList component.
+ */
 interface StepListProps {
+    /** Array of project steps to display */
     steps: Step[];
+    /** Current locale for displaying multilingual content */
     locale: string;
 }
 
+/**
+ * Displays project steps in a vertical timeline layout.
+ * 
+ * Features:
+ * - Vertical timeline with numbered dots
+ * - Responsive alternating card layout (desktop) / stacked (mobile)
+ * - Step images with zoom-in modal
+ * - Code snippets with syntax highlighting
+ * - Automatic locale-based content selection with English fallback
+ * 
+ * Shows a placeholder message if no steps are provided.
+ * 
+ * @param props - Component props
+ */
 export default function StepList({ steps, locale }: StepListProps) {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 

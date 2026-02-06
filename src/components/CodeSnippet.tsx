@@ -1,3 +1,12 @@
+/**
+ * Displays Arduino/C++ code snippets in a styled code block.
+ * 
+ * Renders code in a dark themed container with syntax preservation.
+ * Returns null if no code is provided.
+ * 
+ * @param props - Component props
+ * @param props.code - The code string to display
+ */
 export default function CodeSnippet({ code }: { code: string }) {
     if (!code) return null;
 

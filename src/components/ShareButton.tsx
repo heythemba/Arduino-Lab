@@ -5,10 +5,20 @@ import { Button } from '@/components/ui/button';
 import { Share2, Check, Copy } from 'lucide-react';
 
 type ShareButtonProps = {
+    /** Localized label text for the share button */
     label: string;
+    /** Localized label text shown after successful copy */
     copiedLabel: string;
 };
 
+/**
+ * Share button that copies the current page URL to clipboard.
+ * 
+ * Provides visual feedback by showing a checkmark and "copied" label for 2 seconds.
+ * Uses the browser's Clipboard API to copy the URL.
+ * 
+ * @param props - Component props
+ */
 export default function ShareButton({ label, copiedLabel }: ShareButtonProps) {
     const [copied, setCopied] = useState(false);
 
