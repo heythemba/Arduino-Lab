@@ -57,7 +57,7 @@ export default function ProjectHeader({
                         className="object-cover opacity-40 mix-blend-overlay"
                     />
                 ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-blue-900 to-slate-900 opacity-80" />
+                    <div className="w-full h-full bg-linear-to-br from-blue-900 to-slate-900 opacity-80" />
                 )}
             </div>
 

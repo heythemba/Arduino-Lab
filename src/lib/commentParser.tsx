@@ -21,7 +21,7 @@ export const parseCommentContent = (content: string) => {
         // 4. Italic *text*
 
         return (
-            <div key={index} className="whitespace-pre-wrap break-words">
+            <div key={index} className="whitespace-pre-wrap wrap-break-word">
                 {parseMarkdown(part)}
             </div>
         );

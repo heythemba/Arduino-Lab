@@ -200,7 +200,7 @@ export default function FileUploader({
                                     placeholder="https://..."
                                     value={linkUrl}
                                     onChange={(e) => setLinkUrl(e.target.value)}
-                                    className="flex-[2]"
+                                    className="flex-2"
                                 />
                                 <Button type="button" onClick={handleAddLink} size="icon">
                                     <Plus className="h-4 w-4" />

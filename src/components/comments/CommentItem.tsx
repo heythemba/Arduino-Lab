@@ -47,7 +47,7 @@ export default function CommentItem({ comment, currentUserId, isAdmin, locale }:
     return (
         <div className="flex gap-4 group">
             {/* Avatar */}
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
                 <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 overflow-hidden border-2 border-white shadow-sm ring-1 ring-slate-100">
                     {comment.profiles?.avatar_url ? (
                         <img src={comment.profiles.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
