@@ -124,17 +124,17 @@ export default async function AdminDashboard({
                     )}
                 </div>
 
-            </div>
-
-            {/* Recent Comments Feed (Admins Only) */}
-            {profile?.role === 'admin' && (
-                <div className="mt-12">
-                    <h2 className="text-xl font-bold text-slate-900 mb-4">Recent Activity</h2>
-                    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                        <RecentCommentsList locale={locale} />
+                {/* Recent Comments Feed (Admins Only) */}
+                {profile?.role === 'admin' && (
+                    <div className="mt-12">
+                        <h2 className="text-xl font-bold text-slate-900 mb-4">Recent Activity</h2>
+                        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                            <RecentCommentsList locale={locale} />
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+
+            </div>
 
         </main >
     );

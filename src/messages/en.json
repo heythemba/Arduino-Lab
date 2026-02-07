@@ -78,6 +78,25 @@
                 "cancel": "Cancel",
                 "confirm": "Delete Project"
             }
+        },
+        "newUser": {
+            "back": "Back to Dashboard",
+            "title": "Add New Leader",
+            "subtitle": "Create a new user account manually for a project leader.",
+            "form": {
+                "fullName": "Full Name",
+                "fullNamePlaceholder": "e.g. John Doe",
+                "email": "Email Address",
+                "emailPlaceholder": "e.g. leader@school.edu",
+                "password": "Password",
+                "passwordPlaceholder": "Min. 6 characters",
+                "confirmPassword": "Confirm Password",
+                "confirmPasswordPlaceholder": "Retype password",
+                "passwordNote": "Share this password with the user securely. They can change it later.",
+                "cancel": "Cancel",
+                "creating": "Creating...",
+                "create": "Create Account"
+            }
         }
     },
     "ProjectForm": {

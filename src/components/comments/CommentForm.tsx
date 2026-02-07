@@ -1,10 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useActionState, useEffect, useRef } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { addComment } from '@/app/actions/comment';
-import { Loader2, Send, Bold, Italic, Underline, Code, Link as LinkIcon } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+import RichTextEditor from '@/components/ui/RichTextEditor';
 import { Link, usePathname } from '@/i18n/routing';
 
 type CommentFormProps = {
@@ -16,82 +17,20 @@ export default function CommentForm({ projectId, currentUser }: CommentFormProps
     const t = useTranslations('Comments');
     const [state, formAction, isPending] = useActionState(addComment, {});
     const pathname = usePathname();
+    const [content, setContent] = useState('');
     const formRef = useRef<HTMLFormElement>(null);
 
     // Reset form on success
     useEffect(() => {
         if (state?.success && formRef.current) {
             formRef.current.reset();
+            setContent('');
         }
     }, [state?.success]);
 
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    // Removed local refs and handleFormat as they are now in RichTextEditor
 
-    const handleFormat = (type: string) => {
-        const textarea = textareaRef.current;
-        if (!textarea) return;
 
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        const text = textarea.value;
-        const selected = text.substring(start, end);
-
-        let formatted = selected;
-        let prefix = '';
-        let suffix = '';
-
-        switch (type) {
-            case 'bold':
-                prefix = '**';
-                suffix = '**';
-                break;
-            case 'italic':
-                prefix = '//'; // Using // for italic as requested "I for italics" but usually * or _ is MD. User asked for specific functionality. I'll use common MD `*` but user said "I for italics". I will map standard MD to UI.
-                prefix = '*';
-                suffix = '*';
-                break;
-            case 'underline':
-                prefix = '__';
-                suffix = '__';
-                break;
-            case 'code':
-                prefix = '<>';
-                suffix = '</>'; // User specified <> symbol 
-                // "after the divider we have <> this symbole for adding code in a comment make it able to be copied as raw code"
-                // I will use a custom delimiter ``` for better parsing or custom tags.
-                // Let's use standard markdown ``` for code blocks as it's robust. 
-                // BUT user specific request: "<> this symbol". 
-                // I will use ``` because it allows multi-line better. 
-                // Wait, user said "B for ... bold, U for underline... <> this symbol...".
-                // I'll stick to a standard that I can parse easily.
-                prefix = '```\n';
-                suffix = '\n```';
-                break;
-            case 'link':
-                // "links can be attached to a word like in writing an email"
-                // [text](url)
-                const url = prompt('Enter URL:');
-                if (url) {
-                    formatted = `[${selected || 'link'}](${url})`;
-                    prefix = '';
-                    suffix = '';
-                } else {
-                    return; // Cancelled
-                }
-                break;
-        }
-
-        if (type !== 'link') {
-            formatted = prefix + selected + suffix;
-        }
-
-        const newText = text.substring(0, start) + formatted + text.substring(end);
-
-        // Use setRangeText provided by HTMLTextAreaElement if possible or manual
-        textarea.value = newText;
-        textarea.focus();
-        textarea.setSelectionRange(start + prefix.length, end + prefix.length);
-    };
 
     if (!currentUser) {
         return (
@@ -119,35 +58,15 @@ export default function CommentForm({ projectId, currentUser }: CommentFormProps
                 <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                     Add comment ...
                 </label>
-                <div className="relative rounded-xl border border-slate-200 bg-white focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all overflow-hidden">
-                    <textarea
+                <div className="relative">
+                    <RichTextEditor
                         name="content"
+                        value={content}
+                        onChange={setContent}
                         placeholder={t('placeholder')}
-                        className="w-full min-h-[120px] p-4 border-none focus:ring-0 resize-y text-sm bg-transparent"
                         required
                     />
-
-                    {/* Toolbar (Visual Only) */}
-                    <div className="flex items-center justify-between px-3 py-2 border-t border-slate-100 bg-slate-50/50">
-                        <div className="flex items-center gap-1">
-                            <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-700">
-                                <Bold className="h-4 w-4" />
-                            </Button>
-                            <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-700">
-                                <Underline className="h-4 w-4" />
-                            </Button>
-                            <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-700">
-                                <Italic className="h-4 w-4" />
-                            </Button>
-                            <div className="w-px h-4 bg-slate-300 mx-2" />
-                            <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-700">
-                                <Code className="h-4 w-4" />
-                            </Button>
-                            <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-700">
-                                <LinkIcon className="h-4 w-4" />
-                            </Button>
-                        </div>
-
+                    <div className="absolute bottom-2 right-2 z-10">
                         <Button
                             type="submit"
                             disabled={isPending}
@@ -159,7 +78,7 @@ export default function CommentForm({ projectId, currentUser }: CommentFormProps
                                     {t('sending')}
                                 </>
                             ) : (
-                                t('send') // "Submit" in EN
+                                t('send')
                             )}
                         </Button>
                     </div>

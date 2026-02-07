@@ -78,6 +78,25 @@
                 "cancel": "Annuler",
                 "confirm": "Supprimer le projet"
             }
+        },
+        "newUser": {
+            "back": "Retour au tableau de bord",
+            "title": "Ajouter un nouveau leader",
+            "subtitle": "Créer un compte utilisateur manuellement pour un chef de projet.",
+            "form": {
+                "fullName": "Nom complet",
+                "fullNamePlaceholder": "ex. Jean Dupont",
+                "email": "Adresse email",
+                "emailPlaceholder": "ex. leader@ecole.edu",
+                "password": "Mot de passe",
+                "passwordPlaceholder": "Min. 6 caractères",
+                "confirmPassword": "Confirmer le mot de passe",
+                "confirmPasswordPlaceholder": "Ressaisir le mot de passe",
+                "passwordNote": "Partagez ce mot de passe avec l'utilisateur en toute sécurité. Il pourra le changer plus tard.",
+                "cancel": "Annuler",
+                "creating": "Création...",
+                "create": "Créer le compte"
+            }
         }
     },
     "ProjectForm": {

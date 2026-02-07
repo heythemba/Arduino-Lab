@@ -78,6 +78,25 @@
                 "cancel": "إلغاء",
                 "confirm": "حذف المشروع"
             }
+        },
+        "newUser": {
+            "back": "العودة للوحة التحكم",
+            "title": "إضافة قائد جديد",
+            "subtitle": "إنشاء حساب مستخدم يدوياً لقائد مشروع.",
+            "form": {
+                "fullName": "الاسم الكامل",
+                "fullNamePlaceholder": "مثال: محمد علي",
+                "email": "البريد الإلكتروني",
+                "emailPlaceholder": "مثال: leader@school.edu",
+                "password": "كلمة المرور",
+                "passwordPlaceholder": "6 أحرف على الأقل",
+                "confirmPassword": "تأكيد كلمة المرور",
+                "confirmPasswordPlaceholder": "أعد كتابة كلمة المرور",
+                "passwordNote": "شارك كلمة المرور هذه مع المستخدم بأمان. يمكنه تغييرها لاحقاً.",
+                "cancel": "إلغاء",
+                "creating": "جاري الإنشاء...",
+                "create": "إنشاء الحساب"
+            }
         }
     },
     "ProjectForm": {

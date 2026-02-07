@@ -38,11 +38,11 @@ export default function NewUserPage({ params }: { params: Promise<{ locale: stri
                         href={`/${locale}/admin`}
                         className="text-slate-500 hover:text-slate-900 flex items-center gap-2 mb-4 transition-colors"
                     >
-                        <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+                        <ArrowLeft className="h-4 w-4" /> {t('newUser.back')}
                     </Link>
-                    <h1 className="text-3xl font-bold text-slate-900">Add New Leader</h1>
+                    <h1 className="text-3xl font-bold text-slate-900">{t('newUser.title')}</h1>
                     <p className="text-slate-500 mt-2">
-                        Create a new user account manually for a project leader.
+                        {t('newUser.subtitle')}
                     </p>
                 </div>
 
@@ -52,55 +52,55 @@ export default function NewUserPage({ params }: { params: Promise<{ locale: stri
 
                         {/* Name */}
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-900">Full Name</label>
+                            <label className="text-sm font-medium text-slate-900">{t('newUser.form.fullName')}</label>
                             <input
                                 name="full_name"
                                 type="text"
                                 required
-                                placeholder="e.g. John Doe"
+                                placeholder={t('newUser.form.fullNamePlaceholder')}
                                 className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
                             />
                         </div>
 
                         {/* Email */}
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-900">Email Address</label>
+                            <label className="text-sm font-medium text-slate-900">{t('newUser.form.email')}</label>
                             <input
                                 name="email"
                                 type="email"
                                 required
-                                placeholder="e.g. leader@school.edu"
+                                placeholder={t('newUser.form.emailPlaceholder')}
                                 className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
                             />
                         </div>
 
                         {/* Password */}
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-900">Password</label>
+                            <label className="text-sm font-medium text-slate-900">{t('newUser.form.password')}</label>
                             <input
                                 name="password"
                                 type="password"
                                 required
                                 minLength={6}
-                                placeholder="Min. 6 characters"
+                                placeholder={t('newUser.form.passwordPlaceholder')}
                                 className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
                             />
                         </div>
 
                         {/* Confirm Password */}
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-900">Confirm Password</label>
+                            <label className="text-sm font-medium text-slate-900">{t('newUser.form.confirmPassword')}</label>
                             <input
                                 name="password_confirm"
                                 type="password"
                                 required
                                 minLength={6}
-                                placeholder="Retype password"
+                                placeholder={t('newUser.form.confirmPasswordPlaceholder')}
                                 onPaste={(e) => e.preventDefault()}
                                 className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
                             />
                             <p className="text-xs text-slate-500">
-                                Share this password with the user securely. They can change it later.
+                                {t('newUser.form.passwordNote')}
                             </p>
                         </div>
 
@@ -114,18 +114,18 @@ export default function NewUserPage({ params }: { params: Promise<{ locale: stri
                         {/* Actions */}
                         <div className="pt-4 flex items-center justify-end gap-3">
                             <Link href={`/${locale}/admin`}>
-                                <Button type="button" variant="ghost">Cancel</Button>
+                                <Button type="button" variant="ghost">{t('newUser.form.cancel')}</Button>
                             </Link>
                             <Button type="submit" disabled={isPending} className="gap-2">
                                 {isPending ? (
                                     <>
                                         <Loader2 className="h-4 w-4 animate-spin" />
-                                        Creating...
+                                        {t('newUser.form.creating')}
                                     </>
                                 ) : (
                                     <>
                                         <Save className="h-4 w-4" />
-                                        Create Account
+                                        {t('newUser.form.create')}
                                     </>
                                 )}
                             </Button>

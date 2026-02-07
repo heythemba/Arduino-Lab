@@ -7,6 +7,7 @@ import { useActionState, useEffect, useState } from 'react';
 import { Loader2, Plus, Trash2, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import FileUploader from './FileUploader';
+import RichTextEditor from '@/components/ui/RichTextEditor';
 
 // --- Types Definition ---
 type MultiLangString = {
@@ -323,10 +324,11 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                                         </div>
                                         <div>
                                             <label className="block text-xs font-semibold text-slate-500 mb-1">{t('steps.content')} ({lang.toUpperCase()})</label>
-                                            <textarea
+                                            <RichTextEditor
                                                 value={step.content[lang as 'en' | 'fr' | 'ar']}
-                                                onChange={(e) => updateStep(step.id, 'content', lang as 'en' | 'fr' | 'ar', e.target.value)}
-                                                className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                                onChange={(value) => updateStep(step.id, 'content', lang as 'en' | 'fr' | 'ar', value)}
+                                                placeholder={t('steps.content')}
+                                                minHeight="80px"
                                             />
                                         </div>
                                     </div>
