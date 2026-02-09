@@ -43,11 +43,12 @@ export default function Hero() {
 
                     {/* Visual/Image Area */}
                     <div className="relative mt-12 lg:col-span-6 lg:mt-0">
-                        <div className="relative mx-auto w-full rounded-2xl shadow-xl overflow-hidden aspect-[4/3] border border-slate-100 group">
+                        <div className="relative mx-auto w-full rounded-2xl shadow-xl overflow-hidden aspect-4/3 border border-slate-100 group">
                             <Image
                                 src="/hero-image.png"
                                 alt="Arduino Lab Hero"
                                 fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                                 priority
                             />

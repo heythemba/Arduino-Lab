@@ -77,7 +77,7 @@ export default async function EditProjectPage({
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 py-12 font-[family-name:var(--font-geist-sans)]">
+        <div className="min-h-screen bg-slate-50 py-12 font-(family-name:--font-geist-sans)">
             <div className="container max-w-4xl mx-auto px-4">
 
                 {/* Header */}
