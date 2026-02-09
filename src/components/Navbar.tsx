@@ -53,12 +53,24 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center gap-8">
+                    {/* PNL Link */}
+                    <a href="https://www.pnlmahdia.com" target="_blank" rel="noopener noreferrer" className="relative h-8 w-24 group">
+                        <Image
+                            src="/logo-PNL.png"
+                            alt="PNL"
+                            fill
+                            className="object-contain filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                        />
+                    </a>
+
                     <Link href="/#projects" className="text-sm font-medium hover:text-primary transition-colors">
                         {navT('projects')}
                     </Link>
                     <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">
                         {navT('about')}
                     </Link>
+
+
 
                     {/* Locale Selector */}
                     <div className="flex items-center gap-2">
