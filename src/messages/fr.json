@@ -32,7 +32,8 @@
         "robotics": "Robotique",
         "iot": "IoT",
         "sensors": "Capteurs",
-        "automation": "Automatisation"
+        "automation": "Automatisation",
+        "fundamentals": "Les Fondamentaux"
     },
     "AboutPage": {
         "title": "À propos d'ArduinoLab",

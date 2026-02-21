@@ -32,7 +32,8 @@
         "robotics": "روبوتات",
         "iot": "إنترنت الأشياء",
         "sensors": "أجهزة استشعار",
-        "automation": "أتمتة"
+        "automation": "أتمتة",
+        "fundamentals": "الأساسيات"
     },
     "AboutPage": {
         "title": "عن مختبر الأردوينو",

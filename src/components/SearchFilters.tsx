@@ -58,6 +58,7 @@ export default function SearchFilters() {
                     <option value="IoT">{t('iot')}</option>
                     <option value="Sensors">{t('sensors')}</option>
                     <option value="Automation">{t('automation')}</option>
+                    <option value="Fundamentals">{t('fundamentals')}</option>
                 </select>
             </div>
         </div>

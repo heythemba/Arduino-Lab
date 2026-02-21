@@ -215,6 +215,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                             <option value="IoT">IoT</option>
                             <option value="Sensors">Sensors</option>
                             <option value="Automation">Automation</option>
+                            <option value="Fundamentals">Fundamentals</option>
                         </select>
                     </div>
                     <div className="md:col-span-2">

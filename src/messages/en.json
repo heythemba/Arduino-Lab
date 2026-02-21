@@ -32,7 +32,8 @@
         "robotics": "Robotics",
         "iot": "IoT",
         "sensors": "Sensors",
-        "automation": "Automation"
+        "automation": "Automation",
+        "fundamentals": "Fundamentals"
     },
     "AboutPage": {
         "title": "About ArduinoLab",
