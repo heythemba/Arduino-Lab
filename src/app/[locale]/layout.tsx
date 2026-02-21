@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://lab.pnlmahdia.com'),
   title: {
     default: "ArduinoLab",
     template: "%s | ArduinoLab"
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ArduinoLab",
     description: "Share and document your Arduino projects",
+    url: 'https://lab.pnlmahdia.com',
     type: "website",
     locale: "en_US",
     siteName: "ArduinoLab"

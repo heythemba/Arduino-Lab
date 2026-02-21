@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: '/admin/',
+            disallow: ['/admin/', '/login/'],
         },
-        sitemap: 'https://arduinolab.vercel.app/sitemap.xml', // Update with actual domain later
+        sitemap: 'https://lab.pnlmahdia.com/sitemap.xml',
     };
 }
