@@ -1,0 +1,7 @@
+name = "arduino-lab"
+main = ".open-next/worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# When deploying to Cloudflare Pages, these act as fallbacks/defaults
+[vars]
