@@ -61,13 +61,5 @@ export async function updateSession(request: NextRequest) {
     //   return NextResponse.redirect(new URL('/login', request.url))
     // }
 
-    // Fix for OpenNext/Cloudflare 404s with next-intl
-    // OpenNext relies on x-middleware-next to determine if it should continue to the page.
-    // If we're setting cookies but NOT redirecting or rewriting, we need to strip this header
-    // so Cloudflare doesn't try to look for a non-existent asset path.
-    if (!response.headers.has('location') && !response.headers.has('x-middleware-rewrite')) {
-        response.headers.delete("x-middleware-next");
-    }
-
     return response
 }
