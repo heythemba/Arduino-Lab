@@ -117,6 +117,14 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
             {/* Mobile Menu Content */}
             {isOpen && (
                 <div className="md:hidden border-t bg-background p-4 flex flex-col gap-4 shadow-lg">
+                    <a href="https://www.pnlmahdia.com" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)} className="relative h-8 w-24 group mt-2">
+                        <Image
+                            src="/logo-PNL.png"
+                            alt="PNL"
+                            fill
+                            className="object-contain object-left filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                        />
+                    </a>
                     <Link href="/#projects" onClick={() => setIsOpen(false)} className="text-sm font-medium py-2">
                         {navT('projects')}
                     </Link>
