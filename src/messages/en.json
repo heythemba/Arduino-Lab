@@ -26,7 +26,8 @@
         "downloadCode": "Download Code",
         "downloadCodeSub": ".ino file (coming soon)",
         "downloadModels": "Download 3D Models",
-        "downloadModelsSub": ".stl files (coming soon)"
+        "downloadModelsSub": ".stl files (coming soon)",
+        "backToGallery": "Back to Gallery"
     },
     "ProjectCard": {
         "viewProject": "View Project"

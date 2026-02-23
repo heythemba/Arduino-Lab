@@ -26,7 +26,8 @@
         "downloadCode": "تحميل الكود",
         "downloadCodeSub": "ملف .ino (قريباً)",
         "downloadModels": "تحميل نماذج 3D",
-        "downloadModelsSub": "ملفات .stl (قريباً)"
+        "downloadModelsSub": "ملفات .stl (قريباً)",
+        "backToGallery": "العودة للمعرض"
     },
     "ProjectCard": {
         "viewProject": "عرض المشروع"

@@ -2,6 +2,7 @@ import { Link } from '@/i18n/routing';
 import { Button } from './ui/button';
 import { ArrowLeft, User, School } from 'lucide-react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 /**
  * Props for the ProjectHeader component.
@@ -44,6 +45,8 @@ export default function ProjectHeader({
     instructorName,
     heroImageUrl,
 }: ProjectHeaderProps) {
+    const t = useTranslations('ProjectDetails');
+
     return (
         <header className="relative w-full bg-slate-900 text-white overflow-hidden">
             {/* Background Image / Gradient */}
@@ -64,7 +67,7 @@ export default function ProjectHeader({
             <div className="relative z-10 container mx-auto px-4 py-20 sm:py-32 max-w-4xl">
                 <Link href="/">
                     <Button variant="ghost" className="text-white hover:bg-white/10 mb-8 -ml-4">
-                        <ArrowLeft className="h-4 w-4 mr-2" /> Back to Gallery
+                        <ArrowLeft className="h-4 w-4 mr-2" /> {t('backToGallery')}
                     </Button>
                 </Link>
 
