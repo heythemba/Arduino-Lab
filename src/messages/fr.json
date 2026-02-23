@@ -35,6 +35,9 @@
         "automation": "Automatisation",
         "fundamentals": "Les Fondamentaux"
     },
+    "ProjectCard": {
+        "viewProject": "Voir le projet"
+    },
     "AboutPage": {
         "title": "À propos d'ArduinoLab",
         "subtitle": "Permettre aux étudiants de construire, partager et apprendre ensemble.",

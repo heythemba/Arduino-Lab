@@ -104,7 +104,7 @@ export default function ReleaseNotesModal() {
                 className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
                 <Sparkles className="me-2 h-4 w-4" />
-                <span className="capitalize">ArduinoLab v2.0.0</span>
+                <span className="capitalize">ArduinoLab v2.0.2</span>
                 <ChevronRight className="ms-1 h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
             </button>
 
