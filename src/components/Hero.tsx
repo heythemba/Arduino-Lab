@@ -1,8 +1,9 @@
 import { Link } from '@/i18n/routing';
 import { Button } from './ui/button';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import ReleaseNotesModal from './ReleaseNotesModal';
 
 export default function Hero() {
     const t = useTranslations('HomePage');
@@ -14,10 +15,7 @@ export default function Hero() {
 
                     {/* Text Content */}
                     <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-start flex flex-col justify-center">
-                        <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0">
-                            <Sparkles className="me-2 h-4 w-4" />
-                            <span className="capitalize">ArduinoLab v1.0</span>
-                        </div>
+                        <ReleaseNotesModal />
 
                         <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
                             <span className="block xl:inline">{t('title')}</span>

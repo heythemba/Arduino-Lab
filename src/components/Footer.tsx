@@ -1,7 +1,7 @@
 import { getSiteSettings } from '@/lib/api/settings';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
-import { Mail, Phone, Linkedin, Dribbble, Globe, Heart } from 'lucide-react';
+import { Mail, Phone, Linkedin, Dribbble, Globe, Heart, Cpu } from 'lucide-react';
 import Image from 'next/image';
 
 export default async function Footer() {
@@ -96,9 +96,13 @@ export default async function Footer() {
                     </div>
                 </div>
 
-                <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
+                <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
                     <p>{t('rights', { year })}</p>
-                    <p className="flex items-center gap-1 mt-4 md:mt-0">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-700 bg-slate-800/60 text-slate-400">
+                        <Cpu className="h-3.5 w-3.5 text-blue-400" />
+                        <span>Powered by <span className="text-blue-400 font-medium">AI</span> &amp; <span className="text-purple-400 font-medium">PNL Volunteers</span></span>
+                    </div>
+                    <p className="flex items-center gap-1">
                         {t('developedBy')}
                         <a href='https://github.com/heythemba' target='_blank' rel='noopener noreferrer'>
                             <span className="text-slate-300 font-medium ms-1">Haythem Baganna</span>
