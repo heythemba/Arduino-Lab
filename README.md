@@ -1,8 +1,19 @@
-# 🤖 ArduinoLab v2.0.0
+# 🤖 ArduinoLab v2.0.1
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.0.1 — "i18n Completeness"
+
+| Fix | Description |
+|---|---|
+| 🌍 **Full UI Translation** | All remaining hardcoded English strings translated: Project Card button, Comment sort, Resource headers, "Back to Gallery" |
+| 📱 **Mobile PNL Link** | PNL Mahdia logo link now appears in the mobile hamburger menu |
+| 🐛 **Blank Screen Fix** | Reverted Cloudflare middleware hack that caused blank screen regression on local dev |
+| 🧹 **Repo Cleanup** | Removed residual Cloudflare deployment config files from the project root |
 
 ---
 
