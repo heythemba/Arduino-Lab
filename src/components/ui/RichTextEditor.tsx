@@ -11,6 +11,7 @@ interface RichTextEditorProps {
     minHeight?: string;
     required?: boolean;
     name?: string;
+    dir?: 'ltr' | 'rtl';
 }
 
 export default function RichTextEditor({
@@ -19,7 +20,8 @@ export default function RichTextEditor({
     placeholder = 'Write here...',
     minHeight = '120px',
     required = false,
-    name
+    name,
+    dir = 'ltr'
 }: RichTextEditorProps) {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -95,6 +97,7 @@ export default function RichTextEditor({
                 className="w-full p-4 border-none focus:ring-0 resize-y text-sm bg-transparent"
                 style={{ minHeight }}
                 required={required}
+                dir={dir}
             />
 
             <div className="flex items-center justify-between px-3 py-2 border-t border-slate-100 bg-slate-50/50">
