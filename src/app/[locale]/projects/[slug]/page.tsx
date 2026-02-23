@@ -61,6 +61,7 @@ export default async function ProjectPage({ params }: Props) {
 
     const title = project.title[locale] || project.title['en'];
     const description = project.description[locale] || project.description['en'];
+    const isFundamentals = project.category === 'Fundamentals';
 
     return (
         <main className="flex-1 bg-white">
@@ -75,14 +76,36 @@ export default async function ProjectPage({ params }: Props) {
             />
 
             <div className="mx-auto w-[90%] md:w-[80%] py-16">
-                {/* Main Content: Steps */}
+                {/* Main Content */}
                 <div className="mb-16">
-                    <div className="flex items-center gap-4 mb-10 pb-4 border-b">
-                        <div className="w-2 h-8 bg-primary rounded-full" />
-                        <h2 className="text-2xl font-bold text-slate-900">{t('stepByStep')}</h2>
-                    </div>
+                    {!isFundamentals && (
+                        <div className="flex items-center gap-4 mb-10 pb-4 border-b">
+                            <div className="w-2 h-8 bg-primary rounded-full" />
+                            <h2 className="text-2xl font-bold text-slate-900">{t('stepByStep')}</h2>
+                        </div>
+                    )}
 
-                    <StepList steps={project.steps} locale={locale} />
+                    {isFundamentals ? (
+                        <div className="bg-slate-50 p-6 md:p-10 rounded-2xl border border-slate-100 shadow-sm space-y-8">
+                            <h2 className="text-3xl font-extrabold text-slate-900 mb-6 flex items-center gap-3">
+                                🚀 Quick Setup
+                            </h2>
+                            {project.steps.map((step: any, idx: number) => (
+                                <div key={step.id || idx} className="mb-8 last:mb-0">
+                                    {step.title && step.title[locale] && (
+                                        <h3 className="text-xl font-bold text-slate-800 mb-3">{step.title[locale]}</h3>
+                                    )}
+                                    {step.image_url && (
+                                        <img src={step.image_url} alt={step.title?.[locale] || `Step ${idx + 1}`} className="w-full max-w-2xl rounded-xl mb-4 shadow-sm" />
+                                    )}
+                                    <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: step.content[locale] || '' }} />
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <StepList steps={project.steps} locale={locale} />
+                    )}
                 </div>
 
                 {/* Bottom Section: Downloads & Info */}

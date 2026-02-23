@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { useFormStatus } from 'react-dom';
 import { useActionState, useEffect, useState } from 'react';
-import { Loader2, Plus, Trash2, Save } from 'lucide-react';
+import { Loader2, Plus, Trash2, Save, Sparkles, Languages } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import FileUploader from './FileUploader';
 import RichTextEditor from '@/components/ui/RichTextEditor';
@@ -70,6 +70,87 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
 
     // Dirty State Tracking (for unsaved changes warning)
     const [isDirty, setIsDirty] = useState(false);
+
+    // --- Smart-Form AI States ---
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [summaryInput, setSummaryInput] = useState('');
+    const [isDraft, setIsDraft] = useState(false);
+    const [translatingStepId, setTranslatingStepId] = useState<string | null>(null);
+    const [translatedStepIds, setTranslatedStepIds] = useState<Set<string>>(new Set());
+
+    // Multilingual Controlled State for AI Auto-fill
+    const [multiLangData, setMultiLangData] = useState({
+        title: {
+            en: initialData?.title?.en || '',
+            fr: initialData?.title?.fr || '',
+            ar: initialData?.title?.ar || '',
+        },
+        description: {
+            en: initialData?.description?.en || '',
+            fr: initialData?.description?.fr || '',
+            ar: initialData?.description?.ar || '',
+        }
+    });
+
+    const handleGenerate = async () => {
+        if (!summaryInput.trim()) return;
+        setIsGenerating(true);
+        try {
+            const res = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ summary: summaryInput })
+            });
+
+            if (!res.ok) {
+                const errData = await res.json().catch(() => null);
+                throw new Error(errData?.error || "Failed to generate content");
+            }
+
+            const data = await res.json();
+
+            setMultiLangData({
+                title: { en: data.title_en || '', fr: data.title_fr || '', ar: data.title_ar || '' },
+                description: { en: data.description_en || '', fr: data.description_fr || '', ar: data.description_ar || '' }
+            });
+            setIsDraft(true);
+            setIsDirty(true);
+        } catch (error: any) {
+            console.error(error);
+            alert(error.message || "Generation failed. Please try again.");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
+    const handleTranslateStep = async (stepId: string) => {
+        const step = steps.find(s => s.id === stepId);
+        if (!step) return;
+        setTranslatingStepId(stepId);
+        try {
+            const res = await fetch('/api/translate-step', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: step.title, content: step.content })
+            });
+            if (!res.ok) {
+                const errData = await res.json().catch(() => null);
+                throw new Error(errData?.error || 'Translation failed');
+            }
+            const data = await res.json();
+            setSteps(prev => prev.map(s => {
+                if (s.id !== stepId) return s;
+                return { ...s, title: data.title, content: data.content };
+            }));
+            setTranslatedStepIds(prev => new Set(prev).add(stepId));
+            setIsDirty(true);
+        } catch (error: any) {
+            console.error(error);
+            alert(error.message || 'Step translation failed. Please try again.');
+        } finally {
+            setTranslatingStepId(null);
+        }
+    };
 
     // Populate initialData.instructor_name with userProfile.full_name if it's new
     if (!isEditMode && userProfile && (!initialData?.instructor_name)) {
@@ -189,6 +270,30 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
             <input type="hidden" name="steps_json" value={JSON.stringify(steps)} />
             <input type="hidden" name="attachments_json" value={JSON.stringify(attachments)} />
 
+            {/* Smart-Form Generation (AI) */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 bg-linear-gradient-to-r from-blue-50 to-indigo-50">
+                <div className="flex flex-col md:flex-row gap-4 items-center">
+                    <div className="flex-1 w-full">
+                        <label className="block text-sm font-semibold text-blue-900 mb-1">✨ AI Project Generator</label>
+                        <textarea
+                            value={summaryInput}
+                            onChange={(e) => setSummaryInput(e.target.value)}
+                            placeholder="Describe your project briefly in any language (e.g. 'A smart plant waterer using Arduino Uno and soil moisture sensor')"
+                            className="flex min-h-[60px] w-full rounded-md border border-blue-200 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                    <Button
+                        type="button"
+                        onClick={handleGenerate}
+                        disabled={isGenerating || !summaryInput.trim()}
+                        className="w-full md:w-auto md:mt-6 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white gap-2"
+                    >
+                        {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+                        {isGenerating ? "Generating..." : "Generate & Translate"}
+                    </Button>
+                </div>
+            </div>
+
             {/* General Info Section */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                 <h2 className="text-xl font-semibold mb-6 pb-2 border-b">{t('sections.general')}</h2>
@@ -255,25 +360,29 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                 {/* Multilingual Titles & Descriptions */}
                 <div className="space-y-6">
                     {['en', 'fr', 'ar'].map((lang) => (
-                        <div key={lang} className="p-4 bg-slate-50/50 rounded-lg border border-slate-100">
-                            <span className="text-xs font-bold uppercase text-slate-400 mb-2 block">{lang}</span>
+                        <div key={lang} className={`p-4 rounded-lg border ${isDraft ? 'bg-yellow-50 border-yellow-200' : 'bg-slate-50/50 border-slate-100'}`}>
+                            <span className={`text-xs font-bold uppercase mb-2 block ${isDraft ? 'text-yellow-700' : 'text-slate-400'}`}>{lang}</span>
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium mb-1">{t('labels.title')} ({lang.toUpperCase()})</label>
                                     <input
                                         name={`title_${lang}`}
-                                        defaultValue={initialData?.title?.[lang as keyof MultiLangString]}
+                                        value={multiLangData.title[lang as keyof MultiLangString]}
+                                        onChange={(e) => setMultiLangData(prev => ({ ...prev, title: { ...prev.title, [lang]: e.target.value } }))}
                                         required
-                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                                        className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${isDraft ? 'bg-white border-yellow-300' : 'bg-background border-input'}`}
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium mb-1">{t('sections.description')} ({lang.toUpperCase()})</label>
                                     <textarea
                                         name={`description_${lang}`}
-                                        defaultValue={initialData?.description?.[lang as keyof MultiLangString]}
+                                        value={multiLangData.description[lang as keyof MultiLangString]}
+                                        onChange={(e) => setMultiLangData(prev => ({ ...prev, description: { ...prev.description, [lang]: e.target.value } }))}
                                         required
-                                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                                        className={`flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${isDraft ? 'bg-white border-yellow-300' : 'bg-background border-input'}`}
                                     />
                                 </div>
                             </div>
@@ -294,13 +403,32 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                 <div className="space-y-8">
                     {steps.map((step, index) => (
                         <div key={step.id} className="relative p-6 bg-slate-50 rounded-xl border border-slate-200">
-                            <div className="absolute top-4 end-4">
-                                <Button type="button" onClick={() => removeStep(step.id)} variant="ghost" size="icon" className="text-red-500 hover:text-red-700 hover:bg-red-50">
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
+                            <div className="flex justify-between items-start mb-4">
+                                <h3 className="font-bold text-slate-700">Step {index + 1}</h3>
+                                <div className="flex gap-2">
+                                    <Button
+                                        type="button"
+                                        onClick={() => handleTranslateStep(step.id)}
+                                        disabled={
+                                            translatingStepId === step.id ||
+                                            !(['en', 'fr', 'ar'] as const).some(
+                                                lang => step.title[lang]?.trim() || step.content[lang]?.trim()
+                                            )
+                                        }
+                                        variant="outline"
+                                        size="sm"
+                                        className="gap-2 text-indigo-600 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400 disabled:opacity-30"
+                                    >
+                                        {translatingStepId === step.id
+                                            ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                            : <Languages className="h-3.5 w-3.5" />}
+                                        {translatingStepId === step.id ? 'Translating...' : 'Translate Step'}
+                                    </Button>
+                                    <Button type="button" onClick={() => removeStep(step.id)} variant="ghost" size="icon" className="text-red-500 hover:text-red-700 hover:bg-red-50">
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </div>
                             </div>
-
-                            <h3 className="font-bold text-slate-700 mb-4">Step {index + 1}</h3>
 
                             <div className="mb-4">
                                 <label className="block text-sm font-medium mb-1">{t('steps.image')}</label>
@@ -313,27 +441,38 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                             </div>
 
                             <div className="space-y-4">
-                                {['en', 'fr', 'ar'].map((lang) => (
-                                    <div key={lang} className="grid grid-cols-1 gap-4 p-3 bg-white rounded border border-slate-100">
-                                        <div>
-                                            <label className="block text-xs font-semibold text-slate-500 mb-1">{t('steps.title')} ({lang.toUpperCase()})</label>
-                                            <input
-                                                value={step.title[lang as 'en' | 'fr' | 'ar']}
-                                                onChange={(e) => updateStep(step.id, 'title', lang as 'en' | 'fr' | 'ar', e.target.value)}
-                                                className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
-                                            />
+                                {(['en', 'fr', 'ar'] as const).map((lang) => {
+                                    const isTranslated = translatedStepIds.has(step.id) && (
+                                        !steps.find(s => s.id === step.id)?.title[lang] ||
+                                        translatingStepId !== step.id
+                                    );
+                                    return (
+                                        <div key={lang} className={`grid grid-cols-1 gap-4 p-3 rounded border ${translatedStepIds.has(step.id)
+                                            ? 'bg-yellow-50 border-yellow-200'
+                                            : 'bg-white border-slate-100'
+                                            }`}>
+                                            <div>
+                                                <label className="block text-xs font-semibold text-slate-500 mb-1">{t('steps.title')} ({lang.toUpperCase()})</label>
+                                                <input
+                                                    value={step.title[lang]}
+                                                    onChange={(e) => updateStep(step.id, 'title', lang, e.target.value)}
+                                                    dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                                                    className={`flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm ${lang === 'ar' ? 'text-right' : 'text-left'}`}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-semibold text-slate-500 mb-1">{t('steps.content')} ({lang.toUpperCase()})</label>
+                                                <RichTextEditor
+                                                    value={step.content[lang]}
+                                                    onChange={(value) => updateStep(step.id, 'content', lang, value)}
+                                                    placeholder={t('steps.content')}
+                                                    minHeight="80px"
+                                                    dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                                                />
+                                            </div>
                                         </div>
-                                        <div>
-                                            <label className="block text-xs font-semibold text-slate-500 mb-1">{t('steps.content')} ({lang.toUpperCase()})</label>
-                                            <RichTextEditor
-                                                value={step.content[lang as 'en' | 'fr' | 'ar']}
-                                                onChange={(value) => updateStep(step.id, 'content', lang as 'en' | 'fr' | 'ar', value)}
-                                                placeholder={t('steps.content')}
-                                                minHeight="80px"
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
                     ))}

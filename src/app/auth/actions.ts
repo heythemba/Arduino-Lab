@@ -26,8 +26,10 @@ export async function login(prevState: any, formData: FormData) {
         return { message: error.message }
     }
 
+    const locale = (formData.get('locale') as string) || 'en'
+
     revalidatePath('/', 'layout')
-    redirect('/')
+    redirect(`/${locale}/admin`)
 }
 
 /**
