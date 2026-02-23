@@ -77,6 +77,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
     const [isDraft, setIsDraft] = useState(false);
     const [translatingStepId, setTranslatingStepId] = useState<string | null>(null);
     const [translatedStepIds, setTranslatedStepIds] = useState<Set<string>>(new Set());
+    const [slugValue, setSlugValue] = useState(initialData?.slug || '');
 
     // Multilingual Controlled State for AI Auto-fill
     const [multiLangData, setMultiLangData] = useState({
@@ -301,13 +302,34 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label className="block text-sm font-medium mb-1">{t('labels.slug')}</label>
-                        <input
-                            name="slug"
-                            defaultValue={initialData?.slug}
-                            required
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="my-awesome-robot"
-                        />
+                        <div className="relative">
+                            <input
+                                name="slug"
+                                value={slugValue}
+                                onChange={(e) => {
+                                    // Allow only a-z and hyphens, strip everything else, enforce 20 char max
+                                    const sanitized = e.target.value
+                                        .toLowerCase()
+                                        .replace(/[^a-z-]/g, '')
+                                        .slice(0, 20);
+                                    setSlugValue(sanitized);
+                                    setIsDirty(true);
+                                }}
+                                onKeyDown={(e) => {
+                                    // Block space key explicitly
+                                    if (e.key === ' ') e.preventDefault();
+                                }}
+                                required
+                                maxLength={20}
+                                placeholder="my-robot"
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pr-14 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                            />
+                            <span className={`absolute inset-y-0 end-3 flex items-center text-xs font-mono ${slugValue.length >= 20 ? 'text-red-500' : 'text-slate-400'
+                                }`}>
+                                {slugValue.length}/20
+                            </span>
+                        </div>
+                        <p className="text-xs text-slate-400 mt-1">Only lowercase letters (a-z) and hyphens. Max 20 chars.</p>
                     </div>
                     <div>
                         <label className="block text-sm font-medium mb-1">{t('labels.category')}</label>

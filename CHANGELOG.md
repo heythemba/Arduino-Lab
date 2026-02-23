@@ -6,6 +6,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.0.3] — Slug Validation — 2026-02-23
+
+### Fixed
+- **Slug input** in the Create/Edit project form had no input control — users could type spaces, numbers, uppercase letters, or very long strings, causing URL and database issues.
+
+### Added
+- Real-time slug sanitization: only `a-z` and hyphens (`-`) are accepted; all other characters are silently stripped as you type.
+- Space key explicitly blocked at the keyboard level.
+- Hard cap of **20 characters** enforced both by `maxLength` attribute and JavaScript sanitization.
+- Live character counter (`0/20`) displayed inside the input field, turning red at the limit.
+- Helper hint text below the field: *"Only lowercase letters (a-z) and hyphens. Max 20 chars."*
+- Slug input now fully controlled (works correctly in both **Create** and **Edit** mode).
+
+---
+
 ## [2.0.1] — Hotfix & i18n Completeness — 2026-02-23
 
 ### Fixed

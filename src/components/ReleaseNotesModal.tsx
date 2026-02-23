@@ -5,6 +5,15 @@ import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, Che
 
 const RELEASES = [
     {
+        version: 'v2.0.3',
+        date: 'February 2026',
+        tag: 'Slug Validation',
+        tagColor: 'bg-violet-500',
+        features: [
+            { icon: FileText, color: 'text-violet-500', bg: 'bg-violet-50', title: 'Slug Input Control', desc: 'Project slug now accepts only a-z and hyphens, blocks spaces, enforces a 20-character max with a live counter and helper hint.' },
+        ],
+    },
+    {
         version: 'v2.0.2',
         date: 'February 2026',
         tag: 'Quality of Life',
@@ -104,7 +113,7 @@ export default function ReleaseNotesModal() {
                 className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
                 <Sparkles className="me-2 h-4 w-4" />
-                <span className="capitalize">ArduinoLab v2.0.2</span>
+                <span className="capitalize">ArduinoLab v2.0.3</span>
                 <ChevronRight className="ms-1 h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
             </button>
 

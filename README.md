@@ -1,8 +1,16 @@
-# 🤖 ArduinoLab v2.0.1
+# 🤖 ArduinoLab v2.0.3
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.0.3 — "Slug Validation"
+
+| Fix | Description |
+|---|---|
+| 🔤 **Slug Input Control** | Enforces `a-z` + hyphens only, no spaces, max 20 characters with a live counter |
 
 ---
 
