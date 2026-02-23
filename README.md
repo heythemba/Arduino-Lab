@@ -6,6 +6,21 @@
 
 ---
 
+## 🚀 What's New in v2.0.2 — "Quality of Life"
+
+| Fix | Description |
+|---|---|
+| 🐛 **Login Redirect** | Fixed a bug where successful login kept users on the home screen instead of redirecting to the dashboard |
+| 👥 **User Roles** | Replaced generic "Leader" role with two specific roles: **Volunteer Facilitator** and **Teacher** (same permissions, proper identity) |
+| 🗄️ **Supabase Migration** | New migration file updates the `profiles` table constraint and trigger to accept the new roles |
+| ✉️ **Invitation Button** | "Add Leader" button now correctly reads from i18n and shows "Add New Member" in all languages |
+| 🖱️ **Cursor Fix** | Restored `cursor: pointer` globally — buttons and links now show the hand cursor (Tailwind Preflight had reset it) |
+| 🔑 **Password Visibility** | Added 👁 eye-toggle to password fields on login and the new user creation form |
+| 🔗 **Footer Links** | Moved LinkedIn and Dribbble social icons from the Brand column to the Support column where they belong |
+| 🌐 **Locale-Aware Redirect** | Post-login redirect now respects the active language (e.g. `/fr/admin`, `/ar/admin`) |
+
+---
+
 ## 🚀 What's New in v2.0.1 — "i18n Completeness"
 
 | Fix | Description |

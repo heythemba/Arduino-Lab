@@ -1,10 +1,10 @@
 'use client';
 
-import { useActionState, useEffect, use } from 'react';
+import { useActionState, useEffect, use, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Loader2, Save } from 'lucide-react';
+import { ArrowLeft, Loader2, Save, Eye, EyeOff } from 'lucide-react';
 import { createUser } from '@/app/admin/actions';
 import { useRouter } from 'next/navigation';
 
@@ -18,6 +18,8 @@ export default function NewUserPage({ params }: { params: Promise<{ locale: stri
     const t = useTranslations('AdminDashboard'); // We can reuse generic terms or add specifics
     const [state, formAction, isPending] = useActionState(createUser, initialState);
     const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         if (state?.success) {
@@ -74,31 +76,65 @@ export default function NewUserPage({ params }: { params: Promise<{ locale: stri
                             />
                         </div>
 
+                        {/* Role */}
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-slate-900">{t('newUser.form.role')}</label>
+                            <select
+                                name="role"
+                                required
+                                defaultValue="volunteer_facilitator"
+                                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans bg-white"
+                            >
+                                <option value="volunteer_facilitator">{t('newUser.form.roleVolunteer')}</option>
+                                <option value="teacher">{t('newUser.form.roleTeacher')}</option>
+                            </select>
+                        </div>
+
                         {/* Password */}
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-slate-900">{t('newUser.form.password')}</label>
-                            <input
-                                name="password"
-                                type="password"
-                                required
-                                minLength={6}
-                                placeholder={t('newUser.form.passwordPlaceholder')}
-                                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
-                            />
+                            <div className="relative">
+                                <input
+                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    required
+                                    minLength={6}
+                                    placeholder={t('newUser.form.passwordPlaceholder')}
+                                    className="w-full px-4 py-2 pr-10 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(v => !v)}
+                                    className="absolute inset-y-0 end-0 flex items-center px-3 text-slate-400 hover:text-slate-700 transition-colors"
+                                    tabIndex={-1}
+                                >
+                                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                </button>
+                            </div>
                         </div>
 
                         {/* Confirm Password */}
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-slate-900">{t('newUser.form.confirmPassword')}</label>
-                            <input
-                                name="password_confirm"
-                                type="password"
-                                required
-                                minLength={6}
-                                placeholder={t('newUser.form.confirmPasswordPlaceholder')}
-                                onPaste={(e) => e.preventDefault()}
-                                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
-                            />
+                            <div className="relative">
+                                <input
+                                    name="password_confirm"
+                                    type={showConfirmPassword ? 'text' : 'password'}
+                                    required
+                                    minLength={6}
+                                    placeholder={t('newUser.form.confirmPasswordPlaceholder')}
+                                    onPaste={(e) => e.preventDefault()}
+                                    className="w-full px-4 py-2 pr-10 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(v => !v)}
+                                    className="absolute inset-y-0 end-0 flex items-center px-3 text-slate-400 hover:text-slate-700 transition-colors"
+                                    tabIndex={-1}
+                                >
+                                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                </button>
+                            </div>
                             <p className="text-xs text-slate-500">
                                 {t('newUser.form.passwordNote')}
                             </p>

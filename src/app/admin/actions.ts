@@ -21,6 +21,12 @@ export async function createUser(prevState: any, formData: FormData) {
     const password = formData.get('password') as string;
     const passwordConfirm = formData.get('password_confirm') as string;
     const fullName = formData.get('full_name') as string;
+    const role = (formData.get('role') as string) || 'volunteer_facilitator';
+
+    const ALLOWED_ROLES = ['volunteer_facilitator', 'teacher'];
+    if (!ALLOWED_ROLES.includes(role)) {
+        return { message: 'Invalid role selected.' };
+    }
 
     // 1. Basic Validation
     if (!email || !password || !fullName) {
@@ -55,7 +61,8 @@ export async function createUser(prevState: any, formData: FormData) {
         password,
         email_confirm: true, // Automatically confirm email so they can login immediately
         user_metadata: {
-            full_name: fullName
+            full_name: fullName,
+            role: role
         }
     });
 

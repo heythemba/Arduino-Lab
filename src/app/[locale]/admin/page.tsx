@@ -66,7 +66,7 @@ export default async function AdminDashboard({
                                     <Button variant="outline" className="gap-2">
                                         <div className="flex items-center gap-2">
                                             <span className="text-xl leading-none font-bold">+</span>
-                                            <span>Add Leader</span>
+                                            <span>{t('newUser.title')}</span>
                                         </div>
                                     </Button>
                                 </Link>

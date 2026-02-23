@@ -29,18 +29,6 @@ export default async function Footer() {
                         <p className="text-sm leading-relaxed text-slate-400 mb-6">
                             {t('tagline')}
                         </p>
-                        <div className="flex gap-4">
-                            {settings?.linkedin_url && (
-                                <a href={settings.linkedin_url} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                                    <Linkedin className="h-5 w-5" />
-                                </a>
-                            )}
-                            {settings?.dribbble_url && (
-                                <a href={settings.dribbble_url} target="_blank" rel="noopener noreferrer" className="hover:text-pink-400 transition-colors">
-                                    <Dribbble className="h-5 w-5" />
-                                </a>
-                            )}
-                        </div>
                     </div>
 
                     {/* Quick Links */}
@@ -90,6 +78,20 @@ export default async function Footer() {
                                     <a href={`https://wa.me/${settings.contact_whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                                         {settings.contact_whatsapp}
                                     </a>
+                                </li>
+                            )}
+                            {(settings?.linkedin_url || settings?.dribbble_url) && (
+                                <li className="flex items-center gap-4 pt-2">
+                                    {settings?.linkedin_url && (
+                                        <a href={settings.linkedin_url} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                                            <Linkedin className="h-5 w-5" />
+                                        </a>
+                                    )}
+                                    {settings?.dribbble_url && (
+                                        <a href={settings.dribbble_url} target="_blank" rel="noopener noreferrer" className="hover:text-pink-400 transition-colors">
+                                            <Dribbble className="h-5 w-5" />
+                                        </a>
+                                    )}
                                 </li>
                             )}
                         </ul>

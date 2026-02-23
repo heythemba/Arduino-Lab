@@ -5,6 +5,19 @@ import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, Che
 
 const RELEASES = [
     {
+        version: 'v2.0.2',
+        date: 'February 2026',
+        tag: 'Quality of Life',
+        tagColor: 'bg-emerald-500',
+        features: [
+            { icon: Users, color: 'text-emerald-500', bg: 'bg-emerald-50', title: 'Volunteer Facilitator & Teacher Roles', desc: 'Replaced the generic "Leader" role with two specific roles (same permissions). Supabase migration included.' },
+            { icon: Globe, color: 'text-blue-500', bg: 'bg-blue-50', title: 'Locale-Aware Login Redirect', desc: 'After login, users are redirected to /[their-locale]/admin — French users go to /fr/admin, Arabic to /ar/admin.' },
+            { icon: FileText, color: 'text-slate-500', bg: 'bg-slate-50', title: 'Password Visibility Toggle', desc: 'Added 👁 eye icon to all password fields in the login and new user forms.' },
+            { icon: MessageCircle, color: 'text-orange-500', bg: 'bg-orange-50', title: 'Cursor & UX Fixes', desc: 'Restored hand cursor on all buttons and links (Tailwind Preflight had silently reset it to default).' },
+            { icon: Package, color: 'text-pink-500', bg: 'bg-pink-50', title: 'Footer & Navigation Fixes', desc: 'Social icons (LinkedIn, Dribbble) moved to the Support section. Invitation button now fully localized.' },
+        ],
+    },
+    {
         version: 'v2.0.0',
         date: 'February 2026',
         tag: 'Intelligence & Inclusion',

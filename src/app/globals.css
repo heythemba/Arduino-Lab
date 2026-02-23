@@ -72,6 +72,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Restore pointer cursor that Tailwind Preflight resets to 'default' */
+button, a, [role="button"] {
+  cursor: pointer;
+}
+
 .dark {
   --background: 222 47% 11%;
   --foreground: 210 40% 98%;
