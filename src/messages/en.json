@@ -21,10 +21,15 @@
         "resources": "Project Resources",
         "share": "Copy link project",
         "copied": "Copied!",
+        "code": "CODE",
+        "models": "3D MODELS",
         "downloadCode": "Download Code",
         "downloadCodeSub": ".ino file (coming soon)",
         "downloadModels": "Download 3D Models",
         "downloadModelsSub": ".stl files (coming soon)"
+    },
+    "ProjectCard": {
+        "viewProject": "View Project"
     },
     "SearchFilters": {
         "placeholder": "Search projects...",
@@ -172,6 +177,8 @@
         "errorGeneric": "Something went wrong.",
         "commentSingular": "Comment",
         "commentPlural": "Comments",
-        "noComments": "No comments yet. Be the first to share your thoughts!"
+        "noComments": "No comments yet. Be the first to share your thoughts!",
+        "sortRecent": "Most recent",
+        "sortLiked": "Most liked"
     }
 }

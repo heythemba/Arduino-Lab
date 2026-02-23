@@ -21,10 +21,15 @@
         "resources": "موارد المشروع",
         "share": "نسخ رابط المشروع",
         "copied": "تم النسخ!",
+        "code": "الكود",
+        "models": "نماذج 3D",
         "downloadCode": "تحميل الكود",
         "downloadCodeSub": "ملف .ino (قريباً)",
         "downloadModels": "تحميل نماذج 3D",
         "downloadModelsSub": "ملفات .stl (قريباً)"
+    },
+    "ProjectCard": {
+        "viewProject": "عرض المشروع"
     },
     "SearchFilters": {
         "placeholder": "بحث عن مشاريع...",
@@ -172,6 +177,8 @@
         "errorGeneric": "حدث خطأ ما.",
         "commentSingular": "تعليق",
         "commentPlural": "تعليقات",
-        "noComments": "لا توجد تعليقات بعد. كن أول من يشارك رأيه!"
+        "noComments": "لا توجد تعليقات بعد. كن أول من يشارك رأيه!",
+        "sortRecent": "الأحدث",
+        "sortLiked": "الأكثر إعجاباً"
     }
 }

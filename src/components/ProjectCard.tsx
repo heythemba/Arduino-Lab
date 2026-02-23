@@ -2,6 +2,7 @@ import { Link } from '@/i18n/routing';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 /**
  * Props for the ProjectCard component.
@@ -31,6 +32,8 @@ interface ProjectCardProps {
  * @param props - Component props
  */
 export default function ProjectCard({ title, description, imageUrl, slug, category = "Robotics" }: ProjectCardProps) {
+    const t = useTranslations('ProjectCard');
+
     return (
         <div className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md hover:border-primary/50">
             {/* Image Placeholder */}
@@ -62,7 +65,7 @@ export default function ProjectCard({ title, description, imageUrl, slug, catego
 
                 <Link href={`/projects/${slug}`}>
                     <Button variant="ghost" className="w-full justify-between hover:bg-blue-50 hover:text-blue-600 group-hover:translate-x-1 transition-transform">
-                        View Project
+                        {t('viewProject')}
                         <ArrowRight className="h-4 w-4 ms-2" />
                     </Button>
                 </Link>

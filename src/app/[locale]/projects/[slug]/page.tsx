@@ -93,7 +93,7 @@ export default async function ProjectPage({ params }: Props) {
                             {/* Code Files */}
                             {project.attachments?.filter(a => a.file_type === 'ino').length > 0 && (
                                 <div className="col-span-1 md:col-span-2">
-                                    <h4 className="text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">Code</h4>
+                                    <h4 className="text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">{t('code')}</h4>
                                     <div className="space-y-2">
                                         {project.attachments.filter(a => a.file_type === 'ino').map(file => (
                                             <a key={file.id} href={file.file_url} target="_blank" rel="noopener noreferrer" className="block">
@@ -116,7 +116,7 @@ export default async function ProjectPage({ params }: Props) {
                             {/* 3D Models */}
                             {project.attachments?.filter(a => a.file_type === 'stl').length > 0 && (
                                 <div className={project.attachments?.filter(a => !['ino', 'stl'].includes(a.file_type)).length === 0 ? "col-span-1 md:col-span-2" : ""}>
-                                    <h4 className="text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">3D Models</h4>
+                                    <h4 className="text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">{t('models')}</h4>
                                     <div className="space-y-2">
                                         {project.attachments.filter(a => a.file_type === 'stl').map(file => (
                                             <a key={file.id} href={file.file_url} target="_blank" rel="noopener noreferrer" className="block">
