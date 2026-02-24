@@ -6,6 +6,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.2.6] — AI Templates & Localization — 2026-02-24
+
+### Added
+- 🤖 **AI Project Templates** — Integrated an auto-generated project base template in the creation flow, allowing users to start with a structured draft powered by AI.
+
+### Fixed
+- 🌍 **Category Translations** — Resolved an issue where project category options were hardcoded in English; they are now fully localized into English, French, and Arabic.
+
+---
+
 ## [2.0.4] — Step Layout — 2026-02-24
 
 ### Changed
