@@ -115,6 +115,27 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                 title: { en: data.title_en || '', fr: data.title_fr || '', ar: data.title_ar || '' },
                 description: { en: data.description_en || '', fr: data.description_fr || '', ar: data.description_ar || '' }
             });
+
+            // Populate the 3 template steps from AI
+            if (Array.isArray(data.steps) && data.steps.length > 0) {
+                const templateSteps = data.steps.map((s: any, i: number) => ({
+                    id: Math.random().toString(36).substr(2, 9),
+                    step_number: i + 1,
+                    title: {
+                        en: s.title_en || '',
+                        fr: s.title_fr || '',
+                        ar: s.title_ar || '',
+                    },
+                    content: {
+                        en: s.content_en || '',
+                        fr: s.content_fr || '',
+                        ar: s.content_ar || '',
+                    },
+                    image_url: '',
+                }));
+                setSteps(templateSteps);
+            }
+
             setIsDraft(true);
             setIsDirty(true);
         } catch (error: any) {
