@@ -133,71 +133,72 @@
                 "Sensors": "Sensors",
                 "Automation": "Automation",
                 "Fundamentals": "Fundamentals"
-            },
-            "files": {
-                "add": "Add File",
-                "type": "File Type",
-                "name": "File Name",
-                "url": "File/Image URL",
-                "upload": "Upload File",
-                "or": "OR",
-                "enterUrl": "Enter URL",
-                "hints": {
-                    "ino": "Arduino Code (.ino, < 1MB)",
-                    "stl": "3D Model (.stl, < 50MB)",
-                    "image": "Image (jpg/png, < 10MB)"
-                }
-            },
-            "steps": {
-                "add": "Add Step",
-                "remove": "Remove Step",
-                "title": "Step Title",
-                "content": "Step Content",
-                "image": "Step Image URL"
-            },
-            "submit": "Create Project",
-            "cancel": "Cancel",
-            "saving": "Saving...",
-            "ai": {
-                "successTitle": "Content Generated!",
-                "successMessage": "The content has been generated 😄 Caution: AI can make mistakes. Please verify the content before submitting your project. Thank you!",
-                "errorTitle": "Generation Failed!",
-                "errorMessage": "Failed to generate content. Please try again. If this problem persists, try changing your prompt or contact support!",
-                "close": "Got it!"
             }
         },
-        "Footer": {
-            "tagline": "Empowering the next generation of makers and engineers through open-source robotics education.",
-            "platform": "Platform",
-            "organization": "Organization",
-            "support": "Support",
-            "explore": "Explore Projects",
-            "about": "About Us",
-            "admin": "Login",
-            "website": "Official Website",
-            "sponsors": "Our Sponsors",
-            "rights": "© {year} ArduinoLab. All rights reserved.",
-            "developedBy": "Developed with ❤️ by "
+        "files": {
+            "add": "Add File",
+            "type": "File Type",
+            "name": "File Name",
+            "url": "File/Image URL",
+            "upload": "Upload File",
+            "or": "OR",
+            "enterUrl": "Enter URL",
+            "hints": {
+                "ino": "Arduino Code (.ino, < 1MB)",
+                "stl": "3D Model (.stl, < 50MB)",
+                "image": "Image (jpg/png, < 10MB)"
+            }
         },
-        "Comments": {
-            "title": "Comments",
-            "leaveComment": "Leave a comment",
-            "loginToComment": "Please login to leave a comment.",
-            "login": "Login",
-            "placeholder": "Write your thoughts...",
-            "send": "Post Comment",
-            "sending": "Posting...",
-            "confirmDelete": "Delete this comment?",
-            "anonymous": "Anonymous",
-            "postingAs": "Posting as",
-            "successAdded": "Comment added successfully.",
-            "errorLoginRequired": "You must be logged in.",
-            "errorEmptyContent": "Comment cannot be empty.",
-            "errorGeneric": "Something went wrong.",
-            "commentSingular": "Comment",
-            "commentPlural": "Comments",
-            "noComments": "No comments yet. Be the first to share your thoughts!",
-            "sortRecent": "Most recent",
-            "sortLiked": "Most liked"
+        "steps": {
+            "add": "Add Step",
+            "remove": "Remove Step",
+            "title": "Step Title",
+            "content": "Step Content",
+            "image": "Step Image URL"
+        },
+        "submit": "Create Project",
+        "cancel": "Cancel",
+        "saving": "Saving...",
+        "ai": {
+            "successTitle": "Content Generated!",
+            "successMessage": "The content has been generated 😄 Caution: AI can make mistakes. Please verify the content before submitting your project. Thank you!",
+            "errorTitle": "Generation Failed!",
+            "errorMessage": "Failed to generate content. Please try again. If this problem persists, try changing your prompt or contact support!",
+            "close": "Got it!"
         }
+    },
+    "Footer": {
+        "tagline": "Empowering the next generation of makers and engineers through open-source robotics education.",
+        "platform": "Platform",
+        "organization": "Organization",
+        "support": "Support",
+        "explore": "Explore Projects",
+        "about": "About Us",
+        "admin": "Login",
+        "website": "Official Website",
+        "sponsors": "Our Sponsors",
+        "rights": "© {year} ArduinoLab. All rights reserved.",
+        "developedBy": "Developed with ❤️ by "
+    },
+    "Comments": {
+        "title": "Comments",
+        "leaveComment": "Leave a comment",
+        "loginToComment": "Please login to leave a comment.",
+        "login": "Login",
+        "placeholder": "Write your thoughts...",
+        "send": "Post Comment",
+        "sending": "Posting...",
+        "confirmDelete": "Delete this comment?",
+        "anonymous": "Anonymous",
+        "postingAs": "Posting as",
+        "successAdded": "Comment added successfully.",
+        "errorLoginRequired": "You must be logged in.",
+        "errorEmptyContent": "Comment cannot be empty.",
+        "errorGeneric": "Something went wrong.",
+        "commentSingular": "Comment",
+        "commentPlural": "Comments",
+        "noComments": "No comments yet. Be the first to share your thoughts!",
+        "sortRecent": "Most recent",
+        "sortLiked": "Most liked"
     }
+}
