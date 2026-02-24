@@ -363,14 +363,16 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                             <label className="block text-sm font-medium mb-1">{t('labels.category')}</label>
                             <select
                                 name="category"
-                                defaultValue={initialData?.category}
+                                defaultValue={initialData?.category ?? ''}
+                                required
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             >
-                                <option value="Robotics">Robotics</option>
-                                <option value="IoT">IoT</option>
-                                <option value="Sensors">Sensors</option>
-                                <option value="Automation">Automation</option>
-                                <option value="Fundamentals">Fundamentals</option>
+                                <option value="" disabled>{t('labels.categoryPlaceholder')}</option>
+                                <option value="Robotics">{t('labels.categories.Robotics')}</option>
+                                <option value="IoT">{t('labels.categories.IoT')}</option>
+                                <option value="Sensors">{t('labels.categories.Sensors')}</option>
+                                <option value="Automation">{t('labels.categories.Automation')}</option>
+                                <option value="Fundamentals">{t('labels.categories.Fundamentals')}</option>
                             </select>
                         </div>
                         <div className="md:col-span-2">
