@@ -130,69 +130,70 @@
                 "Sensors": "Capteurs",
                 "Automation": "Automatisation",
                 "Fundamentals": "Fondamentaux"
-            },
-            "files": {
-                "add": "Ajouter un fichier",
-                "type": "Type de fichier",
-                "name": "Nom du fichier",
-                "url": "URL du fichier/image",
-                "upload": "Téléverser un fichier",
-                "or": "OU",
-                "enterUrl": "Entrer une URL",
-                "hints": {
-                    "ino": "Code Arduino (.ino, < 1Mo)",
-                    "stl": "Modèle 3D (.stl, < 50Mo)",
-                    "image": "Image (jpg/png, < 10Mo)"
-                }
-            },
-            "steps": {
-                "add": "Ajouter une étape",
-                "remove": "Supprimer l'étape",
-                "title": "Titre de l'étape",
-                "content": "Contenu de l'étape",
-                "image": "URL Image de l'étape"
-            },
-            "submit": "Créer le projet",
-            "cancel": "Annuler",
-            "saving": "Enregistrement...",
-            "ai": {
-                "successTitle": "Contenu généré !",
-                "successMessage": "Le contenu a été généré 😄 Attention : l'IA peut faire des erreurs. Veuillez vérifier le contenu avant de soumettre votre projet. Merci !",
-                "errorTitle": "Génération échouée !",
-                "errorMessage": "Impossible de générer le contenu. Veuillez réessayer. Si le problème persiste, essayez de modifier votre description ou contactez le support !",
-                "close": "Compris !"
             }
         },
-        "Footer": {
-            "tagline": "Permettre à la prochaine génération de créateurs et d'ingénieurs grâce à l'enseignement de la robotique open source.",
-            "platform": "Plateforme",
-            "organization": "Organisation",
-            "support": "Support",
-            "explore": "Explorer les projets",
-            "about": "À propos",
-            "admin": "Connexion",
-            "website": "Site Officiel",
-            "sponsors": "Nos Sponsors",
-            "rights": "© {year} ArduinoLab. Tous droits réservés.",
-            "developedBy": "Développé avec ❤️ par "
+        "files": {
+            "add": "Ajouter un fichier",
+            "type": "Type de fichier",
+            "name": "Nom du fichier",
+            "url": "URL du fichier/image",
+            "upload": "Téléverser un fichier",
+            "or": "OU",
+            "enterUrl": "Entrer une URL",
+            "hints": {
+                "ino": "Code Arduino (.ino, < 1Mo)",
+                "stl": "Modèle 3D (.stl, < 50Mo)",
+                "image": "Image (jpg/png, < 10Mo)"
+            }
         },
-        "Comments": {
-            "title": "Commentaires",
-            "leaveComment": "Laisser un commentaire",
-            "loginToComment": "Veuillez vous connecter pour commenter.",
-            "login": "Connexion",
-            "placeholder": "Partagez vos avis...",
-            "send": "Publier",
-            "sending": "Envoi...",
-            "confirmDelete": "Supprimer ce commentaire ?",
-            "anonymous": "Anonyme",
-            "postingAs": "Publié en tant que",
-            "successAdded": "Commentaire ajouté avec succès.",
-            "errorLoginRequired": "Vous devez être connecté.",
-            "errorEmptyContent": "Le commentaire ne peut pas être vide.",
-            "errorGeneric": "Une erreur est survenue.",
-            "commentSingular": "Commentaire",
-            "commentPlural": "Commentaires",
-            "noComments": "Aucun commentaire pour l'instant. Soyez le premier à partager votre avis !"
+        "steps": {
+            "add": "Ajouter une étape",
+            "remove": "Supprimer l'étape",
+            "title": "Titre de l'étape",
+            "content": "Contenu de l'étape",
+            "image": "URL Image de l'étape"
+        },
+        "submit": "Créer le projet",
+        "cancel": "Annuler",
+        "saving": "Enregistrement...",
+        "ai": {
+            "successTitle": "Contenu généré !",
+            "successMessage": "Le contenu a été généré 😄 Attention : l'IA peut faire des erreurs. Veuillez vérifier le contenu avant de soumettre votre projet. Merci !",
+            "errorTitle": "Génération échouée !",
+            "errorMessage": "Impossible de générer le contenu. Veuillez réessayer. Si le problème persiste, essayez de modifier votre description ou contactez le support !",
+            "close": "Compris !"
         }
+    },
+    "Footer": {
+        "tagline": "Permettre à la prochaine génération de créateurs et d'ingénieurs grâce à l'enseignement de la robotique open source.",
+        "platform": "Plateforme",
+        "organization": "Organisation",
+        "support": "Support",
+        "explore": "Explorer les projets",
+        "about": "À propos",
+        "admin": "Connexion",
+        "website": "Site Officiel",
+        "sponsors": "Nos Sponsors",
+        "rights": "© {year} ArduinoLab. Tous droits réservés.",
+        "developedBy": "Développé avec ❤️ par "
+    },
+    "Comments": {
+        "title": "Commentaires",
+        "leaveComment": "Laisser un commentaire",
+        "loginToComment": "Veuillez vous connecter pour commenter.",
+        "login": "Connexion",
+        "placeholder": "Partagez vos avis...",
+        "send": "Publier",
+        "sending": "Envoi...",
+        "confirmDelete": "Supprimer ce commentaire ?",
+        "anonymous": "Anonyme",
+        "postingAs": "Publié en tant que",
+        "successAdded": "Commentaire ajouté avec succès.",
+        "errorLoginRequired": "Vous devez être connecté.",
+        "errorEmptyContent": "Le commentaire ne peut pas être vide.",
+        "errorGeneric": "Une erreur est survenue.",
+        "commentSingular": "Commentaire",
+        "commentPlural": "Commentaires",
+        "noComments": "Aucun commentaire pour l'instant. Soyez le premier à partager votre avis !"
     }
+}
