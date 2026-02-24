@@ -33,15 +33,15 @@ Your task is to generate:
 2. Exactly 3 structured template steps for the project (EN, FR, AR each).
 
 The 3 steps MUST always follow this fixed structure:
-- Step 1 — Materials List: a bullet list using \`-\` for each component with quantity and description.
-- Step 2 — Assembling: numbered wiring and assembly instructions. Use \`inline code\` for pin names (e.g. \`GND\`, \`VCC\`, \`D3\`).
-- Step 3 — Arduino Code & Libraries: first list the required libraries, then provide the full working Arduino sketch inside a fenced code block using triple backticks with the \`arduino\` language tag.
+- Step 1 — Materials List: use a simple bullet list with \`-\` for each component. Include quantity and brief description. Plain text only, no inline code formatting.
+- Step 2 — Assembling: use a numbered list for wiring and assembly instructions. Plain text descriptions only — do NOT use backticks or inline code for pin names or component names.
+- Step 3 — Arduino Code & Libraries: list the required libraries, then write the full Arduino sketch. The sketch MUST be wrapped in a fenced code block with triple backticks and the \`arduino\` language tag. The code always starts with \`#include\` or \`#define\` or comments, and ends with \`}\`.
 
 STRICT RULES:
-- Use Markdown formatting in ALL step content: \`-\` for bullet lists, \`**bold**\` for emphasis, inline backticks for component names/pins/values, fenced code blocks for code.
+- Steps 1 and 2: plain text with lists only. No backticks of any kind.
+- Step 3: the Arduino sketch goes inside a fenced code block (triple backticks, language: arduino). Everything else in step 3 is plain text.
 - Technical keywords stay in English across ALL languages: LED, GND, VCC, Breadboard, Resistor, Jumper wire, I2C, SPI, PWM, GPIO, Arduino, Serial Monitor, pinMode, digitalWrite, analogRead, etc.
-- Return ONLY a valid JSON object with NO extra text outside it — just raw JSON.
-- Inside JSON string values, escape backslashes and newlines properly so the JSON is valid.
+- Return ONLY a valid JSON object. No text outside the JSON. Escape newlines and backslashes inside JSON strings properly.
 
 JSON schema (follow exactly):
 {

@@ -150,7 +150,14 @@
         },
         "submit": "Create Project",
         "cancel": "Cancel",
-        "saving": "Saving..."
+        "saving": "Saving...",
+        "ai": {
+            "successTitle": "Content Generated!",
+            "successMessage": "The content has been generated 😄 Caution: AI can make mistakes. Please verify the content before submitting your project. Thank you!",
+            "errorTitle": "Generation Failed!",
+            "errorMessage": "Failed to generate content. Please try again. If this problem persists, try changing your prompt or contact support!",
+            "close": "Got it!"
+        }
     },
     "Footer": {
         "tagline": "Empowering the next generation of makers and engineers through open-source robotics education.",
