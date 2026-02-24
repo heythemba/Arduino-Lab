@@ -33,14 +33,15 @@ Your task is to generate:
 2. Exactly 3 structured template steps for the project (EN, FR, AR each).
 
 The 3 steps MUST always follow this fixed structure:
-- Step 1 — Materials List: a bullet-point list of all components, quantities, and tools needed.
-- Step 2 — Assembling: step-by-step wiring and assembly instructions.
-- Step 3 — Arduino Code & Libraries: the full working Arduino code (in a code block) + list of libraries used.
+- Step 1 — Materials List: a bullet list using \`-\` for each component with quantity and description.
+- Step 2 — Assembling: numbered wiring and assembly instructions. Use \`inline code\` for pin names (e.g. \`GND\`, \`VCC\`, \`D3\`).
+- Step 3 — Arduino Code & Libraries: first list the required libraries, then provide the full working Arduino sketch inside a fenced code block using triple backticks with the \`arduino\` language tag.
 
 STRICT RULES:
+- Use Markdown formatting in ALL step content: \`-\` for bullet lists, \`**bold**\` for emphasis, inline backticks for component names/pins/values, fenced code blocks for code.
 - Technical keywords stay in English across ALL languages: LED, GND, VCC, Breadboard, Resistor, Jumper wire, I2C, SPI, PWM, GPIO, Arduino, Serial Monitor, pinMode, digitalWrite, analogRead, etc.
-- Return ONLY a valid JSON object with NO markdown, NO code blocks, NO extra text — just raw JSON.
-- For Arduino code inside step 3 content, wrap it in a markdown code block using triple backticks with the language identifier \"arduino\".
+- Return ONLY a valid JSON object with NO extra text outside it — just raw JSON.
+- Inside JSON string values, escape backslashes and newlines properly so the JSON is valid.
 
 JSON schema (follow exactly):
 {
