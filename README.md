@@ -1,8 +1,17 @@
-# 🤖 ArduinoLab v2.0.4
+# 🤖 ArduinoLab v2.2.6
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.2.6 — "AI Templates & Localization"
+
+| Feature | Description |
+|---|---|
+| 🤖 **AI Base Templates** | One-click generation of project base structures to jumpstart documentation |
+| 🌍 **Translated Categories** | Project categories (Robotics, IoT, etc.) now correctly translate based on user locale |
 
 ---
 

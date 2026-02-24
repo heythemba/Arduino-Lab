@@ -5,6 +5,16 @@ import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, Che
 
 const RELEASES = [
     {
+        version: 'v2.2.6',
+        date: 'February 2026',
+        tag: 'AI Templates & Localization',
+        tagColor: 'bg-emerald-600',
+        features: [
+            { icon: Brain, color: 'text-emerald-600', bg: 'bg-emerald-50', title: 'AI Project Templates', desc: 'Auto-generate project base templates during creation to jumpstart your documentation flow.' },
+            { icon: Globe, color: 'text-blue-600', bg: 'bg-blue-50', title: 'Full Category Localization', desc: 'Project categories (Robotics, IoT, Sensors, etc.) are now fully translated into English, French, and Arabic.' },
+        ],
+    },
+    {
         version: 'v2.0.4',
         date: 'February 2026',
         tag: 'Step Layout',
@@ -122,7 +132,7 @@ export default function ReleaseNotesModal() {
                 className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
                 <Sparkles className="me-2 h-4 w-4" />
-                <span className="capitalize">ArduinoLab v2.0.4</span>
+                <span className="capitalize">ArduinoLab v2.2.6</span>
                 <ChevronRight className="ms-1 h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
             </button>
 
@@ -178,7 +188,7 @@ export default function ReleaseNotesModal() {
 
                         {/* Footer */}
                         <div className="px-6 py-4 border-t bg-slate-50 text-xs text-slate-400 text-center rounded-b-2xl shrink-0">
-                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.0.0
+                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.2.6
                         </div>
                     </div>
                 </div>

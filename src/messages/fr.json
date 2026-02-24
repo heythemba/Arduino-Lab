@@ -122,7 +122,15 @@
             "uploadImage": "Téléverser une image",
             "instructor": "Nom de l'instructeur",
             "school": "Nom de l'école/club",
-            "language": "Langue"
+            "language": "Langue",
+            "categoryPlaceholder": "\u2014 Sélectionner une catégorie \u2014",
+            "categories": {
+                "Robotics": "Robotique",
+                "IoT": "IoT",
+                "Sensors": "Capteurs",
+                "Automation": "Automatisation",
+                "Fundamentals": "Fondamentaux"
+            }
         },
         "files": {
             "add": "Ajouter un fichier",
@@ -147,7 +155,14 @@
         },
         "submit": "Créer le projet",
         "cancel": "Annuler",
-        "saving": "Enregistrement..."
+        "saving": "Enregistrement...",
+        "ai": {
+            "successTitle": "Contenu généré !",
+            "successMessage": "Le contenu a été généré 😄 Attention : l'IA peut faire des erreurs. Veuillez vérifier le contenu avant de soumettre votre projet. Merci !",
+            "errorTitle": "Génération échouée !",
+            "errorMessage": "Impossible de générer le contenu. Veuillez réessayer. Si le problème persiste, essayez de modifier votre description ou contactez le support !",
+            "close": "Compris !"
+        }
     },
     "Footer": {
         "tagline": "Permettre à la prochaine génération de créateurs et d'ingénieurs grâce à l'enseignement de la robotique open source.",
