@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { useFormStatus } from 'react-dom';
 import { useActionState, useEffect, useState } from 'react';
-import { Loader2, Plus, Trash2, Save, Sparkles, Languages } from 'lucide-react';
+import { Loader2, Plus, Trash2, Save, Sparkles, Languages, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import FileUploader from './FileUploader';
 import RichTextEditor from '@/components/ui/RichTextEditor';
@@ -45,10 +45,11 @@ export type ProjectFormData = {
 
 type ProjectFormProps = {
     locale: string;
-    action: (prevState: any, formData: FormData) => Promise<any>; // Server Action
+    action: (prevState: any, formData: FormData) => Promise<any>;
     initialData?: ProjectFormData;
     isEditMode?: boolean;
     userProfile?: any;
+    imageUploadUrl?: string;
 };
 
 /**
@@ -61,7 +62,7 @@ type ProjectFormProps = {
  * - File Upload Integration
  * - Server Action Integration with proper pending states
  */
-export default function ProjectForm({ locale, action, initialData, isEditMode = false, userProfile }: ProjectFormProps) {
+export default function ProjectForm({ locale, action, initialData, isEditMode = false, userProfile, imageUploadUrl }: ProjectFormProps) {
     const t = useTranslations('ProjectForm');
     const router = useRouter();
 
@@ -347,12 +348,26 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                     </div>
                     <div className="md:col-span-2">
                         <label className="block text-sm font-medium mb-1">{t('labels.heroImage')}</label>
-                        <input
-                            name="hero_image_url"
-                            defaultValue={initialData?.hero_image_url}
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="https://..."
-                        />
+                        <div className="flex gap-2">
+                            <input
+                                name="hero_image_url"
+                                defaultValue={initialData?.hero_image_url}
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                placeholder="https://..."
+                            />
+                            {imageUploadUrl && (
+                                <a
+                                    href={imageUploadUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Button type="button" variant="outline" className="shrink-0 gap-2 whitespace-nowrap">
+                                        <ExternalLink className="h-4 w-4" />
+                                        {t('labels.uploadImage')}
+                                    </Button>
+                                </a>
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -454,12 +469,26 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
 
                             <div className="mb-4">
                                 <label className="block text-sm font-medium mb-1">{t('steps.image')}</label>
-                                <input
-                                    value={step.image_url}
-                                    onChange={(e) => updateStepImage(step.id, e.target.value)}
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                                    placeholder="https://..."
-                                />
+                                <div className="flex gap-2">
+                                    <input
+                                        value={step.image_url}
+                                        onChange={(e) => updateStepImage(step.id, e.target.value)}
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                        placeholder="https://..."
+                                    />
+                                    {imageUploadUrl && (
+                                        <a
+                                            href={imageUploadUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <Button type="button" variant="outline" className="shrink-0 gap-2 whitespace-nowrap">
+                                                <ExternalLink className="h-4 w-4" />
+                                                {t('labels.uploadImage')}
+                                            </Button>
+                                        </a>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="space-y-4">

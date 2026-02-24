@@ -147,6 +147,31 @@ export default function SettingsForm({ initialSettings }: { initialSettings: Sit
                     </CardContent>
                 </Card>
 
+                {/* Image Upload Host */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Image Upload Host</CardTitle>
+                        <CardDescription>
+                            The external website editors will be sent to when clicking "Upload Image" in project forms. Use any image hosting service (e.g. PostImages, ImgBB, Cloudinary).
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="image_upload_url">Image Host URL</Label>
+                            <Input
+                                id="image_upload_url"
+                                name="image_upload_url"
+                                value={settings.image_upload_url || ''}
+                                onChange={handleChange}
+                                placeholder="https://postimages.org"
+                            />
+                            <p className="text-xs text-muted-foreground">
+                                Leave empty to hide the Upload button in project forms.
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
+
                 <div className="flex justify-end">
                     <Button type="submit" disabled={loading} size="lg">
                         {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}

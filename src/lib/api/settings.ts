@@ -21,6 +21,8 @@ export type SiteSettings = {
     organization_label?: string;
     /** Display label for the sponsor link (e.g., "TechCorp") */
     sponsor_label?: string;
+    /** External image hosting URL used by the project form Upload button */
+    image_upload_url?: string;
 };
 
 /**

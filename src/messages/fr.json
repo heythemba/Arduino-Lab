@@ -119,6 +119,7 @@
             "title": "Titre du projet",
             "category": "Catégorie",
             "heroImage": "Image de fond / Héros URL",
+            "uploadImage": "Téléverser une image",
             "instructor": "Nom de l'instructeur",
             "school": "Nom de l'école/club",
             "language": "Langue"

@@ -122,6 +122,7 @@
             "title": "Project Title",
             "category": "Category",
             "heroImage": "Background/Hero Image URL",
+            "uploadImage": "Upload Image",
             "instructor": "Instructor Name",
             "school": "School/Club Name",
             "language": "Language"

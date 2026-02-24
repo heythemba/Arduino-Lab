@@ -1,11 +1,11 @@
-import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
+import { createClient } from '@/lib/supabase/server';
+import ProjectForm from '@/components/admin/ProjectForm';
 import { createProject } from '@/app/admin/actions';
+import { getSiteSettings } from '@/lib/api/settings';
+import { getTranslations } from 'next-intl/server';
+import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
-import ProjectForm from '@/components/admin/ProjectForm';
-import { createClient } from '@/lib/supabase/server';
 
 export default async function CreateProjectPage({
     params
@@ -28,6 +28,8 @@ export default async function CreateProjectPage({
         profile = data;
     }
 
+    const settings = await getSiteSettings();
+
     return (
         <div className="min-h-screen bg-slate-50 py-12 font-[family-name:var(--font-geist-sans)]">
             <div className="container max-w-4xl mx-auto px-4">
@@ -42,7 +44,7 @@ export default async function CreateProjectPage({
                     </Link>
                 </div>
 
-                <ProjectForm locale={locale} action={createProject} userProfile={profile} />
+                <ProjectForm locale={locale} action={createProject} userProfile={profile} imageUploadUrl={settings?.image_upload_url || ''} />
 
             </div>
             {/* Spacer for fixed footer */}

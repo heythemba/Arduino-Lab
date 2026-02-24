@@ -122,6 +122,7 @@
             "title": "عنوان المشروع",
             "category": "الفئة",
             "heroImage": "رابط صورة الخلفية",
+            "uploadImage": "رفع صورة",
             "instructor": "اسم المشرف",
             "school": "اسم المدرسة/النادي",
             "language": "اللغة"
