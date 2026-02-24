@@ -6,6 +6,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.0.4] — Step Layout — 2026-02-24
+
+### Changed
+- **Step timeline layout** redesigned from alternating zigzag (50% width cards) to a single-side layout where all steps are pinned to the **start edge** of the timeline — left in EN/FR, right in AR.
+- Step cards now use `flex-1` filling the full available width (~85%) instead of 50%, drastically reducing whitespace and giving long text much more room.
+- Vertical gap between steps reduced from `space-y-16` to `space-y-8` for a tighter, cleaner reading flow.
+- Timeline line position uses `ms-5` (logical CSS, inline-start) so it correctly flips to the right edge in RTL without any extra code.
+
+---
+
 ## [2.0.3] — Slug Validation — 2026-02-23
 
 ### Fixed

@@ -43,17 +43,17 @@ export default function StepList({ steps, locale }: StepListProps) {
 
     return (
         <>
-            <div className="space-y-16 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-slate-300 before:to-transparent">
+            <div className="space-y-8 relative before:absolute before:inset-0 before:ms-5 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-slate-300 before:to-transparent">
                 {steps.map((step, index) => (
-                    <div key={step.id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                    <div key={step.id} className="relative flex items-start gap-4 group is-active">
 
                         {/* Timeline Dot */}
-                        <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-100 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 text-slate-500 font-bold z-10 transition-colors group-hover:bg-primary group-hover:text-white">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-100 shadow shrink-0 text-slate-500 font-bold z-10 transition-colors group-hover:bg-primary group-hover:text-white mt-1">
                             {step.step_number}
                         </div>
 
-                        {/* Card */}
-                        <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                        {/* Card — takes all remaining horizontal space */}
+                        <div className="flex-1 bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                             <div className="prose prose-slate max-w-none dark:prose-invert">
                                 <h3 className="text-xl font-bold text-slate-900 mb-3">
                                     {step.title?.[locale] || step.title?.['en'] || `Step ${step.step_number}`}

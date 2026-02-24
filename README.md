@@ -1,8 +1,16 @@
-# 🤖 ArduinoLab v2.0.3
+# 🤖 ArduinoLab v2.0.4
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.0.4 — "Step Layout"
+
+| Change | Description |
+|---|---|
+| 📐 **Single-Side Timeline** | All steps pinned to the start edge (left in EN/FR, right in AR) — cards now fill ~85% width instead of 50% |
 
 ---
 
