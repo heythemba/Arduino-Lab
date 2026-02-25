@@ -184,8 +184,8 @@ export default async function ProjectPage({ params }: Props) {
 
                             {/* Other Files */}
                             {project.attachments?.filter(a => !['ino', 'stl', 'zip'].includes(a.file_type)).length > 0 && (
-                                <div className={project.attachments?.filter(a => ['ino', 'stl', 'zip'].includes(a.file_type)).length === 0 ? "col-span-1 md:col-span-2" : ""}>
-                                    <h4 className="text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">Other Resources</h4>
+                                <div className="col-span-1 md:col-span-2">
+                                    <h4 className="text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">{t('otherResources')}</h4>
                                     <div className="space-y-2">
                                         {project.attachments.filter(a => !['ino', 'stl', 'zip'].includes(a.file_type)).map(file => (
                                             <a key={file.id} href={file.file_url} target="_blank" rel="noopener noreferrer" className="block">
