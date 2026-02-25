@@ -23,6 +23,7 @@
         "models": "3D Models",
         "libraries": "Arduino Libraries",
         "share": "Share",
+        "copied": "Copied!",
         "downloadCode": "Download Code",
         "downloadCodeSub": ".ino file (coming soon)",
         "downloadModels": "Download 3D Models",
