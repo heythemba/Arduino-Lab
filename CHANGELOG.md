@@ -6,6 +6,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.5.8] — Libraries & Formatting — 2026-02-25
+
+### Added
+- 📦 **Arduino Libraries**: Added support for uploading `.zip` Arduino libraries (up to 100MB) as project resources.
+- 🔗 **Resource Icons**: Downloadable files now correctly display a Download icon, while external links display an External Link icon.
+
+### Fixed
+- 📝 **Fundamental Steps**: Preserved whitespace and line breaks when pasting text into Fundamental category projects.
+
+---
+
 ## [2.2.6] — AI Templates & Localization — 2026-02-24
 
 ### Added

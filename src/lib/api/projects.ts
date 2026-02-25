@@ -56,7 +56,7 @@ export type Attachment = {
     /** ID of the parent project */
     project_id: string;
     /** Type of attachment: STL (3D model), INO (Arduino code), image, or other */
-    file_type: 'stl' | 'ino' | 'image' | 'other';
+    file_type: 'stl' | 'ino' | 'image' | 'other' | 'zip';
     /** Original filename */
     file_name: string;
     /** Public URL to download the file (typically from Supabase Storage) */

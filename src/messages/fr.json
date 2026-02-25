@@ -18,8 +18,11 @@
     },
     "ProjectDetails": {
         "stepByStep": "Guide étape par étape",
-        "resources": "Ressources du projet",
-        "share": "Copier le lien du projet",
+        "resources": "Ressources du Projet",
+        "code": "Fichiers de Code",
+        "models": "Modèles 3D",
+        "libraries": "Bibliothèques Arduino",
+        "share": "Partager",
         "copied": "Copié !",
         "downloadCode": "Télécharger le code",
         "downloadCodeSub": "Fichier .ino (bientôt)",
@@ -143,6 +146,7 @@
             "hints": {
                 "ino": "Code Arduino (.ino, < 1Mo)",
                 "stl": "Modèle 3D (.stl, < 50Mo)",
+                "zip": "Bibliothèque Arduino (.zip, < 100Mo)",
                 "image": "Image (jpg/png, < 10Mo)"
             }
         },

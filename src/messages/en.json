@@ -19,10 +19,10 @@
     "ProjectDetails": {
         "stepByStep": "Step-by-Step Guide",
         "resources": "Project Resources",
-        "share": "Copy link project",
-        "copied": "Copied!",
-        "code": "CODE",
-        "models": "3D MODELS",
+        "code": "Code Files",
+        "models": "3D Models",
+        "libraries": "Arduino Libraries",
+        "share": "Share",
         "downloadCode": "Download Code",
         "downloadCodeSub": ".ino file (coming soon)",
         "downloadModels": "Download 3D Models",
@@ -146,6 +146,7 @@
             "hints": {
                 "ino": "Arduino Code (.ino, < 1MB)",
                 "stl": "3D Model (.stl, < 50MB)",
+                "zip": "Arduino Library (.zip, < 100MB)",
                 "image": "Image (jpg/png, < 10MB)"
             }
         },

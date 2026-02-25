@@ -5,7 +5,7 @@ import ProjectHeader from '@/components/ProjectHeader';
 import StepList from '@/components/StepList';
 import { Button } from '@/components/ui/button';
 import ShareButton from '@/components/ShareButton';
-import { Download, Share2, Code, Box, ExternalLink } from 'lucide-react';
+import { Download, ChevronRight, Share2, Check, Clock, Code, Box, LinkIcon, Sparkles, Languages, ExternalLink, Package } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import CommentSection from '@/components/comments/CommentSection';
 
@@ -98,7 +98,7 @@ export default async function ProjectPage({ params }: Props) {
                                     {step.image_url && (
                                         <img src={step.image_url} alt={step.title?.[locale] || `Step ${idx + 1}`} className="w-full max-w-2xl rounded-xl mb-4 shadow-sm" />
                                     )}
-                                    <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed"
+                                    <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed whitespace-pre-wrap"
                                         dangerouslySetInnerHTML={{ __html: step.content[locale] || '' }} />
                                 </div>
                             ))}
@@ -128,7 +128,7 @@ export default async function ProjectPage({ params }: Props) {
                                                         <span className="font-semibold text-sm truncate w-full">{file.file_name}</span>
                                                         <span className="text-xs text-muted-foreground">{file.file_size ? `${(file.file_size / 1024).toFixed(1)} KB` : 'External Link'}</span>
                                                     </div>
-                                                    <Download className="h-4 w-4 text-slate-400" />
+                                                    {file.file_size ? <Download className="h-4 w-4 text-slate-400" /> : <ExternalLink className="h-4 w-4 text-slate-400" />}
                                                 </Button>
                                             </a>
                                         ))}
@@ -151,7 +151,30 @@ export default async function ProjectPage({ params }: Props) {
                                                         <span className="font-semibold text-sm truncate w-full">{file.file_name}</span>
                                                         <span className="text-xs text-muted-foreground">{file.file_size ? `${(file.file_size / 1024 / 1024).toFixed(1)} MB` : 'External Link'}</span>
                                                     </div>
-                                                    <Download className="h-4 w-4 text-slate-400" />
+                                                    {file.file_size ? <Download className="h-4 w-4 text-slate-400" /> : <ExternalLink className="h-4 w-4 text-slate-400" />}
+                                                </Button>
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Arduino Libraries (.zip) */}
+                            {project.attachments?.filter(a => a.file_type === 'zip').length > 0 && (
+                                <div className={project.attachments?.filter(a => !['ino', 'stl', 'zip'].includes(a.file_type)).length === 0 ? "col-span-1 md:col-span-2" : ""}>
+                                    <h4 className="text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">{t('libraries')}</h4>
+                                    <div className="space-y-2">
+                                        {project.attachments.filter(a => a.file_type === 'zip').map(file => (
+                                            <a key={file.id} href={file.file_url} target="_blank" rel="noopener noreferrer" className="block">
+                                                <Button variant="outline" className="w-full justify-start h-auto py-3 gap-3 border-slate-200 hover:border-purple-300 hover:bg-purple-50">
+                                                    <div className="bg-purple-100 text-purple-600 p-2 rounded-lg">
+                                                        <Package className="h-4 w-4" />
+                                                    </div>
+                                                    <div className="flex flex-col items-start text-left flex-1 min-w-0">
+                                                        <span className="font-semibold text-sm truncate w-full">{file.file_name}</span>
+                                                        <span className="text-xs text-muted-foreground">{file.file_size ? `${(file.file_size / 1024 / 1024).toFixed(1)} MB` : 'External Link'}</span>
+                                                    </div>
+                                                    {file.file_size ? <Download className="h-4 w-4 text-slate-400" /> : <ExternalLink className="h-4 w-4 text-slate-400" />}
                                                 </Button>
                                             </a>
                                         ))}
@@ -160,11 +183,11 @@ export default async function ProjectPage({ params }: Props) {
                             )}
 
                             {/* Other Files */}
-                            {project.attachments?.filter(a => !['ino', 'stl'].includes(a.file_type)).length > 0 && (
-                                <div className={project.attachments?.filter(a => a.file_type === 'stl').length === 0 ? "col-span-1 md:col-span-2" : ""}>
+                            {project.attachments?.filter(a => !['ino', 'stl', 'zip'].includes(a.file_type)).length > 0 && (
+                                <div className={project.attachments?.filter(a => ['ino', 'stl', 'zip'].includes(a.file_type)).length === 0 ? "col-span-1 md:col-span-2" : ""}>
                                     <h4 className="text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">Other Resources</h4>
                                     <div className="space-y-2">
-                                        {project.attachments.filter(a => !['ino', 'stl'].includes(a.file_type)).map(file => (
+                                        {project.attachments.filter(a => !['ino', 'stl', 'zip'].includes(a.file_type)).map(file => (
                                             <a key={file.id} href={file.file_url} target="_blank" rel="noopener noreferrer" className="block">
                                                 <Button variant="outline" className="w-full justify-start h-auto py-3 gap-3">
                                                     <div className="bg-slate-100 text-slate-600 p-2 rounded-lg">
