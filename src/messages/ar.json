@@ -24,6 +24,7 @@
         "code": "ملفات الكود",
         "models": "نماذج ثلاثية الأبعاد",
         "libraries": "مكتبات أردوينو",
+        "otherResources": "موارد أخرى",
         "downloadCode": "تحميل الكود",
         "downloadCodeSub": "ملف .ino (قريباً)",
         "downloadModels": "تحميل نماذج 3D",
