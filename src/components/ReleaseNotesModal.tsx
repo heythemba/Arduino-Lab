@@ -1,9 +1,20 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, ChevronRight } from 'lucide-react';
+import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, ChevronRight, Layout, Link } from 'lucide-react';
 
 const RELEASES = [
+    {
+        version: 'v2.5.8',
+        date: 'February 2026',
+        tag: 'Libraries & Formatting',
+        tagColor: 'bg-indigo-600',
+        features: [
+            { icon: Package, color: 'text-purple-600', bg: 'bg-purple-50', title: 'Arduino Libraries', desc: 'Securely attach and share `.zip` Arduino libraries (up to 100MB) directly in your project resources.' },
+            { icon: Layout, color: 'text-indigo-600', bg: 'bg-indigo-50', title: 'Fundamental Guides', desc: 'Pasted text in fundamental single-step guides now gracefully preserves line breaks and spacing.' },
+            { icon: Link, color: 'text-blue-600', bg: 'bg-blue-50', title: 'Clear Resource Icons', desc: 'Easily distinguish between direct file downloads and external resource links at a glance.' },
+        ],
+    },
     {
         version: 'v2.2.6',
         date: 'February 2026',
@@ -132,7 +143,7 @@ export default function ReleaseNotesModal() {
                 className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
                 <Sparkles className="me-2 h-4 w-4" />
-                <span className="capitalize">ArduinoLab v2.2.6</span>
+                <span className="capitalize">ArduinoLab v2.5.8</span>
                 <ChevronRight className="ms-1 h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
             </button>
 
@@ -188,7 +199,7 @@ export default function ReleaseNotesModal() {
 
                         {/* Footer */}
                         <div className="px-6 py-4 border-t bg-slate-50 text-xs text-slate-400 text-center rounded-b-2xl shrink-0">
-                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.2.6
+                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.5.8
                         </div>
                     </div>
                 </div>

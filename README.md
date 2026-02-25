@@ -1,8 +1,18 @@
-# 🤖 ArduinoLab v2.2.6
+# 🤖 ArduinoLab v2.5.8
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.5.8 — "Libraries & Formatting"
+
+| Feature | Description |
+|---|---|
+| 📦 **Arduino Libraries** | Added support for attaching `.zip` Arduino libraries to projects (up to 100MB). |
+| 📝 **Fundamental Formatting** | Maintained line breaks and text formatting for Fundamental category guides. |
+| 🔗 **Clearer Resource Icons** | Restyled buttons to clearly differentiate direct file downloads from external links. |
 
 ---
 

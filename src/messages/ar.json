@@ -19,10 +19,11 @@
     "ProjectDetails": {
         "stepByStep": "الدليل خطوة بخطوة",
         "resources": "موارد المشروع",
-        "share": "نسخ رابط المشروع",
+        "share": "مشاركة",
         "copied": "تم النسخ!",
-        "code": "الكود",
-        "models": "نماذج 3D",
+        "code": "ملفات الكود",
+        "models": "نماذج ثلاثية الأبعاد",
+        "libraries": "مكتبات أردوينو",
         "downloadCode": "تحميل الكود",
         "downloadCodeSub": "ملف .ino (قريباً)",
         "downloadModels": "تحميل نماذج 3D",
@@ -146,6 +147,7 @@
             "hints": {
                 "ino": "كود أردوينو (.ino, < 1MB)",
                 "stl": "نموذج ثلاثي الأبعاد (.stl, < 50MB)",
+                "zip": "مكتبة أردوينو (.zip, < 100MB)",
                 "image": "صورة (jpg/png, < 10MB)"
             }
         },

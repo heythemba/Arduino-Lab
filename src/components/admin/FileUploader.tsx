@@ -5,10 +5,10 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Upload, FileIcon, ImageIcon, Code, Box, LinkIcon, Trash2, Loader2, ExternalLink, Plus } from 'lucide-react';
+import { Upload, FileIcon, ImageIcon, Code, Box, LinkIcon, Trash2, Loader2, ExternalLink, Plus, Package } from 'lucide-react';
 
 type Attachment = {
-    file_type: 'stl' | 'ino' | 'image' | 'other';
+    file_type: 'stl' | 'ino' | 'image' | 'other' | 'zip';
     file_name: string;
     file_url: string;
     file_size: number;
@@ -28,6 +28,7 @@ const FILE_LIMITS = {
     ino: 1 * 1024 * 1024, // 1MB
     stl: 50 * 1024 * 1024, // 50MB
     image: 10 * 1024 * 1024, // 10MB
+    zip: 100 * 1024 * 1024, // 100MB
 };
 
 export default function FileUploader({
@@ -41,7 +42,7 @@ export default function FileUploader({
 }) {
     const [uploading, setUploading] = useState(false);
     const [mode, setMode] = useState<'upload' | 'link'>('upload');
-    const [fileType, setFileType] = useState<'stl' | 'ino' | 'image'>('stl');
+    const [fileType, setFileType] = useState<'stl' | 'ino' | 'image' | 'zip'>('stl');
 
     // Link State
     const [linkUrl, setLinkUrl] = useState('');
@@ -136,6 +137,7 @@ export default function FileUploader({
                             >
                                 <option value="stl">3D Model (.stl)</option>
                                 <option value="ino">Arduino (.ino)</option>
+                                <option value="zip">Arduino Library (.zip)</option>
                                 <option value="image">Image</option>
                             </select>
                             {/* Simple chevron icon */}
@@ -176,7 +178,7 @@ export default function FileUploader({
                                     type="file"
                                     onChange={handleUpload}
                                     disabled={uploading}
-                                    accept={fileType === 'ino' ? '.ino,.txt' : fileType === 'stl' ? '.stl,.obj' : 'image/*'}
+                                    accept={fileType === 'ino' ? '.ino,.txt' : fileType === 'stl' ? '.stl,.obj' : fileType === 'zip' ? '.zip,.rar,.7z' : 'image/*'}
                                     className="pr-10"
                                 />
                                 {uploading && (
@@ -218,11 +220,13 @@ export default function FileUploader({
                         <div className="flex items-center gap-3 overflow-hidden">
                             <div className={`p-2 rounded-lg ${att.file_type === 'ino' ? 'bg-blue-100 text-blue-600' :
                                 att.file_type === 'stl' ? 'bg-orange-100 text-orange-600' :
-                                    'bg-purple-100 text-purple-600'
+                                    att.file_type === 'zip' ? 'bg-purple-100 text-purple-600' :
+                                        'bg-slate-100 text-slate-600'
                                 }`}>
                                 {att.file_type === 'ino' && <Code className="h-5 w-5" />}
                                 {att.file_type === 'stl' && <Box className="h-5 w-5" />}
                                 {att.file_type === 'image' && <ImageIcon className="h-5 w-5" />}
+                                {att.file_type === 'zip' && <Package className="h-5 w-5" />}
                             </div>
                             <div className="min-w-0">
                                 <p className="font-medium text-sm truncate">{att.file_name}</p>

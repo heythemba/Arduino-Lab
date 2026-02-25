@@ -25,7 +25,7 @@ type Step = {
 };
 
 type Attachment = {
-    file_type: 'stl' | 'ino' | 'image' | 'other';
+    file_type: 'stl' | 'ino' | 'image' | 'other' | 'zip';
     file_name: string;
     file_url: string;
     file_size: number;
