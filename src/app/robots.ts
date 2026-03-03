@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: ['/admin', '/auth'],
         },
-        sitemap: 'https://lab.pnlmahdia.com/en/sitemap.xml',
+        sitemap: 'https://lab.pnlmahdia.com/sitemap.xml',
     };
 }
