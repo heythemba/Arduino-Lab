@@ -8,6 +8,7 @@ import ShareButton from '@/components/ShareButton';
 import { Download, ChevronRight, Share2, Check, Clock, Code, Box, LinkIcon, Sparkles, Languages, ExternalLink, Package } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import CommentSection from '@/components/comments/CommentSection';
+import ProjectJsonLd from '@/components/ProjectJsonLd';
 
 type Props = {
     params: Promise<{ locale: string; slug: string }>;
@@ -22,6 +23,17 @@ type Props = {
  * @param params - Route parameters containing locale and slug
  * @returns Metadata object with title and description
  */
+const BASE_URL = 'https://lab.pnlmahdia.com';
+const GLOBAL_KEYWORDS = [
+    'ArduinoLab',
+    'PNL Mahdia',
+    'SWAFY Science with and for Youth',
+    'Arduino Robotics Tunisia',
+    'School Robotics Club',
+    'Robotics Club Mahdia',
+    'Arduino Tutorial',
+];
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug, locale } = await params;
     const project = await getProjectBySlug(slug);
@@ -30,9 +42,53 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         return { title: 'Project Not Found' };
     }
 
+    const title = project.title[locale] || project.title['en'];
+    const description = project.description[locale] || project.description['en'];
+    const heroImage = project.hero_image_url || `${BASE_URL}/og-default.png`;
+    const url = `${BASE_URL}/${locale}/projects/${slug}`;
+
+    const keywords = [
+        ...GLOBAL_KEYWORDS,
+        title,
+        project.category,
+        project.school_name,
+        project.instructor_name,
+    ].filter(Boolean).join(', ');
+
     return {
-        title: `${project.title[locale] || project.title['en']} | ArduinoLab`,
-        description: project.description[locale] || project.description['en'],
+        title: `${title} | ArduinoLab`,
+        description,
+        keywords,
+        alternates: {
+            canonical: url,
+            languages: {
+                'en': `${BASE_URL}/en/projects/${slug}`,
+                'fr': `${BASE_URL}/fr/projects/${slug}`,
+                'ar': `${BASE_URL}/ar/projects/${slug}`,
+            },
+        },
+        openGraph: {
+            title: `${title} | ArduinoLab`,
+            description,
+            url,
+            type: 'article',
+            siteName: 'ArduinoLab – PNL Mahdia',
+            locale: locale === 'ar' ? 'ar_TN' : locale === 'fr' ? 'fr_TN' : 'en_US',
+            images: [
+                {
+                    url: heroImage,
+                    width: 1200,
+                    height: 630,
+                    alt: title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${title} | ArduinoLab`,
+            description,
+            images: [heroImage],
+        },
     };
 }
 
@@ -65,6 +121,7 @@ export default async function ProjectPage({ params }: Props) {
 
     return (
         <main className="flex-1 bg-white">
+            <ProjectJsonLd project={project} locale={locale} />
             <ProjectHeader
                 title={title}
                 description={description}
