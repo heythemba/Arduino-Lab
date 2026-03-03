@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     icon: '/icon.png',
   },
   description: "Your centralized library for school robotics. Document, share, and build amazing robots together.",
+  verification: {
+    google: "J2EYS4H_LoPgSom3r1WE7MilVppdOwGiupAEYZCbN10",
+  },
   openGraph: {
     title: "ArduinoLab",
     description: "Share and document your Arduino projects",
