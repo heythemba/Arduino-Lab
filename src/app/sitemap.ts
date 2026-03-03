@@ -1,34 +1,44 @@
 import { MetadataRoute } from 'next';
+import { createClient } from '@/lib/supabase/server';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://lab.pnlmahdia.com';
+const BASE_URL = 'https://lab.pnlmahdia.com';
 
-    // Note: For a dynamic app, you would fetch projects from the DB 
-    // and map them to URLs here. For now, we return static core routes.
-    return [
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const supabase = await createClient();
+
+    // Fetch all published project slugs
+    const { data: projects } = await supabase
+        .from('projects')
+        .select('slug, updated_at')
+        .order('updated_at', { ascending: false });
+
+    const locales = ['en', 'fr', 'ar'];
+
+    // Static pages for each locale
+    const staticPages = locales.flatMap(locale => [
         {
-            url: `${baseUrl}/en`,
+            url: `${BASE_URL}/${locale}`,
             lastModified: new Date(),
-            changeFrequency: 'daily',
-            priority: 1,
+            changeFrequency: 'weekly' as const,
+            priority: 1.0,
         },
         {
-            url: `${baseUrl}/fr`,
+            url: `${BASE_URL}/${locale}/projects`,
             lastModified: new Date(),
-            changeFrequency: 'daily',
-            priority: 1,
+            changeFrequency: 'daily' as const,
+            priority: 0.9,
         },
-        {
-            url: `${baseUrl}/ar`,
-            lastModified: new Date(),
-            changeFrequency: 'daily',
-            priority: 1,
-        },
-        {
-            url: `${baseUrl}/en/about`,
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
+    ]);
+
+    // Dynamic project pages for each locale
+    const projectPages = (projects ?? []).flatMap(project =>
+        locales.map(locale => ({
+            url: `${BASE_URL}/${locale}/projects/${project.slug}`,
+            lastModified: new Date(project.updated_at),
+            changeFrequency: 'weekly' as const,
             priority: 0.8,
-        }
-    ];
+        }))
+    );
+
+    return [...staticPages, ...projectPages];
 }

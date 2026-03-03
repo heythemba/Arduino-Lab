@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: ['/admin/', '/login/'],
+            disallow: ['/admin', '/auth'],
         },
         sitemap: 'https://lab.pnlmahdia.com/sitemap.xml',
     };
