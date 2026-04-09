@@ -1,14 +1,15 @@
-import { getProjectBySlug } from '@/lib/api/projects';
+import { getProjectBySlug, Step } from '@/lib/api/projects';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import ProjectHeader from '@/components/ProjectHeader';
 import StepList from '@/components/StepList';
 import { Button } from '@/components/ui/button';
 import ShareButton from '@/components/ShareButton';
-import { Download, ChevronRight, Share2, Check, Clock, Code, Box, LinkIcon, Sparkles, Languages, ExternalLink, Package } from 'lucide-react';
+import { Download, Code, Box, ExternalLink, Package } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import CommentSection from '@/components/comments/CommentSection';
 import ProjectJsonLd from '@/components/ProjectJsonLd';
+import DOMPurify from 'isomorphic-dompurify';
 
 type Props = {
     params: Promise<{ locale: string; slug: string }>;
@@ -147,16 +148,17 @@ export default async function ProjectPage({ params }: Props) {
                             <h2 className="text-3xl font-extrabold text-slate-900 mb-6 flex items-center gap-3">
                                 🚀 Quick Setup
                             </h2>
-                            {project.steps.map((step: any, idx: number) => (
+                            {project.steps.map((step: Step, idx: number) => (
                                 <div key={step.id || idx} className="mb-8 last:mb-0">
                                     {step.title && step.title[locale] && (
                                         <h3 className="text-xl font-bold text-slate-800 mb-3">{step.title[locale]}</h3>
                                     )}
                                     {step.image_url && (
+                                        // eslint-disable-next-line @next/next/no-img-element
                                         <img src={step.image_url} alt={step.title?.[locale] || `Step ${idx + 1}`} className="w-full max-w-2xl rounded-xl mb-4 shadow-sm" />
                                     )}
                                     <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed whitespace-pre-wrap"
-                                        dangerouslySetInnerHTML={{ __html: step.content[locale] || '' }} />
+                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(step.content[locale] || '') }} />
                                 </div>
                             ))}
                         </div>

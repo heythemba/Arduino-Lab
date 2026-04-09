@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getLocale } from 'next-intl/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { safeParseJson, stepsArraySchema, attachmentsArraySchema } from '@/lib/validations'
 
 /**
  * Creates a new user (Leader) manually.
@@ -41,7 +42,25 @@ export async function createUser(prevState: any, formData: FormData) {
         return { message: 'Password must be at least 6 characters.' };
     }
 
-    // 2. Create Admin Client
+    // 2. Auth & Admin Role Check
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        return { message: 'Unauthorized' };
+    }
+
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    if (profile?.role !== 'admin') {
+        return { message: 'Unauthorized: insufficient privileges.' };
+    }
+
+    // 3. Create Admin Client
     // We need the Service Role Key to create users directly without email verification flow.
     // WARNING: This client bypasses Row Level Security (RLS). Use with caution.
     const supabaseAdmin = createAdminClient(
@@ -55,7 +74,7 @@ export async function createUser(prevState: any, formData: FormData) {
         }
     );
 
-    // 3. Create User in Supabase Auth
+    // 4. Create User in Supabase Auth
     const { data, error } = await supabaseAdmin.auth.admin.createUser({
         email,
         password,
@@ -71,7 +90,7 @@ export async function createUser(prevState: any, formData: FormData) {
         return { message: error.message };
     }
 
-    // 4. Revalidate execution to refresh the user list
+    // 5. Revalidate execution to refresh the user list
     revalidatePath('/[locale]/admin', 'page');
     return { success: true, message: `User ${email} created successfully!` };
 }
@@ -95,15 +114,18 @@ export async function createProject(prevState: any, formData: FormData) {
     }
 
     // 2. Role Check & Client Selection
-    // If the user is an Admin, we upgrade to the Service Role client to ensure
-    // they can create content without hitting any restrictive RLS (though typically creation is allowed).
     const { data: profile } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', user.id)
         .single();
 
-    const isAdmin = profile?.role === 'admin';
+    const PERMITTED_ROLES = ['admin', 'volunteer_facilitator', 'teacher'];
+    if (!profile || !PERMITTED_ROLES.includes(profile.role)) {
+        return { message: 'Unauthorized: insufficient privileges.' };
+    }
+
+    const isAdmin = profile.role === 'admin';
     const clientToUse = isAdmin ? createAdminClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -158,9 +180,9 @@ export async function createProject(prevState: any, formData: FormData) {
     const stepsJson = formData.get('steps_json');
     if (stepsJson) {
         try {
-            const steps = JSON.parse(stepsJson as string);
+            const steps = safeParseJson(stepsJson as string, stepsArraySchema);
 
-            if (steps.length > 0) {
+            if (steps && steps.length > 0) {
                 const formattedSteps = steps.map((step: any, index: number) => ({
                     project_id: project.id,
                     step_number: index + 1,
@@ -179,13 +201,13 @@ export async function createProject(prevState: any, formData: FormData) {
                     // CRITICAL: Rollback - Delete the project if steps fail
                     await clientToUse.from('projects').delete().eq('id', project.id);
 
-                    return { message: `Project creation failed (rolled back): ${stepsError.message}` };
+                    return { message: `Project creation failed due to a step processing error.` };
                 }
             }
         } catch (e: any) {
             console.error('Unexpected Error:', e);
             await clientToUse.from('projects').delete().eq('id', project.id);
-            return { message: `Unexpected error: ${e.message}` };
+            return { message: `Unexpected error while parsing steps.` };
         }
     }
 
@@ -193,8 +215,8 @@ export async function createProject(prevState: any, formData: FormData) {
     const attachmentsJson = formData.get('attachments_json');
     if (attachmentsJson) {
         try {
-            const attachments = JSON.parse(attachmentsJson as string);
-            if (attachments.length > 0) {
+            const attachments = safeParseJson(attachmentsJson as string, attachmentsArraySchema);
+            if (attachments && attachments.length > 0) {
                 const formattedAttachments = attachments.map((att: any) => ({
                     project_id: project.id,
                     file_type: att.file_type,
@@ -211,13 +233,13 @@ export async function createProject(prevState: any, formData: FormData) {
                     console.error('Attachments Insert Error:', attError);
                     // Rollback on attachment failure to keep data clean
                     await clientToUse.from('projects').delete().eq('id', project.id);
-                    return { message: `Attachments creation failed: ${attError.message}` };
+                    return { message: `Project creation failed due to attachments processing error.` };
                 }
             }
         } catch (e: any) {
             console.error('Attachments Error:', e);
             await clientToUse.from('projects').delete().eq('id', project.id);
-            return { message: `Attachments error: ${e.message}` };
+            return { message: `Unexpected error while parsing attachments.` };
         }
     }
 
@@ -249,8 +271,13 @@ export async function deleteProject(projectId: string) {
         .eq('id', user.id)
         .single();
 
+    const PERMITTED_ROLES = ['admin', 'volunteer_facilitator', 'teacher'];
+    if (!profile || !PERMITTED_ROLES.includes(profile.role)) {
+        return { message: 'Unauthorized: insufficient privileges.' };
+    }
+
     // Elevate privileges for Admin
-    const isAdmin = profile?.role === 'admin';
+    const isAdmin = profile.role === 'admin';
     const clientToUse = isAdmin ? createAdminClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -304,8 +331,13 @@ export async function updateProject(prevState: any, formData: FormData) {
         .eq('id', user.id)
         .single();
 
+    const PERMITTED_ROLES = ['admin', 'volunteer_facilitator', 'teacher'];
+    if (!profile || !PERMITTED_ROLES.includes(profile.role)) {
+        return { message: 'Unauthorized: insufficient privileges.' };
+    }
+
     // Elevate privileges for Admin to allow editing others' projects
-    const isAdmin = profile?.role === 'admin';
+    const isAdmin = profile.role === 'admin';
     const clientToUse = isAdmin ? createAdminClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -362,7 +394,7 @@ export async function updateProject(prevState: any, formData: FormData) {
     const stepsJson = formData.get('steps_json');
     if (stepsJson) {
         try {
-            const steps = JSON.parse(stepsJson as string);
+            const steps = safeParseJson(stepsJson as string, stepsArraySchema);
 
             // DELETE existing steps
             const { error: deleteError } = await clientToUse
@@ -376,7 +408,7 @@ export async function updateProject(prevState: any, formData: FormData) {
             }
 
             // INSERT new steps
-            if (steps.length > 0) {
+            if (steps && steps.length > 0) {
                 const formattedSteps = steps.map((step: any, index: number) => ({
                     project_id: projectId,
                     step_number: index + 1,
@@ -391,12 +423,12 @@ export async function updateProject(prevState: any, formData: FormData) {
 
                 if (stepsError) {
                     console.error('Steps Insert Error:', stepsError);
-                    return { message: `Steps update failed: ${stepsError.message}` };
+                    return { message: `Steps update failed.` };
                 }
             }
         } catch (e: any) {
             console.error('Unexpected Error:', e);
-            return { message: `Unexpected error: ${e.message}` };
+            return { message: `Unexpected error during steps parsing.` };
         }
     }
 
@@ -404,7 +436,7 @@ export async function updateProject(prevState: any, formData: FormData) {
     const attachmentsJson = formData.get('attachments_json');
     if (attachmentsJson) {
         try {
-            const attachments = JSON.parse(attachmentsJson as string);
+            const attachments = safeParseJson(attachmentsJson as string, attachmentsArraySchema);
 
             // DELETE existing attachments
             const { error: deleteAttError } = await clientToUse
@@ -418,7 +450,7 @@ export async function updateProject(prevState: any, formData: FormData) {
             }
 
             // INSERT new attachments
-            if (attachments.length > 0) {
+            if (attachments && attachments.length > 0) {
                 const formattedAttachments = attachments.map((att: any) => ({
                     project_id: projectId,
                     file_type: att.file_type,
@@ -433,12 +465,12 @@ export async function updateProject(prevState: any, formData: FormData) {
 
                 if (attError) {
                     console.error('Attachments Insert Error:', attError);
-                    return { message: `Attachments update failed: ${attError.message}` };
+                    return { message: `Attachments update failed.` };
                 }
             }
         } catch (e: any) {
             console.error('Attachments Error:', e);
-            return { message: `Attachments error: ${e.message}` };
+            return { message: `Unexpected error during attachments parsing.` };
         }
     }
 

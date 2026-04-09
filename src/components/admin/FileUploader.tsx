@@ -60,6 +60,34 @@ export default function FileUploader({
             return;
         }
 
+        // Validate MIME type / Extensions for security
+        let isValid = false;
+        const pName = file.name.toLowerCase();
+
+        switch (fileType) {
+            case 'stl':
+                isValid = pName.endsWith('.stl');
+                break;
+            case 'ino':
+                isValid = pName.endsWith('.ino') || pName.endsWith('.cpp') || pName.endsWith('.h');
+                break;
+            case 'zip':
+                isValid = pName.endsWith('.zip') && file.type === 'application/zip';
+                break;
+            case 'image':
+                isValid = file.type.startsWith('image/') && (pName.endsWith('.png') || pName.endsWith('.jpg') || pName.endsWith('.jpeg') || pName.endsWith('.gif') || pName.endsWith('.webp'));
+                break;
+            case 'other':
+                isValid = true; // Still bound by Supabase Storage Bucket constraints
+                break;
+        }
+
+        if (!isValid) {
+            alert(`Invalid file format for selected type: ${fileType}.`);
+            e.target.value = '';
+            return;
+        }
+
         setUploading(true);
         try {
             const supabase = createClient();

@@ -1,6 +1,7 @@
 'use client';
 
 import { FullProject } from '@/lib/api/projects';
+import DOMPurify from 'isomorphic-dompurify';
 
 const BASE_URL = 'https://lab.pnlmahdia.com';
 
@@ -95,7 +96,7 @@ export default function ProjectJsonLd({
     return (
         <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd, null, 0) }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(JSON.stringify(jsonLd, null, 0)) }}
         />
     );
 }
