@@ -1,5 +1,6 @@
-import { type NextRequest } from 'next/server'
-import { updateSession } from '@/lib/supabase/middleware'
+import { type NextRequest } from 'next/server';
+import { updateSession } from '@/lib/supabase/middleware';
+import { env } from '@/lib/env';
 
 /**
  * Next.js Middleware.
@@ -20,7 +21,7 @@ export async function middleware(request: NextRequest) {
         default-src 'self';
         script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live;
         style-src 'self' 'unsafe-inline';
-        img-src 'self' blob: data: https://cdlpxyyjknpspihrlnnq.supabase.co https://lab.pnlmahdia.com;
+        img-src 'self' blob: data: https:;
         font-src 'self' data:;
         object-src 'none';
         base-uri 'self';
@@ -32,11 +33,12 @@ export async function middleware(request: NextRequest) {
     response.headers.set('Content-Security-Policy', cspHeader);
     
     // Additional Security & CORS Headers
+    response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
     response.headers.set('X-Content-Type-Options', 'nosniff');
     response.headers.set('X-Frame-Options', 'DENY');
     response.headers.set('X-XSS-Protection', '1; mode=block');
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-    response.headers.set('Access-Control-Allow-Origin', 'https://lab.pnlmahdia.com');
+    response.headers.set('Access-Control-Allow-Origin', env.NEXT_PUBLIC_BASE_URL);
     response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
     return response;

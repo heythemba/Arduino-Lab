@@ -3,7 +3,9 @@
 import { FullProject } from '@/lib/api/projects';
 import DOMPurify from 'isomorphic-dompurify';
 
-const BASE_URL = 'https://lab.pnlmahdia.com';
+import { env } from '@/lib/env';
+
+const BASE_URL = env.NEXT_PUBLIC_BASE_URL;
 
 /**
  * Renders a <script type="application/ld+json"> block using the HowTo schema.

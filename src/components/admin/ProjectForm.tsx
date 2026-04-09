@@ -4,9 +4,10 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { useFormStatus } from 'react-dom';
 import { useActionState, useEffect, useState } from 'react';
-import { Loader2, Plus, Trash2, Save, Sparkles, Languages, ExternalLink } from 'lucide-react';
+import { Loader2, Plus, Trash2, Save, Sparkles, Languages } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import FileUploader from './FileUploader';
+import ImageUploader from './ImageUploader';
 import RichTextEditor from '@/components/ui/RichTextEditor';
 import AiNotificationPopup from '@/components/AiNotificationPopup';
 
@@ -31,6 +32,11 @@ type Attachment = {
     file_size: number;
 };
 
+type FormState = {
+    message?: string;
+    success?: boolean;
+};
+
 export type ProjectFormData = {
     id?: string;
     slug?: string;
@@ -46,11 +52,10 @@ export type ProjectFormData = {
 
 type ProjectFormProps = {
     locale: string;
-    action: (prevState: any, formData: FormData) => Promise<any>;
+    action: (prevState: FormState, formData: FormData) => Promise<FormState>;
     initialData?: ProjectFormData;
     isEditMode?: boolean;
-    userProfile?: any;
-    imageUploadUrl?: string;
+    userProfile?: Record<string, unknown>;
 };
 
 /**
@@ -63,12 +68,12 @@ type ProjectFormProps = {
  * - File Upload Integration
  * - Server Action Integration with proper pending states
  */
-export default function ProjectForm({ locale, action, initialData, isEditMode = false, userProfile, imageUploadUrl }: ProjectFormProps) {
+export default function ProjectForm({ locale, action, initialData, isEditMode = false, userProfile }: ProjectFormProps) {
     const t = useTranslations('ProjectForm');
     const router = useRouter();
 
     // Server Action State Hook
-    const [state, formAction] = useActionState(action, { message: '', success: false });
+    const [state, formAction] = useActionState<FormState, FormData>(action, { message: '', success: false });
 
     // Dirty State Tracking (for unsaved changes warning)
     const [isDirty, setIsDirty] = useState(false);
@@ -82,6 +87,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
     const [slugValue, setSlugValue] = useState(initialData?.slug || '');
     const [aiNotification, setAiNotification] = useState<{ type: 'success' | 'error'; visible: boolean }>({ type: 'success', visible: false });
     const closeNotification = () => setAiNotification(n => ({ ...n, visible: false }));
+    const [heroImageUrl, setHeroImageUrl] = useState(initialData?.hero_image_url || '');
 
     // Multilingual Controlled State for AI Auto-fill
     const [multiLangData, setMultiLangData] = useState({
@@ -121,7 +127,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
 
             // Populate the 3 template steps from AI
             if (Array.isArray(data.steps) && data.steps.length > 0) {
-                const templateSteps = data.steps.map((s: any, i: number) => ({
+                const templateSteps = data.steps.map((s: Record<string, string>, i: number) => ({
                     id: Math.random().toString(36).substr(2, 9),
                     step_number: i + 1,
                     title: {
@@ -143,7 +149,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
             setIsDirty(true);
             setAiNotification({ type: 'success', visible: true });
             setTimeout(() => setAiNotification(n => ({ ...n, visible: false })), 8000);
-        } catch (error: any) {
+        } catch (error) {
             console.error(error);
             setAiNotification({ type: 'error', visible: true });
         } finally {
@@ -172,9 +178,9 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
             }));
             setTranslatedStepIds(prev => new Set(prev).add(stepId));
             setIsDirty(true);
-        } catch (error: any) {
+        } catch (error) {
             console.error(error);
-            alert(error.message || 'Step translation failed. Please try again.');
+            alert((error instanceof Error ? error.message : 'Step translation failed. Please try again.'));
         } finally {
             setTranslatingStepId(null);
         }
@@ -183,7 +189,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
     // Populate initialData.instructor_name with userProfile.full_name if it's new
     if (!isEditMode && userProfile && (!initialData?.instructor_name)) {
         if (!initialData) initialData = {};
-        initialData.instructor_name = userProfile.full_name;
+        initialData.instructor_name = userProfile.full_name as string;
     }
 
     // Attachments State
@@ -377,26 +383,13 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-sm font-medium mb-1">{t('labels.heroImage')}</label>
-                            <div className="flex gap-2">
-                                <input
-                                    name="hero_image_url"
-                                    defaultValue={initialData?.hero_image_url}
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    placeholder="https://..."
-                                />
-                                {imageUploadUrl && (
-                                    <a
-                                        href={imageUploadUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <Button type="button" variant="outline" className="shrink-0 gap-2 whitespace-nowrap">
-                                            <ExternalLink className="h-4 w-4" />
-                                            {t('labels.uploadImage')}
-                                        </Button>
-                                    </a>
-                                )}
-                            </div>
+                            {/* Hidden input keeps the URL in the form data */}
+                            <input type="hidden" name="hero_image_url" value={heroImageUrl} />
+                            <ImageUploader
+                                value={heroImageUrl}
+                                onChange={(url) => { setHeroImageUrl(url); setIsDirty(true); }}
+                                placeholder="Hero image · JPEG, PNG, GIF, WEBP · max 10 MB"
+                            />
                         </div>
                     </div>
 
@@ -405,7 +398,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                             <label className="block text-sm font-medium mb-1">{t('labels.instructor')}</label>
                             <input
                                 name="instructor_name"
-                                defaultValue={initialData?.instructor_name || (userProfile?.full_name || '')}
+                                defaultValue={(initialData?.instructor_name || (userProfile?.full_name as string) || '') as string}
                                 maxLength={20}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 placeholder="Max 20 chars"
@@ -498,34 +491,16 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
 
                                 <div className="mb-4">
                                     <label className="block text-sm font-medium mb-1">{t('steps.image')}</label>
-                                    <div className="flex gap-2">
-                                        <input
-                                            value={step.image_url}
-                                            onChange={(e) => updateStepImage(step.id, e.target.value)}
-                                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                                            placeholder="https://..."
-                                        />
-                                        {imageUploadUrl && (
-                                            <a
-                                                href={imageUploadUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                <Button type="button" variant="outline" className="shrink-0 gap-2 whitespace-nowrap">
-                                                    <ExternalLink className="h-4 w-4" />
-                                                    {t('labels.uploadImage')}
-                                                </Button>
-                                            </a>
-                                        )}
-                                    </div>
+                                    <ImageUploader
+                                        value={step.image_url}
+                                        onChange={(url) => updateStepImage(step.id, url)}
+                                        placeholder="Step image · JPEG, PNG, GIF, WEBP · max 10 MB"
+                                    />
                                 </div>
 
                                 <div className="space-y-4">
                                     {(['en', 'fr', 'ar'] as const).map((lang) => {
-                                        const isTranslated = translatedStepIds.has(step.id) && (
-                                            !steps.find(s => s.id === step.id)?.title[lang] ||
-                                            translatingStepId !== step.id
-                                        );
+
                                         return (
                                             <div key={lang} className={`grid grid-cols-1 gap-4 p-3 rounded border ${translatedStepIds.has(step.id)
                                                 ? 'bg-yellow-50 border-yellow-200'
@@ -594,7 +569,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
     );
 }
 
-function SubmitButton({ t, isEditMode }: { t: any, isEditMode: boolean }) {
+function SubmitButton({ t, isEditMode }: { t: (key: string) => string, isEditMode: boolean }) {
     const { pending } = useFormStatus();
 
     return (

@@ -3,7 +3,7 @@
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Cpu } from 'lucide-react';
+import { Menu, X, Cpu, LogIn, LogOut, Globe } from 'lucide-react';
 import { useState } from 'react';
 import { logout } from '@/app/auth/actions';
 import { User } from '@supabase/supabase-js';
@@ -73,9 +73,10 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
 
 
                     {/* Locale Selector */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 bg-slate-50/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-slate-100 hover:bg-slate-100/50 transition-colors">
+                        <Globe className="w-4 h-4 text-slate-500" />
                         <select
-                            className="bg-transparent text-sm font-medium focus:outline-none cursor-pointer"
+                            className="bg-transparent text-sm font-semibold focus:outline-none cursor-pointer text-slate-700"
                             value={locale}
                             onChange={(e) => switchLocale(e.target.value)}
                         >
@@ -95,12 +96,18 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                                 <Button variant="default">{navT('dashboard')}</Button>
                             </Link>
                             <form action={logout}>
-                                <Button variant="ghost">{navT('logout')}</Button>
+                                <Button variant="ghost" className="gap-2">
+                                    <LogOut className="w-4 h-4" />
+                                    {navT('logout')}
+                                </Button>
                             </form>
                         </div>
                     ) : (
                         <Link href="/login">
-                            <Button>{navT('login')}</Button>
+                            <Button className="gap-2">
+                                <LogIn className="w-4 h-4" />
+                                {navT('login')}
+                            </Button>
                         </Link>
                     )}
                 </div>
@@ -131,10 +138,10 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                     <Link href="/about" onClick={() => setIsOpen(false)} className="text-sm font-medium py-2">
                         {navT('about')}
                     </Link>
-                    <div className="flex gap-4 py-2">
-                        <Button variant="ghost" size="sm" onClick={() => switchLocale('en')} className={locale === 'en' ? 'bg-accent' : ''}>EN</Button>
-                        <Button variant="ghost" size="sm" onClick={() => switchLocale('fr')} className={locale === 'fr' ? 'bg-accent' : ''}>FR</Button>
-                        <Button variant="ghost" size="sm" onClick={() => switchLocale('ar')} className={locale === 'ar' ? 'bg-accent' : ''}>AR</Button>
+                    <div className="flex gap-4 py-2 border-t pt-4">
+                        <Button variant="ghost" size="sm" onClick={() => switchLocale('en')} className={locale === 'en' ? 'bg-[#2463eb]/10 backdrop-blur-md text-[#2463eb] font-bold border border-[#2463eb]/20' : ''}>EN</Button>
+                        <Button variant="ghost" size="sm" onClick={() => switchLocale('fr')} className={locale === 'fr' ? 'bg-[#2463eb]/10 backdrop-blur-md text-[#2463eb] font-bold border border-[#2463eb]/20' : ''}>FR</Button>
+                        <Button variant="ghost" size="sm" onClick={() => switchLocale('ar')} className={locale === 'ar' ? 'bg-[#2463eb]/10 backdrop-blur-md text-[#2463eb] font-bold border border-[#2463eb]/20' : ''}>AR</Button>
                     </div>
                     {user ? (
                         <>
@@ -142,12 +149,18 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                                 <Button className="w-full">{navT('dashboard')}</Button>
                             </Link>
                             <form action={logout} className="w-full">
-                                <Button variant="secondary" className="w-full">{navT('logout')}</Button>
+                                <Button variant="secondary" className="w-full gap-2">
+                                    <LogOut className="w-4 h-4" />
+                                    {navT('logout')}
+                                </Button>
                             </form>
                         </>
                     ) : (
                         <Link href="/login" onClick={() => setIsOpen(false)}>
-                            <Button className="w-full">{navT('login')}</Button>
+                            <Button className="w-full gap-2">
+                                <LogIn className="w-4 h-4" />
+                                {navT('login')}
+                            </Button>
                         </Link>
                     )}
                 </div>

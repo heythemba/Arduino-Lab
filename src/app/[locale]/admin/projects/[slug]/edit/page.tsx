@@ -6,7 +6,6 @@ import { X } from 'lucide-react';
 import Link from 'next/link';
 import ProjectForm from '@/components/admin/ProjectForm';
 import { updateProject } from '@/app/admin/actions';
-import { getSiteSettings } from '@/lib/api/settings';
 
 export default async function EditProjectPage({
     params
@@ -48,7 +47,6 @@ export default async function EditProjectPage({
 
     const { data: project, error } = await query.single();
 
-    const settings = await getSiteSettings();
 
     if (error || !project) {
         console.error('Error fetching project for edit:', error);
@@ -100,7 +98,6 @@ export default async function EditProjectPage({
                     action={updateProject}
                     initialData={initialData}
                     isEditMode={true}
-                    imageUploadUrl={settings?.image_upload_url || ''}
                 />
 
             </div>

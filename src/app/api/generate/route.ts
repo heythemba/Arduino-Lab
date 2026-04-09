@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 import OpenAI from "openai";
 
 export async function POST(req: NextRequest) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        return NextResponse.json({ error: "Unauthorized. You must be logged in to use this feature." }, { status: 401 });
+    }
+
     const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
@@ -92,10 +100,11 @@ JSON schema (follow exactly):
         const parsedJson = JSON.parse(jsonMatch[0]);
         return NextResponse.json(parsedJson);
 
-    } catch (error: any) {
+    } catch (error) {
         console.error("Error generating content:", error);
+        const errObj = error as { status?: number };
 
-        if (error?.status === 429) {
+        if (errObj?.status === 429) {
             return NextResponse.json({ error: "Rate limit reached. Please wait a moment and try again." }, { status: 429 });
         }
 

@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Upload, FileIcon, ImageIcon, Code, Box, LinkIcon, Trash2, Loader2, ExternalLink, Plus, Package } from 'lucide-react';
+import { Code, Box, Trash2, Loader2, ExternalLink, Plus, Package, ImageIcon } from 'lucide-react';
 
 type Attachment = {
     file_type: 'stl' | 'ino' | 'image' | 'other' | 'zip';
@@ -24,11 +24,12 @@ function formatBytes(bytes: number, decimals = 2) {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
 
-const FILE_LIMITS = {
+const FILE_LIMITS: Record<string, number> = {
     ino: 1 * 1024 * 1024, // 1MB
     stl: 50 * 1024 * 1024, // 50MB
     image: 10 * 1024 * 1024, // 10MB
     zip: 100 * 1024 * 1024, // 100MB
+    other: 100 * 1024 * 1024 // 100MB
 };
 
 export default function FileUploader({
@@ -36,13 +37,13 @@ export default function FileUploader({
     attachments,
     setAttachments
 }: {
-    t: any,
+    t: (key: string) => string,
     attachments: Attachment[],
     setAttachments: (att: Attachment[]) => void
 }) {
     const [uploading, setUploading] = useState(false);
     const [mode, setMode] = useState<'upload' | 'link'>('upload');
-    const [fileType, setFileType] = useState<'stl' | 'ino' | 'image' | 'zip'>('stl');
+    const [fileType, setFileType] = useState<'stl' | 'ino' | 'image' | 'zip' | 'other'>('stl');
 
     // Link State
     const [linkUrl, setLinkUrl] = useState('');
@@ -95,7 +96,7 @@ export default function FileUploader({
             const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
             const filePath = `${fileType}s/${fileName}`; // Organize by type folders
 
-            const { data, error } = await supabase.storage
+            const { error } = await supabase.storage
                 .from('project-files')
                 .upload(filePath, file);
 
@@ -115,9 +116,9 @@ export default function FileUploader({
 
             setAttachments([...attachments, newAttachment]);
 
-        } catch (error: any) {
+        } catch (error) {
             console.error('Upload Error:', error);
-            alert('Upload failed: ' + error.message);
+            alert('Upload failed: ' + (error instanceof Error ? error.message : String(error)));
         } finally {
             setUploading(false);
             e.target.value = '';
@@ -160,13 +161,14 @@ export default function FileUploader({
                         <div className="relative">
                             <select
                                 value={fileType}
-                                onChange={(e) => setFileType(e.target.value as any)}
+                                onChange={(e) => setFileType(e.target.value as 'stl' | 'ino' | 'image' | 'zip' | 'other')}
                                 className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none pl-3"
                             >
                                 <option value="stl">3D Model (.stl)</option>
                                 <option value="ino">Arduino (.ino)</option>
                                 <option value="zip">Arduino Library (.zip)</option>
                                 <option value="image">Image</option>
+                                <option value="other">Other</option>
                             </select>
                             {/* Simple chevron icon */}
                             <div className="absolute right-3 top-3 pointer-events-none">

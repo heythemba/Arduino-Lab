@@ -4,8 +4,9 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getLocale } from 'next-intl/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
-import { safeParseJson, stepsArraySchema, attachmentsArraySchema } from '@/lib/validations'
+import { createClient as createAdminClient } from '@supabase/supabase-js';
+import { safeParseJson, stepsArraySchema, attachmentsArraySchema } from '@/lib/validations';
+import { env } from '@/lib/env';
 
 /**
  * Creates a new user (Leader) manually.
@@ -38,8 +39,10 @@ export async function createUser(prevState: any, formData: FormData) {
         return { message: 'Passwords do not match.' };
     }
 
-    if (password.length < 6) {
-        return { message: 'Password must be at least 6 characters.' };
+    // Password strength regex: >= 8 length, 1 uppercase, 1 lowercase, 1 number, 1 special character
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;"'<>,.?/\\|`~]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        return { message: 'Password must be at least 8 characters long, and include an uppercase letter, lowercase letter, number, and special character.' };
     }
 
     // 2. Auth & Admin Role Check
@@ -64,8 +67,8 @@ export async function createUser(prevState: any, formData: FormData) {
     // We need the Service Role Key to create users directly without email verification flow.
     // WARNING: This client bypasses Row Level Security (RLS). Use with caution.
     const supabaseAdmin = createAdminClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        env.NEXT_PUBLIC_SUPABASE_URL,
+        env.SUPABASE_SERVICE_ROLE_KEY!,
         {
             auth: {
                 autoRefreshToken: false,
@@ -127,8 +130,8 @@ export async function createProject(prevState: any, formData: FormData) {
 
     const isAdmin = profile.role === 'admin';
     const clientToUse = isAdmin ? createAdminClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        env.NEXT_PUBLIC_SUPABASE_URL,
+        env.SUPABASE_SERVICE_ROLE_KEY!,
         { auth: { autoRefreshToken: false, persistSession: false } }
     ) : supabase;
 
@@ -279,8 +282,8 @@ export async function deleteProject(projectId: string) {
     // Elevate privileges for Admin
     const isAdmin = profile.role === 'admin';
     const clientToUse = isAdmin ? createAdminClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        env.NEXT_PUBLIC_SUPABASE_URL,
+        env.SUPABASE_SERVICE_ROLE_KEY!,
         { auth: { autoRefreshToken: false, persistSession: false } }
     ) : supabase;
 
@@ -339,8 +342,8 @@ export async function updateProject(prevState: any, formData: FormData) {
     // Elevate privileges for Admin to allow editing others' projects
     const isAdmin = profile.role === 'admin';
     const clientToUse = isAdmin ? createAdminClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        env.NEXT_PUBLIC_SUPABASE_URL,
+        env.SUPABASE_SERVICE_ROLE_KEY!,
         { auth: { autoRefreshToken: false, persistSession: false } }
     ) : supabase;
 

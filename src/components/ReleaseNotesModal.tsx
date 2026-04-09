@@ -5,6 +5,17 @@ import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, Che
 
 const RELEASES = [
     {
+        version: 'v2.6.0',
+        date: 'April 2026',
+        tag: 'Storage & UI Refinements',
+        tagColor: 'bg-rose-600',
+        features: [
+            { icon: Package, color: 'text-rose-600', bg: 'bg-rose-50', title: 'Zero-Cost Image Hosting', desc: 'Replaced Supabase image storage with FreeImage.host via a secure server-side proxy API, completely eliminating image storage costs.' },
+            { icon: Layout, color: 'text-indigo-600', bg: 'bg-indigo-50', title: 'Skeleton Loaders', desc: 'Added fluid skeleton loading states across all pages (Home, Dashboard, Galleries) for a seamless, fast-feeling UX.' },
+            { icon: Sparkles, color: 'text-blue-600', bg: 'bg-blue-50', title: 'Navbar & Hero Polish', desc: 'Refined Hero padding, added icons to Navbar auth buttons, and implemented glassmorphic active states on language selection.' },
+        ],
+    },
+    {
         version: 'v2.5.8',
         date: 'February 2026',
         tag: 'Libraries & Formatting',
@@ -143,7 +154,7 @@ export default function ReleaseNotesModal() {
                 className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
                 <Sparkles className="me-2 h-4 w-4" />
-                <span className="capitalize">ArduinoLab v2.5.8</span>
+                <span className="capitalize">ArduinoLab v2.6.0</span>
                 <ChevronRight className="ms-1 h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
             </button>
 
@@ -199,7 +210,7 @@ export default function ReleaseNotesModal() {
 
                         {/* Footer */}
                         <div className="px-6 py-4 border-t bg-slate-50 text-xs text-slate-400 text-center rounded-b-2xl shrink-0">
-                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.5.8
+                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.6.0
                         </div>
                     </div>
                 </div>

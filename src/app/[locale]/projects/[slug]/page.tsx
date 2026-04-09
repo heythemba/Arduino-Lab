@@ -10,6 +10,7 @@ import { getTranslations } from 'next-intl/server';
 import CommentSection from '@/components/comments/CommentSection';
 import ProjectJsonLd from '@/components/ProjectJsonLd';
 import DOMPurify from 'isomorphic-dompurify';
+import { env } from '@/lib/env';
 
 type Props = {
     params: Promise<{ locale: string; slug: string }>;
@@ -24,7 +25,7 @@ type Props = {
  * @param params - Route parameters containing locale and slug
  * @returns Metadata object with title and description
  */
-const BASE_URL = 'https://lab.pnlmahdia.com';
+const BASE_URL = env.NEXT_PUBLIC_BASE_URL;
 const GLOBAL_KEYWORDS = [
     'ArduinoLab',
     'PNL Mahdia',

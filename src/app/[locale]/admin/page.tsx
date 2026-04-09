@@ -44,7 +44,7 @@ export default async function AdminDashboard({
 
     return (
         <main className="flex-1 bg-slate-50 min-h-screen">
-            <div className="container mx-auto px-4 py-12">
+            <div className="container mx-auto px-8 sm:px-12 lg:px-16 py-12">
 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-10">

@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import ProjectForm from '@/components/admin/ProjectForm';
 import { createProject } from '@/app/admin/actions';
-import { getSiteSettings } from '@/lib/api/settings';
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
@@ -28,7 +27,6 @@ export default async function CreateProjectPage({
         profile = data;
     }
 
-    const settings = await getSiteSettings();
 
     return (
         <div className="min-h-screen bg-slate-50 py-12 font-(family-name:--font-geist-sans)">
@@ -44,7 +42,7 @@ export default async function CreateProjectPage({
                     </Link>
                 </div>
 
-                <ProjectForm locale={locale} action={createProject} userProfile={profile} imageUploadUrl={settings?.image_upload_url || ''} />
+                <ProjectForm locale={locale} action={createProject} userProfile={profile} />
 
             </div>
             {/* Spacer for fixed footer */}

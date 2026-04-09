@@ -1,4 +1,4 @@
-# 🤖 ArduinoLab v2.5.8
+# 🤖 ArduinoLab v2.6.0
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
@@ -6,6 +6,16 @@
 
 ---
 
+## 🚀 What's New in v2.6.0 — "Storage & UI Refinements"
+
+| Feature | Description |
+|---|---|
+| 📦 **Zero-Cost Images** | Integrated FreeImage.host API via a secure server proxy to completely remove image storage constraints. |
+| ⚡ **Skeleton Loaders** | Global `loading.tsx` states to eliminate pop-in loading across the entire application interface. |
+| ✨ **UI/UX Polish** | Enhanced Hero text coloring, Navbar auth icons, language selector glassmorphism, and page spacing. |
+| 🛡️ **Relaxed Image CSP** | Modified middleware to securely allow HTTPS hotlinking from legacy origins and the new CDN. |
+
+---
 ## 🚀 What's New in v2.5.8 — "Libraries & Formatting"
 
 | Feature | Description |

@@ -28,7 +28,17 @@ export default function LikeButton({ commentId, initialCount }: LikeButtonProps)
 
             // SIMPLIFIED APPROACH:
             // We'll store a list of liked comment IDs in localStorage to show the red heart immediately.
-            const likedComments = JSON.parse(localStorage.getItem('liked_comments') || '[]');
+            let likedComments: string[] = [];
+            try {
+                const stored = localStorage.getItem('liked_comments');
+                const parsed = stored ? JSON.parse(stored) : [];
+                if (Array.isArray(parsed)) {
+                    likedComments = parsed;
+                }
+            } catch (e) {
+                // Ignore parsing errors, just fall back to empty array
+                likedComments = [];
+            }
             if (likedComments.includes(commentId)) {
                 setLiked(true);
             }
@@ -49,7 +59,17 @@ export default function LikeButton({ commentId, initialCount }: LikeButtonProps)
         setCount(prev => newLiked ? prev + 1 : prev - 1);
 
         // Update LocalStorage record
-        const likedComments = JSON.parse(localStorage.getItem('liked_comments') || '[]');
+        let likedComments: string[] = [];
+        try {
+            const stored = localStorage.getItem('liked_comments');
+            const parsed = stored ? JSON.parse(stored) : [];
+            if (Array.isArray(parsed)) {
+                likedComments = parsed;
+            }
+        } catch (e) {
+            likedComments = [];
+        }
+
         if (newLiked) {
             if (!likedComments.includes(commentId)) likedComments.push(commentId);
         } else {

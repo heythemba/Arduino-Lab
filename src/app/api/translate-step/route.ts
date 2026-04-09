@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 import OpenAI from "openai";
 
 const LANGS = ["en", "fr", "ar"] as const;
@@ -11,6 +12,13 @@ const LANG_NAMES: Record<Lang, string> = {
 };
 
 export async function POST(req: NextRequest) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        return NextResponse.json({ error: "Unauthorized. You must be logged in to use this feature." }, { status: 401 });
+    }
+
     const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
@@ -114,9 +122,10 @@ ${sourceContentText}`
 
         return NextResponse.json({ title: resultTitle, content: resultContent });
 
-    } catch (error: any) {
+    } catch (error) {
         console.error("Error translating step:", error);
-        if (error?.status === 429) {
+        const errObj = error as { status?: number };
+        if (errObj?.status === 429) {
             return NextResponse.json({ error: "Rate limit reached. Please wait a moment." }, { status: 429 });
         }
         return NextResponse.json({ error: "Translation failed. Please try again." }, { status: 500 });

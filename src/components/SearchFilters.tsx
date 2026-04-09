@@ -33,7 +33,7 @@ export default function SearchFilters() {
     };
 
     return (
-        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-3xl mx-auto mb-10 p-4 bg-white/60 backdrop-blur-md rounded-2xl border shadow-sm">
+        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-3xl mx-auto mb-24 p-4 bg-white/60 backdrop-blur-md rounded-2xl border shadow-sm">
             {/* Search Input */}
             <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

@@ -6,6 +6,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.6.0] — Storage & UI Refinements — 2026-04-09
+
+### Added
+- 🚀 **Zero-Cost Image Hosting**: Replaced Supabase Storage for images with the FreeImage.host API to eliminate storage costs.
+- 🔒 **Secure Upload Proxy**: Added `/api/upload-image` edge route to securely proxy uploads without leaking API keys to the client.
+- 🖼️ **ImageUploader Component**: New drag-and-drop uploader with live preview, animated success toast, and automatic base64 encoding.
+- ⚡ **Skeleton Loaders**: Implemented `loading.tsx` skeleton states globally for Home, Admin Dashboard, Settings, Create/Edit Project, and About pages.
+- 🔓 **Relaxed CSP**: Broadened `img-src` Content Security Policy in middleware to allow external HTTPS images (fixes legacy images from Google/Medium).
+- 🌐 **Navbar UI**: Added `LogIn`, `LogOut`, and `Globe` icons to Navbar buttons with glassmorphic styling on the active language dropdown.
+
+### Changed
+- **Hero Section**: Reduced excess top padding space and applied strict brand coloring (`#2463eb`) to the "Arduino" prefix in "ArduinoLab".
+- **Gallery Spacing**: Increased the gap below search filters to `96px` (`mb-24`) for a cleaner breathing room between search and results.
+- **Form Props**: Completely removed `imageUploadUrl` prop injection from all pages since `ImageUploader` inherently wraps the secure proxy.
+
+---
 ## [2.5.8] — Libraries & Formatting — 2026-02-25
 
 ### Added

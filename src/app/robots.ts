@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { env } from '@/lib/env';
 
 export default function robots(): MetadataRoute.Robots {
     return {
@@ -7,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: ['/admin', '/auth'],
         },
-        sitemap: 'https://lab.pnlmahdia.com/sitemap.xml',
+        sitemap: `${env.NEXT_PUBLIC_BASE_URL}/sitemap.xml`,
     };
 }

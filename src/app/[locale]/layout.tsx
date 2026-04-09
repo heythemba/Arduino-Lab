@@ -6,6 +6,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { Metadata } from 'next';
 import { Analytics } from "@vercel/analytics/next";
+import { env } from '@/lib/env';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://lab.pnlmahdia.com'),
+  metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
   title: {
     default: "ArduinoLab",
     template: "%s | ArduinoLab"
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ArduinoLab",
     description: "Share and document your Arduino projects",
-    url: 'https://lab.pnlmahdia.com',
+    url: env.NEXT_PUBLIC_BASE_URL,
     type: "website",
     locale: "en_US",
     siteName: "ArduinoLab"

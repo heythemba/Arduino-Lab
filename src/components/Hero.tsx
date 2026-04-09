@@ -9,7 +9,7 @@ export default function Hero() {
     const t = useTranslations('HomePage');
 
     return (
-        <section className="relative overflow-hidden bg-background py-20 sm:py-32 lg:pb-32 xl:pb-36">
+        <section className="relative overflow-hidden bg-background pt-8 pb-20 sm:pt-12 sm:pb-32 lg:pb-32 xl:pb-36">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
 
@@ -18,7 +18,9 @@ export default function Hero() {
                         <ReleaseNotesModal />
 
                         <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-                            <span className="block xl:inline">{t('title')}</span>
+                            <span className="block xl:inline">
+                                <span className="text-[#2463eb]">Arduino</span>Lab
+                            </span>
                         </h1>
 
                         <p className="mt-6 text-base text-muted-foreground sm:mt-5 sm:text-xl lg:text-lg xl:text-xl leading-relaxed">
