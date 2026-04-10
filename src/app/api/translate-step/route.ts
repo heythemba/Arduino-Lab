@@ -117,13 +117,19 @@ ${sourceContentText}`
         const translated = JSON.parse(jsonMatch[0]);
 
         // Merge: keep existing values, fill only the translated ones
+        // IMPORTANT: Explicitly check and fill empty fields (including deleted content)
         const resultTitle = { ...title };
         const resultContent = { ...content };
         for (const lang of targetLangs) {
-            if (!resultTitle[lang]?.trim() && translated[`title_${lang}`]) {
+            // Verify title field: fill if empty
+            const isTitleEmpty = !resultTitle[lang] || !resultTitle[lang].trim();
+            if (isTitleEmpty && translated[`title_${lang}`]?.trim()) {
                 resultTitle[lang] = translated[`title_${lang}`];
             }
-            if (!resultContent[lang]?.trim() && translated[`content_${lang}`]) {
+            
+            // Verify content field: fill if empty (includes deleted content case)
+            const isContentEmpty = !resultContent[lang] || !resultContent[lang].trim();
+            if (isContentEmpty && translated[`content_${lang}`]?.trim()) {
                 resultContent[lang] = translated[`content_${lang}`];
             }
         }
