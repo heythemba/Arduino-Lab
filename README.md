@@ -1,8 +1,17 @@
-# 🤖 ArduinoLab v2.7.0
+# 🤖 ArduinoLab v2.7.1
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.7.1 — "PDF Export"
+
+| Feature | Description |
+|---|---|
+| 📄 **PDF Export** | Download any project as a formatted PDF directly from the project detail page via `jsPDF`. |
+| 🌐 **i18n Support** | "Download PDF" button label is fully translated in English, French, and Arabic. |
 
 ---
 

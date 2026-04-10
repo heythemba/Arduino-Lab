@@ -63,6 +63,7 @@ This file documents the main source files in the project and summarizes the cont
 - `StepList.tsx` — Project step timeline renderer with image modal and code snippet support.
 - `ProjectJsonLd.tsx` — Structured JSON-LD markup for SEO and rich results.
 - `ShareButton.tsx` — Copy-to-clipboard share button.
+- `ProjectPdfButton.tsx` — PDF download button that generates project content as PDF with images and preserved text formatting.
 - `SearchFilters.tsx` — Search bar and category filter for the project gallery.
 - `ScrollToTop.tsx` — Floating scroll-to-top control.
 - `ReleaseNotesModal.tsx` — Release notes modal displayed on the homepage.

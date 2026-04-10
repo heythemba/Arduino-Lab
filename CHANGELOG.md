@@ -6,6 +6,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.7.1] — PDF Export — 2026-04-10
+
+### Added
+- 📄 **PDF Export Button**: Users can now download any project as a PDF directly from the project detail page, including all step titles and content.
+- 🌐 **i18n Labels**: Added `downloadPdf` translation key to EN, FR, and AR locale files.
+
+---
+
 ## [2.7.0] — Rich Text & AI Enhancements — 2026-04-10
 
 ### Added

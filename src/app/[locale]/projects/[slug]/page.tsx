@@ -5,6 +5,7 @@ import ProjectHeader from '@/components/ProjectHeader';
 import StepList from '@/components/StepList';
 import { Button } from '@/components/ui/button';
 import ShareButton from '@/components/ShareButton';
+import ProjectPdfButton from '@/components/ProjectPdfButton';
 import { Download, Code, Box, ExternalLink, Package } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import CommentSection from '@/components/comments/CommentSection';
@@ -270,8 +271,15 @@ export default async function ProjectPage({ params }: Props) {
                             </div>
                         )}
 
-                        <div className="mt-8 pt-8 border-t flex justify-center">
+                        <div className="mt-8 pt-8 border-t flex justify-center gap-4">
                             <ShareButton label={t('share')} copiedLabel={t('copied')} />
+                            <ProjectPdfButton
+                                projectTitle={title}
+                                projectDescription={description}
+                                steps={project.steps}
+                                locale={locale}
+                                label={t('downloadPdf')}
+                            />
                         </div>
                     </div>
                 </div>
