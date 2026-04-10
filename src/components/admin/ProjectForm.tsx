@@ -160,16 +160,32 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
     };
 
     // Sends the current step title/content to the translation API
-    // and fills the missing locale variants while preserving markdown.
+    // and fills all missing title/content variants across all languages.
+    // At least one language must have content to serve as the translation source.
     const handleTranslateStep = async (stepId: string) => {
         const step = steps.find(s => s.id === stepId);
         if (!step) return;
+
+        // Check if at least one language has content (source requirement)
+        const hasSourceContent = ['en', 'fr', 'ar'].some(
+            lang => step.title[lang as keyof typeof step.title]?.trim() || step.content[lang as keyof typeof step.content]?.trim()
+        );
+
+        if (!hasSourceContent) {
+            alert('At least one language field must have content to translate from.');
+            return;
+        }
+
         setTranslatingStepId(stepId);
         try {
+            // Send all language data to API
             const res = await fetch('/api/translate-step', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title: step.title, content: step.content })
+                body: JSON.stringify({ 
+                    title: step.title, 
+                    content: step.content 
+                })
             });
             if (!res.ok) {
                 const errData = await res.json().catch(() => null);
@@ -178,7 +194,12 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
             const data = await res.json();
             setSteps(prev => prev.map(s => {
                 if (s.id !== stepId) return s;
-                return { ...s, title: data.title, content: data.content };
+                // Merge translations with existing data
+                return {
+                    ...s,
+                    title: { ...s.title, ...data.title },
+                    content: { ...s.content, ...data.content }
+                };
             }));
             setTranslatedStepIds(prev => new Set(prev).add(stepId));
             setIsDirty(true);

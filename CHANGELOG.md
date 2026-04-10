@@ -6,6 +6,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.7.2] — Polish & Fixes — 2026-04-11
+
+### Added
+- 📊 **Vercel Analytics CSP**: Added `va.vercel-scripts.com` to `script-src` and `connect-src` so Vercel Analytics work correctly in production.
+- 🇫🇷 **French i18n**: Added missing `backToGallery`, `sortRecent`, and `sortLiked` translation keys to `fr.json`.
+
+### Improved
+- 📄 **PDF Export**: Rebuilt as canvas-based renderer (`html2canvas` + `jsPDF`) with proper multi-page support and aspect-ratio scaling.
+- 🔄 **Step Translation Merge**: Translation results now correctly merge without overwriting already-filled languages; added guard when no source language exists.
+- 💬 **Comment HTML Rendering**: `commentParser` now detects and safely renders Tiptap HTML content via `html-react-parser` + `sanitizeHtml`.
+
+---
+
 ## [2.7.1] — PDF Export — 2026-04-10
 
 ### Added

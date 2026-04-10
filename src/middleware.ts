@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
     // Apply Content Security Policy (CSP)
     const cspHeader = `
         default-src 'self';
-        script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live;
+        script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://va.vercel-scripts.com;
         style-src 'self' 'unsafe-inline';
         img-src 'self' blob: data: https:;
         font-src 'self' data:;
@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
         base-uri 'self';
         form-action 'self';
         frame-ancestors 'none';
-        connect-src 'self' https://cdlpxyyjknpspihrlnnq.supabase.co https://api.supabase.io https://vitals.vercel-insights.com;
+        connect-src 'self' https://cdlpxyyjknpspihrlnnq.supabase.co https://api.supabase.io https://vitals.vercel-insights.com https://va.vercel-scripts.com;
     `.replace(/\s{2,}/g, ' ').trim();
 
     response.headers.set('Content-Security-Policy', cspHeader);

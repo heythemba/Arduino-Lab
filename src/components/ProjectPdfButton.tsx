@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText, Download } from 'lucide-react';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { Step } from '@/lib/api/projects';
 
 type ProjectPdfButtonProps = {
@@ -25,7 +26,7 @@ type ProjectPdfButtonProps = {
  * Creates a formatted PDF with:
  * - Project title and description
  * - Step-by-step instructions with images and preserved text formatting
- * - Supports bold, italic, lists, code blocks, and line breaks
+ * - Full support for Arabic, French, and English text with proper rendering
  * - Downloads with project name as filename
  *
  * @param props - Component props
@@ -43,308 +44,180 @@ export default function ProjectPdfButton({
         setIsGenerating(true);
 
         try {
-            const pdf = new jsPDF();
-            const pageWidth = pdf.internal.pageSize.getWidth();
-            const pageHeight = pdf.internal.pageSize.getHeight();
-            const margin = 20;
-            const maxImageWidth = pageWidth - 2 * margin;
-            const maxImageHeight = 100; // Max height for images
-            let yPosition = margin;
-
-            // Helper function to parse HTML content and add formatted text to PDF
-            const addFormattedText = (htmlContent: string) => {
-                // Create a temporary DOM element to parse HTML
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = htmlContent;
-
-                const processNode = (node: Node, currentFontSize: number = 10, isBold: boolean = false, isItalic: boolean = false, listLevel: number = 0) => {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        const text = node.textContent?.trim();
-                        if (text) {
-                            // Handle list indentation
-                            const indent = '  '.repeat(listLevel);
-                            const fullText = indent + text;
-
-                            pdf.setFontSize(currentFontSize);
-                            const fontStyle = isBold && isItalic ? 'bolditalic' :
-                                            isBold ? 'bold' :
-                                            isItalic ? 'italic' : 'normal';
-                            pdf.setFont('helvetica', fontStyle);
-
-                            const lines = pdf.splitTextToSize(fullText, pageWidth - 2 * margin);
-                            const lineHeight = currentFontSize * 0.5;
-
-                            for (const line of lines) {
-                                if (yPosition + lineHeight > pageHeight - margin) {
-                                    pdf.addPage();
-                                    yPosition = margin;
-                                }
-                                pdf.text(line, margin, yPosition);
-                                yPosition += lineHeight;
-                            }
-                        }
-                    } else if (node.nodeType === Node.ELEMENT_NODE) {
-                        const element = node as Element;
-                        const tagName = element.tagName.toLowerCase();
-
-                        switch (tagName) {
-                            case 'p':
-                                // Process children, then add paragraph spacing
-                                for (const child of Array.from(element.childNodes)) {
-                                    processNode(child, currentFontSize, isBold, isItalic, listLevel);
-                                }
-                                yPosition += 5; // Paragraph spacing
-                                break;
-
-                            case 'br':
-                                yPosition += currentFontSize * 0.5; // Line break
-                                break;
-
-                            case 'strong':
-                            case 'b':
-                                for (const child of Array.from(element.childNodes)) {
-                                    processNode(child, currentFontSize, true, isItalic, listLevel);
-                                }
-                                break;
-
-                            case 'em':
-                            case 'i':
-                                for (const child of Array.from(element.childNodes)) {
-                                    processNode(child, currentFontSize, isBold, true, listLevel);
-                                }
-                                break;
-
-                            case 'ul':
-                                yPosition += 3; // Small space before list
-                                for (const child of Array.from(element.children)) {
-                                    if (child.tagName.toLowerCase() === 'li') {
-                                        // Add bullet point
-                                        const bulletText = '• ';
-                                        pdf.setFontSize(currentFontSize);
-                                        pdf.setFont('helvetica', isBold && isItalic ? 'bolditalic' : isBold ? 'bold' : isItalic ? 'italic' : 'normal');
-
-                                        if (yPosition + currentFontSize * 0.5 > pageHeight - margin) {
-                                            pdf.addPage();
-                                            yPosition = margin;
-                                        }
-                                        pdf.text(bulletText, margin + (listLevel * 20), yPosition);
-
-                                        // Process list item content
-                                        for (const liChild of Array.from(child.childNodes)) {
-                                            processNode(liChild, currentFontSize, isBold, isItalic, listLevel + 1);
-                                        }
-                                        yPosition += 3; // Space between list items
-                                    }
-                                }
-                                yPosition += 3; // Space after list
-                                break;
-
-                            case 'ol':
-                                let counter = 1;
-                                yPosition += 3; // Small space before list
-                                for (const child of Array.from(element.children)) {
-                                    if (child.tagName.toLowerCase() === 'li') {
-                                        // Add numbered item
-                                        const numberText = `${counter}. `;
-                                        pdf.setFontSize(currentFontSize);
-                                        pdf.setFont('helvetica', isBold && isItalic ? 'bolditalic' : isBold ? 'bold' : isItalic ? 'italic' : 'normal');
-
-                                        if (yPosition + currentFontSize * 0.5 > pageHeight - margin) {
-                                            pdf.addPage();
-                                            yPosition = margin;
-                                        }
-                                        pdf.text(numberText, margin + (listLevel * 20), yPosition);
-
-                                        // Process list item content
-                                        for (const liChild of Array.from(child.childNodes)) {
-                                            processNode(liChild, currentFontSize, isBold, isItalic, listLevel + 1);
-                                        }
-                                        yPosition += 3; // Space between list items
-                                        counter++;
-                                    }
-                                }
-                                yPosition += 3; // Space after list
-                                break;
-
-                            case 'li':
-                                // This is handled by ul/ol processing above
-                                for (const child of Array.from(element.childNodes)) {
-                                    processNode(child, currentFontSize, isBold, isItalic, listLevel);
-                                }
-                                break;
-
-                            case 'code':
-                                // Inline code - use monospace font
-                                pdf.setFont('courier', isBold ? 'bold' : 'normal');
-                                for (const child of Array.from(element.childNodes)) {
-                                    processNode(child, currentFontSize, false, false, listLevel);
-                                }
-                                pdf.setFont('helvetica', isBold && isItalic ? 'bolditalic' : isBold ? 'bold' : isItalic ? 'italic' : 'normal');
-                                break;
-
-                            case 'pre':
-                                // Code block - use monospace font with background
-                                const codeText = element.textContent || '';
-                                pdf.setFont('courier', 'normal');
-                                pdf.setFontSize(9);
-
-                                const codeLines = codeText.split('\n');
-                                for (const codeLine of codeLines) {
-                                    if (yPosition + 9 * 0.5 > pageHeight - margin) {
-                                        pdf.addPage();
-                                        yPosition = margin;
-                                    }
-                                    pdf.text(codeLine, margin + 10, yPosition);
-                                    yPosition += 9 * 0.5;
-                                }
-                                pdf.setFont('helvetica', 'normal');
-                                pdf.setFontSize(currentFontSize);
-                                yPosition += 5; // Space after code block
-                                break;
-
-                            case 'a':
-                                // Links - underline text
-                                for (const child of Array.from(element.childNodes)) {
-                                    processNode(child, currentFontSize, isBold, isItalic, listLevel);
-                                }
-                                // Note: jsPDF doesn't support clickable links easily, so we just format the text
-                                break;
-
-                            default:
-                                // For other elements, just process their children
-                                for (const child of Array.from(element.childNodes)) {
-                                    processNode(child, currentFontSize, isBold, isItalic, listLevel);
-                                }
-                                break;
-                        }
-                    }
-                };
-
-                // Process all child nodes of the HTML content
-                for (const child of Array.from(tempDiv.childNodes)) {
-                    processNode(child);
-                }
-            };
-
-            // Helper function to add text with word wrapping
-            const addText = (text: string, fontSize: number = 12, isBold: boolean = false) => {
-                pdf.setFontSize(fontSize);
-                if (isBold) {
-                    pdf.setFont('helvetica', 'bold');
-                } else {
-                    pdf.setFont('helvetica', 'normal');
-                }
-
-                const lines = pdf.splitTextToSize(text, pageWidth - 2 * margin);
-                const lineHeight = fontSize * 0.5;
-
-                for (const line of lines) {
-                    if (yPosition + lineHeight > pageHeight - margin) {
-                        pdf.addPage();
-                        yPosition = margin;
-                    }
-                    pdf.text(line, margin, yPosition);
-                    yPosition += lineHeight;
-                }
-
-                yPosition += 5; // Small gap after text block
-            };
-
-            // Helper function to load and add image to PDF
-            const addImageToPDF = async (imageUrl: string): Promise<void> => {
-                return new Promise((resolve) => {
-                    const img = new window.Image();
-                    img.crossOrigin = 'anonymous'; // Handle CORS
-
-                    img.onload = () => {
-                        // Calculate dimensions to fit within max constraints
-                        const aspectRatio = img.width / img.height;
-                        let imgWidth = maxImageWidth;
-                        let imgHeight = imgWidth / aspectRatio;
-
-                        // If height exceeds max, scale down
-                        if (imgHeight > maxImageHeight) {
-                            imgHeight = maxImageHeight;
-                            imgWidth = imgHeight * aspectRatio;
-                        }
-
-                        // Check if image fits on current page
-                        if (yPosition + imgHeight > pageHeight - margin) {
-                            pdf.addPage();
-                            yPosition = margin;
-                        }
-
-                        // Create canvas to convert image to base64
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        ctx?.drawImage(img, 0, 0);
-
-                        try {
-                            const imgData = canvas.toDataURL('image/jpeg', 0.8);
-                            pdf.addImage(imgData, 'JPEG', margin, yPosition, imgWidth, imgHeight);
-                            yPosition += imgHeight + 10; // Gap after image
-                        } catch (error) {
-                            console.warn('Failed to add image to PDF:', error);
-                            // Continue without the image
-                        }
-
-                        resolve();
-                    };
-
-                    img.onerror = () => {
-                        console.warn('Failed to load image:', imageUrl);
-                        resolve(); // Continue without the image
-                    };
-
-                    img.src = imageUrl;
-                });
-            };
-
-            // Title
-            addText(projectTitle, 20, true);
-            yPosition += 10;
-
-            // Description
-            if (projectDescription) {
-                addText(projectDescription, 12);
-                yPosition += 10;
+            // Wait for document fonts to load
+            if (document.fonts) {
+                await document.fonts.ready;
             }
 
-            // Steps
+            // Create a temporary container for rendering content
+            const container = document.createElement('div');
+            container.style.position = 'absolute';
+            container.style.left = '-10000px';
+            container.style.top = '-10000px';
+            container.style.width = '210mm'; // A4 width
+            container.style.padding = '20mm';
+            container.style.backgroundColor = 'white';
+            // Use fonts that have excellent Arabic support
+            container.style.fontFamily = "Tahoma, 'Arial Unicode MS', Arial, sans-serif";
+            container.style.lineHeight = '1.6';
+            container.style.direction = locale === 'ar' ? 'rtl' : 'ltr';
+            container.style.textAlign = locale === 'ar' ? 'right' : 'left';
+            container.style.fontSize = '14px';
+            container.style.color = '#000000';
+
+            // Add title
+            const titleElement = document.createElement('h1');
+            titleElement.style.fontSize = '32px';
+            titleElement.style.fontWeight = 'bold';
+            titleElement.style.marginBottom = '15px';
+            titleElement.style.marginTop = '0';
+            titleElement.style.color = '#1a1a1a';
+            titleElement.style.fontFamily = "Tahoma, 'Arial Unicode MS', Arial, sans-serif";
+            titleElement.textContent = projectTitle;
+            container.appendChild(titleElement);
+
+            // Add description
+            if (projectDescription) {
+                const descElement = document.createElement('p');
+                descElement.style.fontSize = '14px';
+                descElement.style.marginBottom = '20px';
+                descElement.style.marginTop = '0';
+                descElement.style.lineHeight = '1.6';
+                descElement.style.fontFamily = "Tahoma, 'Arial Unicode MS', Arial, sans-serif";
+                descElement.textContent = projectDescription;
+                container.appendChild(descElement);
+            }
+
+            // Add steps
             if (steps && steps.length > 0) {
-                addText('Step-by-Step Instructions:', 14, true);
-                yPosition += 5;
+                const stepsHeaderElement = document.createElement('h2');
+                stepsHeaderElement.style.fontSize = '22px';
+                stepsHeaderElement.style.fontWeight = 'bold';
+                stepsHeaderElement.style.marginTop = '25px';
+                stepsHeaderElement.style.marginBottom = '15px';
+                stepsHeaderElement.style.paddingTop = '10px';
+                stepsHeaderElement.style.borderTop = '2px solid #cccccc';
+                stepsHeaderElement.style.fontFamily = "Tahoma, 'Arial Unicode MS', Arial, sans-serif";
+                const stepsHeader = locale === 'ar' ? 'التعليمات خطوة بخطوة' : 
+                                   locale === 'fr' ? 'Instructions étape par étape' : 
+                                   'Step-by-Step Instructions';
+                stepsHeaderElement.textContent = stepsHeader;
+                container.appendChild(stepsHeaderElement);
 
                 for (const [index, step] of steps.entries()) {
                     // Step title
+                    const stepTitleElement = document.createElement('h3');
+                    stepTitleElement.style.fontSize = '16px';
+                    stepTitleElement.style.fontWeight = 'bold';
+                    stepTitleElement.style.marginTop = '18px';
+                    stepTitleElement.style.marginBottom = '10px';
+                    stepTitleElement.style.color = '#0066cc';
+                    stepTitleElement.style.fontFamily = "Tahoma, 'Arial Unicode MS', Arial, sans-serif";
                     const stepTitle = step.title?.[locale] || step.title?.['en'] || `Step ${index + 1}`;
-                    addText(`${index + 1}. ${stepTitle}`, 12, true);
+                    stepTitleElement.textContent = `${index + 1}. ${stepTitle}`;
+                    container.appendChild(stepTitleElement);
 
-                    // Step image (if available)
+                    // Step image
                     if (step.image_url) {
-                        try {
-                            await addImageToPDF(step.image_url);
-                        } catch (error) {
-                            console.warn('Failed to add step image:', error);
-                        }
+                        const imgElement = document.createElement('img');
+                        imgElement.src = step.image_url;
+                        imgElement.style.maxWidth = '100%';
+                        imgElement.style.height = 'auto';
+                        imgElement.style.margin = '12px 0';
+                        imgElement.style.display = 'block';
+                        imgElement.style.borderRadius = '4px';
+                        imgElement.crossOrigin = 'anonymous';
+                        container.appendChild(imgElement);
                     }
 
-                    // Step content (with HTML formatting preserved)
+                    // Step content
                     if (step.content?.[locale] || step.content?.['en']) {
                         const content = step.content[locale] || step.content['en'];
-                        addFormattedText(content);
+                        const contentElement = document.createElement('div');
+                        contentElement.style.fontSize = '13px';
+                        contentElement.style.marginBottom = '12px';
+                        contentElement.style.lineHeight = '1.7';
+                        contentElement.style.fontFamily = "Tahoma, 'Arial Unicode MS', Arial, sans-serif";
+                        contentElement.innerHTML = content;
+                        // Ensure all text elements have proper fonts for Arabic
+                        const allElements = contentElement.querySelectorAll('*');
+                        allElements.forEach((el) => {
+                            const htmlEl = el as HTMLElement;
+                            htmlEl.style.fontFamily = "Tahoma, 'Arial Unicode MS', Arial, sans-serif";
+                            htmlEl.style.color = '#000000';
+                        });
+                        container.appendChild(contentElement);
                     }
-
-                    yPosition += 10; // Gap between steps
                 }
             }
 
-            // Generate filename from project title (remove special characters)
+            document.body.appendChild(container);
+
+            // Wait longer for fonts and images to fully load, especially for Arabic
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Ensure all images are loaded before rendering
+            const images = container.querySelectorAll('img');
+            const imagePromises = Array.from(images).map(img => {
+                return new Promise((resolve) => {
+                    if ((img as HTMLImageElement).complete) {
+                        resolve(true);
+                    } else {
+                        img.addEventListener('load', () => resolve(true));
+                        img.addEventListener('error', () => resolve(true));
+                    }
+                });
+            });
+            await Promise.all(imagePromises);
+
+            // Convert container to canvas using html2canvas with optimized settings
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                logging: false,
+                backgroundColor: '#ffffff',
+                windowHeight: container.scrollHeight,
+                windowWidth: container.scrollWidth,
+                ignoreElements: (element: Element) => {
+                    return element.tagName === 'SCRIPT' || element.tagName === 'STYLE';
+                },
+            });
+
+            // Remove temporary container
+            document.body.removeChild(container);
+
+            // Create PDF from canvas
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            
+            // Calculate proper scaling to maintain aspect ratio
+            const imgWidth = pageWidth;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            const numPages = Math.ceil(imgHeight / pageHeight);
+
+            // Add image(s) to PDF, creating new pages as needed
+            for (let i = 0; i < numPages; i++) {
+                if (i > 0) {
+                    pdf.addPage();
+                }
+                
+                const pageImgHeight = Math.min(pageHeight, imgHeight - i * pageHeight);
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, pageImgHeight);
+            }
+
+            // Generate filename
             const filename = `${projectTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
 
-            // Download the PDF
+            // Download
             pdf.save(filename);
 
         } catch (error) {

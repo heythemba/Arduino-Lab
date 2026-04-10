@@ -1,8 +1,20 @@
-# 🤖 ArduinoLab v2.7.1
+# 🤖 ArduinoLab v2.7.2
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.7.2 — "Polish & Fixes"
+
+| Change | Description |
+|---|---|
+| 📄 **PDF Export** | Rebuilt with `html2canvas` for pixel-perfect multi-page rendering with aspect-ratio scaling. |
+| 🔄 **Translation Merge** | Steps now merge translations safely without overwriting existing content. |
+| 💬 **Comment Rendering** | Comments containing Tiptap HTML are now detected and rendered correctly. |
+| 🇫🇷 **French i18n** | Fixed missing French translation keys for gallery back link and comment sort labels. |
+| 📊 **Analytics CSP** | Vercel Analytics scripts now load correctly in production. |
 
 ---
 

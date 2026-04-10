@@ -51,33 +51,52 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "No source content found in any language." }, { status: 400 });
         }
 
-        // Detect which languages need translation (empty title OR empty content)
-        const targetLangs = LANGS.filter(lang =>
-            lang !== sourceLang &&
-            (!title[lang]?.trim() || !content[lang]?.trim())
-        );
+        // Detect which FIELDS are missing across all languages
+        // A field is missing if it's empty or not trimmed
+        const missingFields = new Set<`title_${Lang}` | `content_${Lang}`>();
+        
+        for (const lang of LANGS) {
+            if (!title[lang]?.trim()) {
+                missingFields.add(`title_${lang}`);
+            }
+            if (!content[lang]?.trim()) {
+                missingFields.add(`content_${lang}`);
+            }
+        }
 
-        if (targetLangs.length === 0) {
-            return NextResponse.json({ message: "All languages already filled.", title, content });
+        if (missingFields.size === 0) {
+            return NextResponse.json({ message: "All fields already filled.", title, content });
         }
 
         const sourceTitleText = title[sourceLang] || "";
         const sourceContentText = content[sourceLang] || "";
-        const targetDescriptions = targetLangs.map(l => LANG_NAMES[l]).join(" and ");
+        
+        // Build list of missing fields for clarity
+        const missingFieldsList = Array.from(missingFields)
+            .map(f => {
+                const [fieldType, lang] = f.split('_') as [string, Lang];
+                return `${fieldType} in ${LANG_NAMES[lang]}`;
+            })
+            .join(', ');
 
         const systemPrompt = `You are an expert technical translator for an Arduino projects library.
-Translate the given step title and step content into ${targetDescriptions}.
+Your task is to fill the missing fields by translating/generating content based on the source content provided.
+
+Missing fields to fill: ${missingFieldsList}
+Source content is in ${LANG_NAMES[sourceLang]}.
 
 STRICT RULES:
 1. DO NOT modify the source content — only translate it.
 2. Technical keywords MUST remain in English in all languages: Arduino, Breadboard, GND, VCC, LED, Resistor, I2C, SPI, PWM, GPIO, Jumper wire, etc.
 3. Preserve ALL markdown formatting exactly (**, *, \`code\`, ##, -, numbered lists, etc.).
-4. Return ONLY a raw JSON object with NO preamble, NO markdown code blocks:
+4. Return ONLY a raw JSON object with NO preamble, NO markdown code blocks.
+5. For each missing field, provide the translated/generated content.
+
+Return this exact JSON structure:
 ${JSON.stringify(
-            Object.fromEntries([
-                ...targetLangs.map(l => [`title_${l}`, `...translated title in ${LANG_NAMES[l]}...`]),
-                ...targetLangs.map(l => [`content_${l}`, `...translated content in ${LANG_NAMES[l]}...`]),
-            ])
+            Object.fromEntries(
+                Array.from(missingFields).map(f => [f, `...${f}...`])
+            )
         )}`;
 
         const completion = await client.chat.completions.create({
@@ -116,21 +135,21 @@ ${sourceContentText}`
 
         const translated = JSON.parse(jsonMatch[0]);
 
-        // Merge: keep existing values, fill only the translated ones
-        // IMPORTANT: Explicitly check and fill empty fields (including deleted content)
-        const resultTitle = { ...title };
-        const resultContent = { ...content };
-        for (const lang of targetLangs) {
-            // Verify title field: fill if empty
-            const isTitleEmpty = !resultTitle[lang] || !resultTitle[lang].trim();
-            if (isTitleEmpty && translated[`title_${lang}`]?.trim()) {
-                resultTitle[lang] = translated[`title_${lang}`];
-            }
-            
-            // Verify content field: fill if empty (includes deleted content case)
-            const isContentEmpty = !resultContent[lang] || !resultContent[lang].trim();
-            if (isContentEmpty && translated[`content_${lang}`]?.trim()) {
-                resultContent[lang] = translated[`content_${lang}`];
+        // Merge: keep existing values, fill only the missing ones
+        const resultTitle: Record<Lang, string> = { ...title };
+        const resultContent: Record<Lang, string> = { ...content };
+        
+        for (const field of missingFields) {
+            if (field.startsWith('title_')) {
+                const lang = field.slice(6) as Lang;
+                if (translated[field]?.trim()) {
+                    resultTitle[lang] = translated[field];
+                }
+            } else if (field.startsWith('content_')) {
+                const lang = field.slice(8) as Lang;
+                if (translated[field]?.trim()) {
+                    resultContent[lang] = translated[field];
+                }
             }
         }
 

@@ -10,6 +10,18 @@ import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, Che
 
 const RELEASES = [
     {
+        version: 'v2.7.2',
+        date: 'April 2026',
+        tag: 'Polish & Fixes',
+        tagColor: 'bg-teal-600',
+        features: [
+            { icon: FileDown, color: 'text-teal-600', bg: 'bg-teal-50', title: 'PDF Export Rebuilt', desc: 'Regenerated with html2canvas for pixel-perfect multi-page PDFs with correct aspect-ratio scaling.' },
+            { icon: Brain, color: 'text-indigo-600', bg: 'bg-indigo-50', title: 'Smarter Translation Merge', desc: 'Step translations now safely merge across languages without overwriting already-filled content.' },
+            { icon: MessageCircle, color: 'text-blue-600', bg: 'bg-blue-50', title: 'Rich Comment Rendering', desc: 'Comments written with the Tiptap editor are now correctly detected and rendered as formatted HTML.' },
+            { icon: Globe, color: 'text-rose-600', bg: 'bg-rose-50', title: 'French i18n & Analytics CSP', desc: 'Fixed missing French translation keys and allowed Vercel Analytics scripts in the Content Security Policy.' },
+        ],
+    },
+    {
         version: 'v2.7.1',
         date: 'April 2026',
         tag: 'PDF Export',
@@ -180,7 +192,7 @@ export default function ReleaseNotesModal() {
                 className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
                 <Sparkles className="me-2 h-4 w-4" />
-                <span className="capitalize">ArduinoLab v2.7.1</span>
+                <span className="capitalize">ArduinoLab v2.7.2</span>
                 <ChevronRight className="ms-1 h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
             </button>
 
@@ -236,7 +248,7 @@ export default function ReleaseNotesModal() {
 
                         {/* Footer */}
                         <div className="px-6 py-4 border-t bg-slate-50 text-xs text-slate-400 text-center rounded-b-2xl shrink-0">
-                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.7.1
+                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.7.2
                         </div>
                     </div>
                 </div>

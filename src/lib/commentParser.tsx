@@ -7,13 +7,27 @@
  * - underline __text__
  * - italic *text*
  *
- * This parser is intentionally lightweight to avoid adding a full markdown
- * dependency for basic comment rendering.
+ * Also handles HTML content from Tiptap editor with proper sanitization.
  */
 import CodeBlock from "@/components/comments/CodeBlock";
 import { Fragment, ReactNode } from "react";
+import parse from "html-react-parser";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export const parseCommentContent = (content: string) => {
+    // Check if content looks like HTML (from Tiptap)
+    if (content.includes('<') && content.includes('>')) {
+        // Sanitize the HTML to prevent XSS
+        const sanitized = sanitizeHtml(content);
+        // Parse and render the sanitized HTML
+        return (
+            <div className="text-slate-700 leading-relaxed prose prose-sm max-w-none [&_p]:m-0 [&_ul]:my-2 [&_ol]:my-2 [&_li]:my-1 [&_strong]:font-bold [&_em]:italic [&_u]:underline [&_a]:text-blue-600 [&_a]:hover:underline [&_code]:bg-slate-100 [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_pre]:bg-slate-800 [&_pre]:text-slate-100 [&_pre]:p-3 [&_pre]:rounded [&_pre]:overflow-x-auto">
+                {parse(sanitized)}
+            </div>
+        );
+    }
+
+    // Otherwise, parse as markdown
     // Regex for code blocks: ```code```
     const parts = content.split(/```([\s\S]*?)```/g);
 

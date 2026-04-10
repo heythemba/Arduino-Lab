@@ -29,7 +29,8 @@
         "downloadCode": "Télécharger le code",
         "downloadCodeSub": "Fichier .ino (bientôt)",
         "downloadModels": "Télécharger modèles 3D",
-        "downloadModelsSub": "Fichiers .stl (bientôt)"
+        "downloadModelsSub": "Fichiers .stl (bientôt)",
+        "backToGallery": "Retour à la Galerie"
     },
     "SearchFilters": {
         "placeholder": "Rechercher des projets...",
@@ -200,6 +201,8 @@
         "errorGeneric": "Une erreur est survenue.",
         "commentSingular": "Commentaire",
         "commentPlural": "Commentaires",
-        "noComments": "Aucun commentaire pour l'instant. Soyez le premier à partager votre avis !"
+        "noComments": "Aucun commentaire pour l'instant. Soyez le premier à partager votre avis !",
+        "sortRecent": "Les plus récents",
+        "sortLiked": "Les plus aimés"
     }
 }
