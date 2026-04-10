@@ -1,3 +1,14 @@
+/**
+ * Admin server actions for user and project management.
+ *
+ * These action handlers are executed on the server and manage:
+ * - Creating users with an elevated Supabase service role client
+ * - Creating, updating, and deleting projects
+ * - Validating admin roles and enforcing ownership rules for non-admins
+ *
+ * Because this file uses Supabase service role privileges, it must stay on
+ * the server and should never be exposed to client-side bundles.
+ */
 'use server'
 
 import { revalidatePath } from 'next/cache'
@@ -136,6 +147,9 @@ export async function createProject(prevState: any, formData: FormData) {
     ) : supabase;
 
     // 3. Extract & Format Data
+    // The project admin form submits hidden JSON fields for steps and attachments.
+    // We parse the multilingual title/description and then handle those JSON fields
+    // separately below to keep the payload structured and safe.
     const rawFormData = Object.fromEntries(formData.entries());
 
     // Construct JSONB objects for multilingual fields

@@ -1,3 +1,8 @@
+/**
+ * Loading skeleton for the new project creation page.
+ *
+ * Provides visual placeholders for the project form while resources load.
+ */
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function NewProjectLoading() {

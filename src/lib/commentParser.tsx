@@ -1,3 +1,15 @@
+/**
+ * Minimal markdown-like parser for comment bodies.
+ *
+ * Supports fenced code blocks and a small set of inline formatting options:
+ * - links [text](url)
+ * - bold **text**
+ * - underline __text__
+ * - italic *text*
+ *
+ * This parser is intentionally lightweight to avoid adding a full markdown
+ * dependency for basic comment rendering.
+ */
 import CodeBlock from "@/components/comments/CodeBlock";
 import { Fragment, ReactNode } from "react";
 

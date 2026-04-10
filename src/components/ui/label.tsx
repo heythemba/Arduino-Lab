@@ -1,5 +1,11 @@
 "use client"
 
+/**
+ * Form label primitive.
+ *
+ * Uses Radix UI label primitive to preserve accessibility and styling
+ * while keeping the app's design system consistent.
+ */
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { cva, type VariantProps } from "class-variance-authority"

@@ -1,3 +1,9 @@
+/**
+ * Login form used on the locale-specific auth page.
+ *
+ * This client-side component renders the email/password form and uses
+ * a server action to perform Supabase authentication.
+ */
 'use client';
 
 import { useTranslations } from 'next-intl';

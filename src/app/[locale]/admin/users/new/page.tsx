@@ -1,3 +1,9 @@
+/**
+ * Admin page for creating a new platform user.
+ *
+ * Uses a client-side server action to submit the new user form and
+ * shows inline feedback while the request is pending.
+ */
 'use client';
 
 import { useActionState, useEffect, use, useState } from 'react';

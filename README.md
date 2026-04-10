@@ -1,8 +1,18 @@
-# 🤖 ArduinoLab v2.6.0
+# 🤖 ArduinoLab v2.7.0
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.7.0 — "Rich Text & AI Enhancements"
+
+| Feature | Description |
+|---|---|
+| 📝 **Tiptap Rich Text Editor** | Replaced standard textareas with a full WYSIWYG editor for project steps with live formatting. |
+| ⏳ **AI Translation Overlay** | Added a full-screen loading overlay when translating large project steps. |
+| 🐛 **Bug Fixes** | Fixed URL validation rejection, Tailwind missing list markers, SEO JSON-LD SSR crashes, and API timeout limits. |
 
 ---
 

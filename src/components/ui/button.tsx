@@ -1,3 +1,10 @@
+/**
+ * Reusable button component with variant-based styling.
+ *
+ * Uses class-variance-authority (CVA) to define a shared design system
+ * for buttons across the app. The `asChild` prop allows rendering the
+ * component as a different element (e.g. a Next.js Link).
+ */
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"

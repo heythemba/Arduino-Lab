@@ -1,3 +1,9 @@
+/**
+ * Global 404 page for requests outside the locale-aware routes.
+ *
+ * This page renders a full <html>/<body> shell because it is used at the
+ * top-level app router scope, outside of the localized layout.
+ */
 // 'use client' removed to fix circular dependency/module factory error in Next.js 15+
 
 

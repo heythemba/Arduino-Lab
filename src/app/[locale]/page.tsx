@@ -1,3 +1,12 @@
+/**
+ * Public home page for browsing available Arduino projects.
+ *
+ * Responsibilities:
+ * - Resolve locale and optional search query parameters
+ * - Load translations for the page
+ * - Fetch filtered project data from the API helper
+ * - Render the hero, search filters, and project cards
+ */
 import { getProjects } from '@/lib/api/projects';
 import Hero from '@/components/Hero';
 import ProjectCard from '@/components/ProjectCard';

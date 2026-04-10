@@ -1,3 +1,10 @@
+/**
+ * Search and category filter bar for the public project list.
+ *
+ * This component updates the URL query string without a full reload using
+ * Next.js router replacements. It debounces the search input to avoid rapid
+ * repeated navigation calls when the user types.
+ */
 'use client';
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';

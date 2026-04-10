@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Client-side like button for comments.
+ *
+ * Uses optimistic UI updates and stores visitor like state in localStorage.
+ * The server is updated via a server action and the page is revalidated.
+ */
 import { Heart } from 'lucide-react';
 import { toggleLike } from '@/app/actions/comment';
 import { useEffect, useState, useTransition } from 'react';

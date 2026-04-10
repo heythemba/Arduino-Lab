@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Modal-style popup for AI generation notifications.
+ *
+ * Displays success or error messages produced when generating or translating
+ * project data in the admin project form.
+ */
 import { useTranslations } from 'next-intl';
 
 interface AiNotificationPopupProps {

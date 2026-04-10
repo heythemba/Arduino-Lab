@@ -5,6 +5,7 @@ import CodeSnippet from './CodeSnippet';
 import Image from 'next/image';
 import { useState } from 'react';
 import ImageModal from './ImageModal';
+import DOMPurify from 'isomorphic-dompurify';
 
 /**
  * Props for the StepList component.
@@ -58,9 +59,10 @@ export default function StepList({ steps, locale }: StepListProps) {
                                 <h3 className="text-xl font-bold text-slate-900 mb-3">
                                     {step.title?.[locale] || step.title?.['en'] || `Step ${step.step_number}`}
                                 </h3>
-                                <p className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-wrap">
-                                    {step.content[locale] || step.content['en'] || 'Step instructions missing.'}
-                                </p>
+                                <div 
+                                    className="text-sm text-slate-700 leading-relaxed font-medium [&_p]:my-2 [&_ul]:list-disc [&_ul]:ml-5 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:ml-5 [&_ol]:my-2 [&_pre]:my-3 [&_pre]:bg-slate-800 [&_pre]:text-slate-100 [&_pre]:p-4 [&_pre]:rounded-xl [&_:not(pre)>code]:text-indigo-600 [&_:not(pre)>code]:bg-indigo-50 [&_:not(pre)>code]:px-1.5 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:rounded-md [&_:not(pre)>code]:font-mono [&_a]:text-blue-600 [&_a]:underline hover:[&_a]:text-blue-800 [&_u]:underline [&_strong]:font-bold [&_em]:italic"
+                                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(step.content[locale] || step.content['en'] || 'Step instructions missing.', { ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li', 'code', 'pre', 'u'], ALLOWED_ATTR: ['href', 'target', 'rel'] }).replace(/&nbsp;/g, ' ') }}
+                                />
                             </div>
 
                             {step.image_url && (

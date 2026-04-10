@@ -1,3 +1,9 @@
+/**
+ * Translation API for step-by-step project content.
+ *
+ * Receives multilingual title/content pairs and fills in any missing
+ * language variants while preserving markdown syntax and technical terms.
+ */
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import OpenAI from "openai";
@@ -10,6 +16,8 @@ const LANG_NAMES: Record<Lang, string> = {
     fr: "French",
     ar: "Arabic",
 };
+
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
     const supabase = await createClient();
@@ -88,7 +96,7 @@ ${sourceContentText}`
                 }
             ],
             temperature: 0.3,
-            max_tokens: 2048,
+            max_tokens: 4096,
         });
 
         const rawText = completion.choices[0]?.message?.content || "";

@@ -1,3 +1,11 @@
+/**
+ * Admin dashboard page.
+ *
+ * This server-rendered page protects access by redirecting unauthenticated
+ * users to the locale-specific login page. It fetches the user's profile,
+ * lists projects, and renders admin-only tools for project creation,
+ * settings, and recent comment activity.
+ */
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';

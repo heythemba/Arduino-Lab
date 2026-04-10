@@ -1,3 +1,9 @@
+/**
+ * Reusable text input component.
+ *
+ * Applies consistent Tailwind styling for form fields and exposes all
+ * native input attributes through the shared `InputProps` interface.
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

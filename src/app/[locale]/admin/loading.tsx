@@ -1,3 +1,9 @@
+/**
+ * Loading state for the admin dashboard.
+ *
+ * Displays skeleton placeholders while the dashboard project list
+ * and recent activity are being loaded.
+ */
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AdminDashboardLoading() {

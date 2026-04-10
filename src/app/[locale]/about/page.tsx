@@ -1,3 +1,9 @@
+/**
+ * About page describing the mission, story, and community goals.
+ *
+ * This page is localized and also provides metadata for SEO using
+ * next-intl translations.
+ */
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Metadata } from 'next';

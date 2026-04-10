@@ -1,3 +1,8 @@
+/**
+ * Loading skeleton for the about page.
+ *
+ * Shows a content placeholder while localized data and image assets are resolved.
+ */
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AboutLoading() {

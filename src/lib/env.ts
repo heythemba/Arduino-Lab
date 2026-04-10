@@ -1,3 +1,10 @@
+/**
+ * Environment variable validation.
+ *
+ * This module validates required runtime settings with zod and exposes
+ * a typed `env` object to the rest of the app. If validation fails,
+ * the app stops at startup with a clear error message.
+ */
 import { z } from 'zod';
 
 const envSchema = z.object({

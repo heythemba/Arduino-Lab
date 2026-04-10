@@ -3,6 +3,13 @@ import { createClient } from '@/lib/supabase/server';
 
 import { env } from '@/lib/env';
 
+/**
+ * Sitemap generator for localized and dynamic project pages.
+ *
+ * Fetches project slugs from the database and builds locale-aware URLs
+ * for the public website sitemap.
+ */
+
 const BASE_URL = env.NEXT_PUBLIC_BASE_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

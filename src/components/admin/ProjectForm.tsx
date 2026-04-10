@@ -103,6 +103,8 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
         }
     });
 
+    // Generates multilingual project metadata and starter steps using the AI helper endpoint.
+    // The generated payload is written back into the form state, but not immediately saved.
     const handleGenerate = async () => {
         if (!summaryInput.trim()) return;
         setIsGenerating(true);
@@ -157,6 +159,8 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
         }
     };
 
+    // Sends the current step title/content to the translation API
+    // and fills the missing locale variants while preserving markdown.
     const handleTranslateStep = async (stepId: string) => {
         const step = steps.find(s => s.id === stepId);
         if (!step) return;
@@ -314,7 +318,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                                 value={summaryInput}
                                 onChange={(e) => setSummaryInput(e.target.value)}
                                 placeholder="Describe your project briefly in any language (e.g. 'A smart plant waterer using Arduino Uno and soil moisture sensor')"
-                                className="flex min-h-[60px] w-full rounded-md border border-blue-200 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="flex min-h-15 w-full rounded-md border border-blue-200 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                         <Button
@@ -441,7 +445,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                                             onChange={(e) => setMultiLangData(prev => ({ ...prev, description: { ...prev.description, [lang]: e.target.value } }))}
                                             required
                                             dir={lang === 'ar' ? 'rtl' : 'ltr'}
-                                            className={`flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${isDraft ? 'bg-white border-yellow-300' : 'bg-background border-input'}`}
+                                            className={`flex min-h-20 w-full rounded-md border px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${isDraft ? 'bg-white border-yellow-300' : 'bg-background border-input'}`}
                                         />
                                     </div>
                                 </div>
@@ -565,6 +569,21 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
                 visible={aiNotification.visible}
                 onClose={closeNotification}
             />
+
+            {/* Translation Loading Overlay */}
+            {translatingStepId && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 flex flex-col items-center gap-4 border-t-4 border-indigo-500">
+                        <Loader2 className="h-12 w-12 text-indigo-500 animate-spin" />
+                        <h3 className="text-xl font-bold text-center text-slate-800">
+                            Translating Step...
+                        </h3>
+                        <p className="text-sm text-slate-500 text-center">
+                            Please wait while we translate and format your content. This may take up to 30 seconds for large steps.
+                        </p>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

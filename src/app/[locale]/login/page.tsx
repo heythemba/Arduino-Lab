@@ -1,3 +1,9 @@
+/**
+ * Locale-specific login page.
+ *
+ * If a user already has an active session, this page redirects to the admin
+ * dashboard. Otherwise it renders the login form component.
+ */
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import LoginForm from './LoginForm';

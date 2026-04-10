@@ -1,3 +1,10 @@
+/**
+ * OAuth callback route.
+ *
+ * Handles Supabase authentication redirects by exchanging the returned
+ * authorization code for a session and then redirecting the user back to
+ * the original page or to the home page.
+ */
 import { NextResponse } from 'next/server'
 // The client you created from the Server-Side Auth instructions
 import { createClient } from '@/lib/supabase/server'

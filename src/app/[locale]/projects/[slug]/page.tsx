@@ -158,8 +158,8 @@ export default async function ProjectPage({ params }: Props) {
                                         // eslint-disable-next-line @next/next/no-img-element
                                         <img src={step.image_url} alt={step.title?.[locale] || `Step ${idx + 1}`} className="w-full max-w-2xl rounded-xl mb-4 shadow-sm" />
                                     )}
-                                    <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed whitespace-pre-wrap"
-                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(step.content[locale] || '') }} />
+                                    <div className="text-slate-700 leading-relaxed [&_p]:my-2 [&_ul]:list-disc [&_ul]:ml-5 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:ml-5 [&_ol]:my-2 [&_pre]:my-3 [&_pre]:bg-slate-800 [&_pre]:text-slate-100 [&_pre]:p-4 [&_pre]:rounded-xl [&_:not(pre)>code]:text-indigo-600 [&_:not(pre)>code]:bg-indigo-50 [&_:not(pre)>code]:px-1.5 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:rounded-md [&_:not(pre)>code]:font-mono [&_a]:text-blue-600 [&_a]:underline hover:[&_a]:text-blue-800 [&_u]:underline [&_strong]:font-bold [&_em]:italic"
+                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(step.content[locale] || '', { ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li', 'code', 'pre', 'u'], ALLOWED_ATTR: ['href', 'target', 'rel'] }).replace(/&nbsp;/g, ' ') }} />
                                 </div>
                             ))}
                         </div>

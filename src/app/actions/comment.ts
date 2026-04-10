@@ -1,3 +1,13 @@
+/**
+ * Comment-related server actions and queries.
+ *
+ * This module contains server action handlers for:
+ * - Adding a comment
+ * - Deleting a comment
+ * - Toggling a comment like
+ *
+ * It also exposes helpers for fetching comments and recent dashboard activity.
+ */
 'use server';
 
 import { createClient } from '@/lib/supabase/server';

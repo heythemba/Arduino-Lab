@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Client-side comment list with sorting controls.
+ *
+ * This component is rendered on the client because it supports
+ * interactive sorting between "recent" and "most liked" comments.
+ */
 import { useState } from 'react';
 import CommentItem from './CommentItem';
 import { ArrowDownUp, MessageSquare } from 'lucide-react';

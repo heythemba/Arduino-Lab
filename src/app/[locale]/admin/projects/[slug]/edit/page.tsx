@@ -1,3 +1,10 @@
+/**
+ * Admin page for editing an existing project.
+ *
+ * This page verifies authentication, enforces ownership for non-admins,
+ * loads the project data with steps and attachments, and reuses the
+ * ProjectForm component in edit mode.
+ */
 import { createClient } from '@/lib/supabase/server';
 import { notFound, redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';

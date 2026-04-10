@@ -202,11 +202,13 @@ export async function getProjects({
     let projects = data as unknown as Project[];
 
     if (query) {
-        const lowerQuery = query.toLowerCase();
+        const queryTerms = query.trim().toLowerCase().split(/\s+/);
         projects = projects.filter((p) => {
             const titleValues = Object.values(p.title).join(' ').toLowerCase();
             const descValues = Object.values(p.description).join(' ').toLowerCase();
-            return titleValues.includes(lowerQuery) || descValues.includes(lowerQuery);
+            const searchableText = `${titleValues} ${descValues}`;
+            
+            return queryTerms.every(term => searchableText.includes(term));
         });
     }
 

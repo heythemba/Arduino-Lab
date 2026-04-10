@@ -1,3 +1,10 @@
+/**
+ * Admin site settings page.
+ *
+ * Only users with the "admin" role can access this page. It loads
+ * the current settings from the API and renders a reusable SettingsForm
+ * component for editing them.
+ */
 import { getSiteSettings } from '@/lib/api/settings';
 import SettingsForm from '@/components/admin/SettingsForm';
 import { createClient } from '@/lib/supabase/server';

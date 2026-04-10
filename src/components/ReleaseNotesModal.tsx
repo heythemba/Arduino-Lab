@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Release notes modal used on the homepage hero section.
+ *
+ * Presents changelog highlights in a compact, interactive modal.
+ */
 import { useState, useEffect, useRef } from 'react';
 import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, ChevronRight, Layout, Link } from 'lucide-react';
 

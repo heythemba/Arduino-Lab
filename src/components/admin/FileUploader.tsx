@@ -1,3 +1,12 @@
+/**
+ * FileUploader component used in the project admin form.
+ *
+ * This component supports two modes:
+ * - Uploading a file to Supabase Storage
+ * - Adding an external file URL by link
+ *
+ * It also validates file sizes and formats based on the selected type.
+ */
 'use client';
 
 import { useState } from 'react';
@@ -14,7 +23,7 @@ type Attachment = {
     file_size: number;
 };
 
-// Helper to format bytes
+// Helper to format bytes for display in the UI.
 function formatBytes(bytes: number, decimals = 2) {
     if (!+bytes) return '0 Bytes';
     const k = 1024;

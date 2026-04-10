@@ -1,3 +1,15 @@
+/**
+ * Landing hero section for the homepage.
+ *
+ * This component combines a headline, key call-to-action buttons, and
+ * a promotional hero image. It also includes the release notes modal.
+ */
+/**
+ * Hero section for the public landing page.
+ *
+ * Displays the main site headline, CTA buttons, and the hero image.
+ * This component is the first visual section users see on the homepage.
+ */
 import { Link } from '@/i18n/routing';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';

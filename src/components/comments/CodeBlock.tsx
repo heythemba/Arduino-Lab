@@ -1,3 +1,8 @@
+/**
+ * Simple code block renderer for comment content.
+ *
+ * Shows a copy button and preserves formatting for fenced code sections.
+ */
 'use client';
 
 import { Check, Copy } from 'lucide-react';

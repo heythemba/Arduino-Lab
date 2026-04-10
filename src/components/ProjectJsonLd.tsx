@@ -1,7 +1,6 @@
 'use client';
 
 import { FullProject } from '@/lib/api/projects';
-import DOMPurify from 'isomorphic-dompurify';
 
 import { env } from '@/lib/env';
 
@@ -98,7 +97,7 @@ export default function ProjectJsonLd({
     return (
         <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(JSON.stringify(jsonLd, null, 0)) }}
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
     );
 }

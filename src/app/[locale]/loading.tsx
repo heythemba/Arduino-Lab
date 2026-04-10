@@ -1,3 +1,8 @@
+/**
+ * Loading skeleton for the localized home page.
+ *
+ * Rendered while the homepage data is being fetched or the locale route is loading.
+ */
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function HomeLoading() {

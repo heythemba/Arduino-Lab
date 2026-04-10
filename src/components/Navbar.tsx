@@ -3,7 +3,7 @@
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Cpu, LogIn, LogOut, Globe } from 'lucide-react';
+import { Menu, X, LogIn, LogOut, Globe } from 'lucide-react';
 import { useState } from 'react';
 import { logout } from '@/app/auth/actions';
 import { User } from '@supabase/supabase-js';
@@ -39,7 +39,11 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
         <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
             <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-8">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2">
+                <Link
+                    href="/"
+                    className="flex items-center gap-2"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                >
                     <div className="relative h-10 w-40">
                         <Image
                             src="/logo.svg"

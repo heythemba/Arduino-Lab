@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Single comment row.
+ *
+ * Responsible for displaying the comment body, author/avatar, relative time,
+ * like button, and delete button when the current user is allowed to perform it.
+ */
 import { useTranslations } from 'next-intl';
 import { formatDistanceToNow } from 'date-fns';
 import { enUS, fr, ar } from 'date-fns/locale';

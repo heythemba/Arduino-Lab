@@ -1,3 +1,10 @@
+/**
+ * Admin-side recent comments summary.
+ *
+ * Displays the latest comments from all projects and includes a link back to
+ * the associated project page. This component is server-rendered so it can
+ * fetch the latest activity on each dashboard load.
+ */
 import { getRecentComments } from '@/app/actions/comment';
 import { formatDistanceToNow } from 'date-fns';
 import { enUS, fr, ar } from 'date-fns/locale';

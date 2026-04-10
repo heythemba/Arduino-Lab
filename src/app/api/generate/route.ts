@@ -1,3 +1,10 @@
+/**
+ * AI generation API for creating project title/description and starter steps.
+ *
+ * This route is protected on the server by requiring a logged-in Supabase user.
+ * It proxies a request to the Groq OpenAI-compatible service then extracts
+ * JSON from the model response for the admin project form.
+ */
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import OpenAI from "openai";

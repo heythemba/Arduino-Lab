@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Project delete button with confirmation modal.
+ *
+ * This client-side component renders a small delete icon button and opens
+ * a confirmation dialog before calling the server-side delete action.
+ */
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';

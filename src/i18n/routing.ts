@@ -1,3 +1,9 @@
+/**
+ * Internationalization routing config.
+ *
+ * Next-intl uses this routing definition to determine supported locales,
+ * locale redirects, and language-aware navigation helpers.
+ */
 import { defineRouting } from 'next-intl/routing';
 import { createNavigation } from 'next-intl/navigation';
 

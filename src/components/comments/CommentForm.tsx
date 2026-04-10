@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Comment submission form used on project detail pages.
+ *
+ * Only authenticated users may post comments. This form uses a server action
+ * to submit comment content and resets the editor after a successful post.
+ */
 import { useTranslations } from 'next-intl';
 import { useActionState, useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';

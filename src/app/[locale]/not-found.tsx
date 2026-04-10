@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Localized 404 page for missing content inside the locale routes.
+ *
+ * Shows a friendly message and a link back to the localized homepage.
+ */
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 

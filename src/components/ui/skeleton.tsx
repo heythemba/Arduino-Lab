@@ -1,3 +1,9 @@
+/**
+ * Simple skeleton loader for page loading states.
+ *
+ * This component is used across the app to render neutral loading
+ * placeholders while content is fetching.
+ */
 import { cn } from "@/lib/utils"
 
 function Skeleton({

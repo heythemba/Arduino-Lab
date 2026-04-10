@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Floating scroll-to-top button.
+ *
+ * Becomes visible after the user scrolls down the page and provides a smooth
+ * scroll back to the top of the viewport.
+ */
 import { useEffect, useState } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { Button } from './ui/button';

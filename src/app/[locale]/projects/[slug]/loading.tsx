@@ -1,3 +1,9 @@
+/**
+ * Loading skeleton for the project detail page.
+ *
+ * Renders placeholders for the hero, description, steps, and attachments
+ * while the full project payload is fetched.
+ */
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProjectLoading() {

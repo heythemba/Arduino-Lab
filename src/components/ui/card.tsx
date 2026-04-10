@@ -1,3 +1,9 @@
+/**
+ * Basic card primitive used for layout and surface containers.
+ *
+ * Provides a shared rounded border, background, and shadow style for
+ * consistent card-like UI sections across the application.
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

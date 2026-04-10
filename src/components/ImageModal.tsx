@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Modal component for displaying a large step image.
+ *
+ * Handles keyboard escape and click-away closing, and prevents page scrolling
+ * while the image lightbox is open.
+ */
 import { X } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect } from 'react';

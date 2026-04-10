@@ -1,3 +1,9 @@
+/**
+ * Global footer component for the site.
+ *
+ * Loads site settings and renders contact information, organization links,
+ * and social/media links in a consistent footer layout.
+ */
 import { getSiteSettings } from '@/lib/api/settings';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';

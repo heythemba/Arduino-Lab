@@ -1,3 +1,8 @@
+/**
+ * Loading skeleton for the admin settings page.
+ *
+ * Used while the site settings payload is being fetched from the database.
+ */
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function SettingsLoading() {

@@ -6,6 +6,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.7.0] — Rich Text & AI Enhancements — 2026-04-10
+
+### Added
+- 📝 **Tiptap Rich Text Editor**: Replaced standard textareas with a full WYSIWYG editor for project steps, allowing live formatting for Bold, Italics, Lists, Code Hooks, and Links.
+- ⏳ **AI Translation Overlay**: Added a dedicated, full-screen loading overlay when translating large project steps.
+
+### Fixed
+- 🐛 **URL Validation Crash**: Fixed a strict Zod validation bug (`image_url`) that caused the server to silently reject project saves if a step was missing an image.
+- 🎨 **Tailwind Editor Styling**: Re-mapped Tailwind list and link variables to raw CSS selectors to ensure bullet points and styles render correctly inside the editor without depending on the heavy typography plugin.
+- ⏱️ **Translation API Stability**: Increased token limit to `4096` and Serverless execution duration to `60` seconds to securely process extremely long Markdown steps.
+- 🧹 **SEO Component**: Removed `DOMPurify` from JSON-LD to prevent stripping brackets and crashing Turbopack during SSR.
+
+---
+
 ## [2.6.0] — Storage & UI Refinements — 2026-04-09
 
 ### Added

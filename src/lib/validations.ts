@@ -1,3 +1,9 @@
+/**
+ * Validation helpers used across the admin project form.
+ *
+ * These schemas enforce the shape of multilingual step content, attachments,
+ * and safe JSON parsing before the payload is written to Supabase.
+ */
 import { z } from 'zod';
 
 // Multilingual text field validation
@@ -11,7 +17,7 @@ const multiLingualSchema = z.object({
 export const stepSchema = z.object({
   title: multiLingualSchema,
   content: multiLingualSchema,
-  image_url: z.string().url().nullable().optional(),
+  image_url: z.string().url().or(z.literal('')).nullable().optional(),
   code_snippet: z.string().nullable().optional(),
 });
 

@@ -1,3 +1,13 @@
+/**
+ * Locale-aware layout wrapper for all pages under /[locale]/.
+ *
+ * This layout does several important things:
+ * - Validates the requested locale against the routing config
+ * - Loads translation messages for the current locale
+ * - Detects RTL layout for Arabic
+ * - Fetches the current Supabase user profile for navbar rendering
+ * - Wraps the page content with global providers and shared UI
+ */
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -62,7 +72,8 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  // Ensure that the incoming `locale` is valid
+  // Ensure that the incoming `locale` is valid for the app.
+  // If the locale is not supported, render the 404 page.
   if (!routing.locales.includes(locale as any)) {
     notFound();
   }
@@ -70,7 +81,8 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const isRtl = locale === 'ar';
 
-  // Fetch user & profile
+  // Fetch the authenticated user from Supabase.
+  // This allows the Navbar to render user-specific options.
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   let profile = null;

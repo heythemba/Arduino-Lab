@@ -1,3 +1,10 @@
+/**
+ * Admin settings form for editing site-wide configuration values.
+ *
+ * This client-side component supports live editing of footer links,
+ * contact information, and external image hosting settings. It posts data
+ * to the API layer through the shared settings helper.
+ */
 'use client';
 
 import { useState } from 'react';

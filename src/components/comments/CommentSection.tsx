@@ -1,3 +1,12 @@
+/**
+ * CommentSection is the server-rendered wrapper for project comments.
+ *
+ * It performs three responsibilities:
+ * 1. Loads translated UI strings for the Comments namespace.
+ * 2. Fetches the current authenticated user to determine if the
+ *    comment form should be shown and whether admin actions are available.
+ * 3. Loads the list of comments for the current project.
+ */
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
 import { getComments } from '@/app/actions/comment';

@@ -1,3 +1,9 @@
+/**
+ * Admin page for creating a new project.
+ *
+ * This page loads the current user profile, then renders the reusable
+ * ProjectForm component in create mode using the createProject server action.
+ */
 import { createClient } from '@/lib/supabase/server';
 import ProjectForm from '@/components/admin/ProjectForm';
 import { createProject } from '@/app/admin/actions';
