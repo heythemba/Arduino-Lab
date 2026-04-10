@@ -6,9 +6,30 @@
  * Presents changelog highlights in a compact, interactive modal.
  */
 import { useState, useEffect, useRef } from 'react';
-import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, ChevronRight, Layout, Link } from 'lucide-react';
+import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, ChevronRight, Layout, Link, FileDown } from 'lucide-react';
 
 const RELEASES = [
+    {
+        version: 'v2.7.1',
+        date: 'April 2026',
+        tag: 'PDF Export',
+        tagColor: 'bg-sky-600',
+        features: [
+            { icon: FileDown, color: 'text-sky-600', bg: 'bg-sky-50', title: 'PDF Export', desc: 'Download any project as a formatted PDF directly from the project detail page, including all step titles and content.' },
+            { icon: Globe, color: 'text-blue-600', bg: 'bg-blue-50', title: 'i18n PDF Label', desc: '"Download PDF" button is fully translated in English, French, and Arabic.' },
+        ],
+    },
+    {
+        version: 'v2.7.0',
+        date: 'April 2026',
+        tag: 'Rich Text & AI Enhancements',
+        tagColor: 'bg-violet-600',
+        features: [
+            { icon: FileText, color: 'text-violet-600', bg: 'bg-violet-50', title: 'Tiptap Rich Text Editor', desc: 'Full WYSIWYG editor for project steps with live formatting: Bold, Italics, Underline, Bullet & Numbered Lists, Inline Code, Code Blocks, and Links.' },
+            { icon: Brain, color: 'text-indigo-600', bg: 'bg-indigo-50', title: 'AI Translation Overlay', desc: 'A full-screen loading overlay now appears when translating large project steps, keeping users informed during long AI operations.' },
+            { icon: Sparkles, color: 'text-emerald-600', bg: 'bg-emerald-50', title: 'Translation Stability', desc: 'Translation API now supports up to 4096 tokens and 60-second execution time, preventing timeouts on long richly-formatted step content.' },
+        ],
+    },
     {
         version: 'v2.6.0',
         date: 'April 2026',
@@ -159,7 +180,7 @@ export default function ReleaseNotesModal() {
                 className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
                 <Sparkles className="me-2 h-4 w-4" />
-                <span className="capitalize">ArduinoLab v2.6.0</span>
+                <span className="capitalize">ArduinoLab v2.7.1</span>
                 <ChevronRight className="ms-1 h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
             </button>
 
@@ -215,7 +236,7 @@ export default function ReleaseNotesModal() {
 
                         {/* Footer */}
                         <div className="px-6 py-4 border-t bg-slate-50 text-xs text-slate-400 text-center rounded-b-2xl shrink-0">
-                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.6.0
+                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.7.1
                         </div>
                     </div>
                 </div>

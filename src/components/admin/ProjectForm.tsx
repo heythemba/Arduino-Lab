@@ -572,7 +572,7 @@ export default function ProjectForm({ locale, action, initialData, isEditMode = 
 
             {/* Translation Loading Overlay */}
             {translatingStepId && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
                     <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-8 flex flex-col items-center gap-4 border-t-4 border-indigo-500">
                         <Loader2 className="h-12 w-12 text-indigo-500 animate-spin" />
                         <h3 className="text-xl font-bold text-center text-slate-800">
