@@ -2,12 +2,15 @@
  * About page describing the mission, story, and community goals.
  *
  * This page is localized and also provides metadata for SEO using
- * next-intl translations.
+ * next-intl translations. Uses Suspense to display a loading skeleton
+ * while the page content is being rendered.
  */
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { Suspense } from 'react';
+import AboutLoading from './loading';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -19,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     };
 }
 
-export default function AboutPage() {
+function AboutContent() {
     const t = useTranslations('AboutPage');
 
     return (
@@ -122,5 +125,13 @@ export default function AboutPage() {
                 </div>
             </section>
         </main>
+    );
+}
+
+export default function AboutPage() {
+    return (
+        <Suspense fallback={<AboutLoading />}>
+            <AboutContent />
+        </Suspense>
     );
 }

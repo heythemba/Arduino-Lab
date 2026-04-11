@@ -11,7 +11,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Plus, Edit, Settings, Mail } from 'lucide-react';
+import { Plus, Edit, Settings, Mail, Eye } from 'lucide-react';
 import DeleteProjectButton from '@/components/admin/DeleteProjectButton';
 import RecentCommentsList from '@/components/admin/RecentCommentsList';
 
@@ -112,6 +112,12 @@ export default async function AdminDashboard({
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2">
+                                                <Link href={`/${locale}/projects/${project.slug}`}>
+                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500">
+                                                        <Eye className="h-4 w-4" />
+                                                        <span className="sr-only">View project</span>
+                                                    </Button>
+                                                </Link>
                                                 <Link href={`/${locale}/admin/projects/${project.slug}/edit`}>
                                                     <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500">
                                                         <Edit className="h-4 w-4" />

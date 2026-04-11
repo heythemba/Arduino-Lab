@@ -70,7 +70,7 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                     <Link href="/#projects" className="text-sm font-medium hover:text-primary transition-colors">
                         {navT('projects')}
                     </Link>
-                    <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">
+                    <Link href="/about" onClick={() => window.scrollTo(0, 0)} className="text-sm font-medium hover:text-primary transition-colors">
                         {navT('about')}
                     </Link>
 
@@ -139,7 +139,7 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                     <Link href="/#projects" onClick={() => setIsOpen(false)} className="text-sm font-medium py-2">
                         {navT('projects')}
                     </Link>
-                    <Link href="/about" onClick={() => setIsOpen(false)} className="text-sm font-medium py-2">
+                    <Link href="/about" onClick={() => { setIsOpen(false); window.scrollTo(0, 0); }} className="text-sm font-medium py-2">
                         {navT('about')}
                     </Link>
                     <div className="flex gap-4 py-2 border-t pt-4">

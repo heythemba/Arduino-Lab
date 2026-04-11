@@ -6,6 +6,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.7.3] — Editor & UI Cleanup — 2026-04-11
+
+### Improved
+- ✏️ **RichTextEditor Toolbar**: Refactored all toolbar buttons into a reusable `ToolButton` component with hover tooltips for better UX and cleaner code.
+- 🔧 **StarterKit Config**: Fixed extension conflict by explicitly disabling built-in `link` and `underline` from StarterKit to avoid duplicate registration with standalone extensions.
+- 🧹 **Settings Form Cleanup**: Removed unused/dead code from `SettingsForm.tsx`.
+- 💬 **About & Admin Pages**: Minor layout and content updates.
+
+---
+
 ## [2.7.2] — Polish & Fixes — 2026-04-11
 
 ### Added

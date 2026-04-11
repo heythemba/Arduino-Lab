@@ -10,6 +10,17 @@ import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, Che
 
 const RELEASES = [
     {
+        version: 'v2.7.3',
+        date: 'April 2026',
+        tag: 'Editor & UI Cleanup',
+        tagColor: 'bg-orange-500',
+        features: [
+            { icon: FileText, color: 'text-orange-500', bg: 'bg-orange-50', title: 'Toolbar Refactor', desc: 'All RichTextEditor toolbar buttons replaced with a reusable ToolButton component featuring hover tooltips for better usability.' },
+            { icon: Sparkles, color: 'text-slate-600', bg: 'bg-slate-50', title: 'Extension Conflict Fixed', desc: 'Resolved duplicate registration of link and underline extensions in StarterKit for a more stable editor.' },
+            { icon: Layout, color: 'text-emerald-600', bg: 'bg-emerald-50', title: 'Code & UI Cleanup', desc: 'Removed dead code from SettingsForm; minor Navbar, About, and Admin page improvements.' },
+        ],
+    },
+    {
         version: 'v2.7.2',
         date: 'April 2026',
         tag: 'Polish & Fixes',
@@ -192,7 +203,7 @@ export default function ReleaseNotesModal() {
                 className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
                 <Sparkles className="me-2 h-4 w-4" />
-                <span className="capitalize">ArduinoLab v2.7.2</span>
+                <span className="capitalize">ArduinoLab v2.7.3</span>
                 <ChevronRight className="ms-1 h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
             </button>
 
@@ -248,7 +259,7 @@ export default function ReleaseNotesModal() {
 
                         {/* Footer */}
                         <div className="px-6 py-4 border-t bg-slate-50 text-xs text-slate-400 text-center rounded-b-2xl shrink-0">
-                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.7.2
+                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.7.3
                         </div>
                     </div>
                 </div>

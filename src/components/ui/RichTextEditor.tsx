@@ -12,7 +12,39 @@ import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import { Button } from '@/components/ui/button';
-import { Bold, Italic, Underline as UnderlineIcon, Code, SquareTerminal, List, ListOrdered, Link as LinkIcon } from 'lucide-react';
+import { Bold, Italic, Underline as UnderlineIcon, Code, List, ListOrdered, Link as LinkIcon } from 'lucide-react';
+
+// Tooltip wrapper component
+function ToolButton({ onClick, onMouseDown, isActive, icon: Icon, tooltip, children }: {
+    onClick: () => void;
+    onMouseDown: (e: React.MouseEvent) => void;
+    isActive: boolean;
+    icon?: React.ReactNode;
+    tooltip: string;
+    children?: React.ReactNode;
+}) {
+    return (
+        <div className="relative group">
+            <Button
+                type="button"
+                onClick={onClick}
+                onMouseDown={onMouseDown}
+                variant="ghost"
+                size="icon"
+                className={`h-8 w-8 
+                    ${isActive ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}
+                `}
+                title={tooltip}
+            >
+                {Icon}
+            </Button>
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                {tooltip}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
+            </div>
+        </div>
+    );
+}
 
 interface RichTextEditorProps {
     value: string;
@@ -35,7 +67,10 @@ export default function RichTextEditor({
 }: RichTextEditorProps) {
     const editor = useEditor({
         extensions: [
-            StarterKit,
+            StarterKit.configure({
+                link: false,
+                underline: false,
+            }),
             Underline,
             Link.configure({
                 openOnClick: false,
@@ -78,103 +113,59 @@ export default function RichTextEditor({
         <div className="relative rounded-xl border border-slate-200 bg-white focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all overflow-hidden flex flex-col" style={{ minHeight }}>
             {/* Toolbar */}
             <div className="flex flex-wrap items-center gap-1 px-3 py-2 border-b border-slate-100 bg-slate-50/50 shrink-0">
-                <Button
-                    type="button"
+                <ToolButton
                     onClick={() => editor.chain().focus().toggleBold().run()}
                     onMouseDown={(e) => e.preventDefault()}
-                    variant="ghost"
-                    size="icon"
-                    className={`h-8 w-8 
-                        ${editor.isActive('bold') ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}
-                    `}
-                >
-                    <Bold className="h-4 w-4" />
-                </Button>
-                <Button
-                    type="button"
+                    isActive={editor.isActive('bold')}
+                    icon={<Bold className="h-4 w-4" />}
+                    tooltip="Bold"
+                />
+                <ToolButton
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                     onMouseDown={(e) => e.preventDefault()}
-                    variant="ghost"
-                    size="icon"
-                    className={`h-8 w-8 
-                        ${editor.isActive('italic') ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}
-                    `}
-                >
-                    <Italic className="h-4 w-4" />
-                </Button>
-                <Button
-                    type="button"
+                    isActive={editor.isActive('italic')}
+                    icon={<Italic className="h-4 w-4" />}
+                    tooltip="Italic"
+                />
+                <ToolButton
                     onClick={() => editor.chain().focus().toggleUnderline().run()}
                     onMouseDown={(e) => e.preventDefault()}
-                    variant="ghost"
-                    size="icon"
-                    className={`h-8 w-8 
-                        ${editor.isActive('underline') ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}
-                    `}
-                >
-                    <UnderlineIcon className="h-4 w-4" />
-                </Button>
+                    isActive={editor.isActive('underline')}
+                    icon={<UnderlineIcon className="h-4 w-4" />}
+                    tooltip="Underline"
+                />
 
                 <div className="w-px h-4 bg-slate-300 mx-1" />
 
-                <Button
-                    type="button"
+                <ToolButton
                     onClick={() => editor.chain().focus().toggleBulletList().run()}
                     onMouseDown={(e) => e.preventDefault()}
-                    variant="ghost"
-                    size="icon"
-                    className={`h-8 w-8 
-                        ${editor.isActive('bulletList') ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}
-                    `}
-                >
-                    <List className="h-4 w-4" />
-                </Button>
+                    isActive={editor.isActive('bulletList')}
+                    icon={<List className="h-4 w-4" />}
+                    tooltip="Bullet List"
+                />
 
-                <Button
-                    type="button"
+                <ToolButton
                     onClick={() => editor.chain().focus().toggleOrderedList().run()}
                     onMouseDown={(e) => e.preventDefault()}
-                    variant="ghost"
-                    size="icon"
-                    className={`h-8 w-8 
-                        ${editor.isActive('orderedList') ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}
-                    `}
-                >
-                    <ListOrdered className="h-4 w-4" />
-                </Button>
+                    isActive={editor.isActive('orderedList')}
+                    icon={<ListOrdered className="h-4 w-4" />}
+                    tooltip="Ordered List"
+                />
 
                 <div className="w-px h-4 bg-slate-300 mx-1" />
 
-                <Button
-                    type="button"
+                <ToolButton
                     onClick={() => editor.chain().focus().toggleCode().run()}
                     onMouseDown={(e) => e.preventDefault()}
-                    variant="ghost"
-                    size="icon"
-                    className={`h-8 w-8 
-                        ${editor.isActive('code') ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}
-                    `}
-                >
-                    <Code className="h-4 w-4" />
-                </Button>
-
-                <Button
-                    type="button"
-                    onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                    onMouseDown={(e) => e.preventDefault()}
-                    variant="ghost"
-                    size="icon"
-                    className={`h-8 w-8 
-                        ${editor.isActive('codeBlock') ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}
-                    `}
-                >
-                    <SquareTerminal className="h-4 w-4" />
-                </Button>
+                    isActive={editor.isActive('code')}
+                    icon={<Code className="h-4 w-4" />}
+                    tooltip="Code"
+                />
 
                 <div className="w-px h-4 bg-slate-300 mx-1" />
 
-                <Button
-                    type="button"
+                <ToolButton
                     onClick={() => {
                         const previousUrl = editor.getAttributes('link').href;
                         const url = window.prompt('URL:', previousUrl);
@@ -186,14 +177,10 @@ export default function RichTextEditor({
                         editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
                     }}
                     onMouseDown={(e) => e.preventDefault()}
-                    variant="ghost"
-                    size="icon"
-                    className={`h-8 w-8 
-                        ${editor.isActive('link') ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'}
-                    `}
-                >
-                    <LinkIcon className="h-4 w-4" />
-                </Button>
+                    isActive={editor.isActive('link')}
+                    icon={<LinkIcon className="h-4 w-4" />}
+                    tooltip="Link"
+                />
             </div>
 
             {/* Editor Area */}

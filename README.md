@@ -1,8 +1,18 @@
-# 🤖 ArduinoLab v2.7.2
+# 🤖 ArduinoLab v2.7.3
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.7.3 — "Editor & UI Cleanup"
+
+| Change | Description |
+|---|---|
+| ✏️ **RichTextEditor** | Toolbar buttons refactored into reusable `ToolButton` with hover tooltips. |
+| 🔧 **Extension Fix** | Resolved StarterKit duplicate extension conflict for `link` and `underline`. |
+| 🧹 **Code Cleanup** | Removed dead code from `SettingsForm`. Minor Navbar, About and Admin page improvements. |
 
 ---
 

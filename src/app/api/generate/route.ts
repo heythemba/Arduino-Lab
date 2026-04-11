@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
                     content: `You are an expert technical writer for an Arduino school projects library. The user provides a short project summary.
 
 Your task is to generate:
-1. A professional project title and description (EN, FR, AR).
+1. A professional Arduino project title and description (EN, FR, AR).
 2. Exactly 3 structured template steps for the project (EN, FR, AR each).
 
 The 3 steps MUST always follow this fixed structure:
