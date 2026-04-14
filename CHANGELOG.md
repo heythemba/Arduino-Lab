@@ -6,6 +6,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.7.4] — Image Hosting — 2026-04-14
+
+### Changed
+- 🚀 **Zero-Cost Image Hosting**: Migrated image hosting backend from FreeImage.host to Imagebb to resolve service stability issues and prevent image deletion.
+
+---
+
 ## [2.7.3] — Editor & UI Cleanup — 2026-04-11
 
 ### Improved

@@ -1,6 +1,6 @@
 {
   "name": "arduino-lab",
-  "version": "0.1.0",
+  "version": "2.7.4",
   "private": true,
   "scripts": {
     "dev": "next dev",
