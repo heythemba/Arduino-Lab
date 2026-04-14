@@ -274,9 +274,7 @@ export default async function ProjectPage({ params }: Props) {
                         <div className="mt-8 pt-8 border-t flex justify-center gap-4">
                             <ShareButton label={t('share')} copiedLabel={t('copied')} />
                             <ProjectPdfButton
-                                projectTitle={title}
-                                projectDescription={description}
-                                steps={project.steps}
+                                project={project}
                                 locale={locale}
                                 label={t('downloadPdf')}
                             />

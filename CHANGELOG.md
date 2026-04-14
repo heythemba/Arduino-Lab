@@ -6,6 +6,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventi
 
 ---
 
+## [2.7.5] — PDF Generator Overhaul — 2026-04-14
+
+### Added
+- 📄 **@react-pdf/renderer Migration**: Fully replaced `html2canvas` + `jsPDF` with `@react-pdf/renderer` for text-layer rich, vector-based PDFs with proper multilingual support (EN/FR/AR).
+- 🔤 **Arduino Code Formatter**: Code snippets in the PDF are now automatically formatted — line breaks are inserted after `{`, before `}`, after `;`, and before `#` directives.
+
+### Fixed
+- 🌍 **Arabic PDF Crash**: Resolved `Cannot read properties of undefined (reading 'id')` crash when generating PDFs in Arabic. Root cause was the font CDN serving a subsetted TTF missing GSUB ligature tables required for Arabic shaping. Fixed by loading full un-subsetted `NotoSansArabic-Regular.ttf` from the official Google Fonts GitHub repository.
+- 🔒 **CSP Blocking PDF Engine**: Fixed Content Security Policy to allow `data:` URIs (WASM layout engine), `cdn.jsdelivr.net` (font CDN), `i.ibb.co` and `iili.io` (image hosts) in `connect-src` and `font-src`.
+- 🔗 **Font File 404**: Fixed `.ttf` files returning 404 by adding `ttf|woff|woff2` extensions to the middleware matcher exclusion list, preventing locale rewriting from intercepting static font requests.
+- 🖼️ **Navbar Performance**: Added missing `sizes` prop to both PNL logo `<Image>` components (desktop & mobile) to suppress Next.js performance warning.
+
+---
+
 ## [2.7.4] — Image Hosting — 2026-04-14
 
 ### Changed

@@ -10,6 +10,18 @@ import { X, Sparkles, Globe, Brain, Package, Users, FileText, MessageCircle, Che
 
 const RELEASES = [
     {
+        version: 'v2.7.5',
+        date: 'April 2026',
+        tag: 'PDF Generator Overhaul',
+        tagColor: 'bg-blue-600',
+        features: [
+            { icon: FileDown, color: 'text-blue-600', bg: 'bg-blue-50', title: '@react-pdf/renderer Migration', desc: 'Fully replaced html2canvas + jsPDF with @react-pdf/renderer for text-layer rich PDFs with multilingual support.' },
+            { icon: Globe, color: 'text-indigo-600', bg: 'bg-indigo-50', title: 'Arabic PDF Fixed', desc: 'Resolved layout engine crash when generating PDFs in Arabic by loading full, un-subsetted NotoSansArabic TTF from Google Fonts.' },
+            { icon: FileText, color: 'text-teal-600', bg: 'bg-teal-50', title: 'Arduino Code Formatter', desc: 'Code snippets in PDF output are now auto-formatted with proper line breaks on {, }, ;, and # tokens.' },
+            { icon: Sparkles, color: 'text-slate-600', bg: 'bg-slate-50', title: 'CSP & Routing Fixes', desc: 'Fixed Content Security Policy to allow font CDN, WASM data URIs, and external image hosts. Fixed font file 404 by excluding .ttf from middleware locale rewriting.' },
+        ],
+    },
+    {
         version: 'v2.7.4',
         date: 'April 2026',
         tag: 'Image Hosting',
@@ -212,7 +224,7 @@ export default function ReleaseNotesModal() {
                 className="inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-primary bg-primary/10 w-fit mb-6 mx-auto lg:mx-0 hover:bg-primary/20 transition-colors cursor-pointer group"
             >
                 <Sparkles className="me-2 h-4 w-4" />
-                <span className="capitalize">ArduinoLab v2.7.4</span>
+                <span className="capitalize">ArduinoLab v2.7.5</span>
                 <ChevronRight className="ms-1 h-3.5 w-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
             </button>
 
@@ -268,7 +280,7 @@ export default function ReleaseNotesModal() {
 
                         {/* Footer */}
                         <div className="px-6 py-4 border-t bg-slate-50 text-xs text-slate-400 text-center rounded-b-2xl shrink-0">
-                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.7.4
+                            Built with ❤️ by PNL Volunteers · Powered by Groq AI · ArduinoLab v2.7.5
                         </div>
                     </div>
                 </div>

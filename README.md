@@ -1,8 +1,20 @@
-# 🤖 ArduinoLab v2.7.3
+# 🤖 ArduinoLab v2.7.5
 
 **ArduinoLab** is an AI-assisted, multilingual documentation hub for Arduino & robotics school clubs. Born from the need to preserve transient classroom experiments, it gives students a permanent digital library — and club leaders a zero-friction publishing workflow powered by AI.
 
 > **"Building the Future, One Bot at a Time."**
+
+---
+
+## 🚀 What's New in v2.7.5 — "PDF Generator Overhaul"
+
+| Change | Description |
+|---|---|
+| 📄 **@react-pdf/renderer** | Fully replaced `html2canvas` + `jsPDF` with `@react-pdf/renderer` for text-selectable, vector-based multilingual PDFs. |
+| 🌍 **Arabic PDF Fixed** | Resolved layout engine crash in Arabic by loading full un-subsetted `NotoSansArabic` TTF from Google Fonts. |
+| 🔤 **Arduino Formatter** | Code in PDFs now auto-formats with line breaks on `{`, `}`, `;`, and `#` tokens. |
+| 🔒 **CSP & Routing Fixes** | Fixed Content Security Policy for WASM, font CDN, and image hosts; fixed `.ttf` 404 by excluding font extensions from locale middleware. |
+| 🖼️ **Image Performance** | Added `sizes` prop to PNL logo images to fix Next.js performance warning. |
 
 ---
 

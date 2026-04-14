@@ -58,7 +58,7 @@ export default async function EditProjectPage({
     if (error || !project) {
         console.error('Error fetching project for edit:', error);
         console.error('Debug params:', { slug, userId: user.id });
-        notFound();
+        return <div className="p-8 text-red-500">Failed to load project: {error?.message} or Not found for slug: {slug}</div>;
     }
 
     // 3. Transform Data for Form

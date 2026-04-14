@@ -63,6 +63,7 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                             src="/logo-PNL.png"
                             alt="PNL"
                             fill
+                            sizes="96px"
                             className="object-contain filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-110 opacity-80 group-hover:opacity-100"
                         />
                     </a>
@@ -133,6 +134,7 @@ export default function Navbar({ user, profile }: { user?: User | null, profile?
                             src="/logo-PNL.png"
                             alt="PNL"
                             fill
+                            sizes="96px"
                             className="object-contain object-left filter grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-105 opacity-80 group-hover:opacity-100"
                         />
                     </a>

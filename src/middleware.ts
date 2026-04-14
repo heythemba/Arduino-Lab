@@ -22,12 +22,12 @@ export async function middleware(request: NextRequest) {
         script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://va.vercel-scripts.com;
         style-src 'self' 'unsafe-inline';
         img-src 'self' blob: data: https:;
-        font-src 'self' data:;
+        font-src 'self' data: https://cdn.jsdelivr.net;
         object-src 'none';
         base-uri 'self';
         form-action 'self';
         frame-ancestors 'none';
-        connect-src 'self' https://cdlpxyyjknpspihrlnnq.supabase.co https://api.supabase.io https://vitals.vercel-insights.com https://va.vercel-scripts.com;
+        connect-src 'self' data: https://cdn.jsdelivr.net https://i.ibb.co https://iili.io https://cdlpxyyjknpspihrlnnq.supabase.co https://api.supabase.io https://vitals.vercel-insights.com https://va.vercel-scripts.com;
     `.replace(/\s{2,}/g, ' ').trim();
 
     response.headers.set('Content-Security-Policy', cspHeader);
@@ -55,6 +55,6 @@ export const config = {
          * - auth (Supabase auth callbacks)
          * - images/files extensions
          */
-        '/((?!api|_next/static|_next/image|favicon.ico|auth|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+        '/((?!api|_next/static|_next/image|favicon.ico|auth|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ttf|woff|woff2)$).*)',
     ],
 }
